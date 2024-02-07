@@ -1,0 +1,15 @@
+# Overview {.unnumbered}
+
+These course notes introduce the Bayesian approach to statistical inference for data analysis in a variety of applications. Topics include: comparison of Bayesian and frequentist methods, Bayesian model specification, prior elicitation, Markov chain Monte Carlo, Bayes factor, Model selection, hierarchical models, Bayesian regression models. Implementation of Bayesian data analysis will be done using R and Stan. 
+
+::: callout-note
+## Quarto blog publish details
+
+This book was created using [Quarto](https://quarto.org/) and published with Github Pages.
+:::
+
+::: callout-tip
+## Github repository for code
+
+You can find the code to reproduce this project at [coltongearhart/bayes](https://github.com/coltongearhart/bayes).
+:::

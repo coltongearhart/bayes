@@ -1,0 +1,22 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Bayesian Statistics",
+    "section": "",
+    "text": "Overview\nThese course notes introduce the Bayesian approach to statistical inference for data analysis in a variety of applications. Topics include: comparison of Bayesian and frequentist methods, Bayesian model specification, prior elicitation, Markov chain Monte Carlo, Bayes factor, Model selection, hierarchical models, Bayesian regression models. Implementation of Bayesian data analysis will be done using R and Stan.\n\n\n\n\n\n\nQuarto blog publish details\n\n\n\nThis book was created using Quarto and published with Github Pages.\n\n\n\n\n\n\n\n\nGithub repository for code\n\n\n\nYou can find the code to reproduce this project at coltongearhart/bayes.",
+    "crumbs": [
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html",
+    "href": "hw-inference.html",
+    "title": "\n1  HW - Inference\n",
+    "section": "",
+    "text": "Hello World",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  }
+]

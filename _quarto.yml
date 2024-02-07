@@ -1,0 +1,27 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Bayesian Statistics"
+  author: "Colton Gearhart"
+  date: last-modified
+  cover-image: bayes.png
+  chapters:
+    - index.qmd
+    - notes-inference.qmd
+    - hw-inference.qmd
+
+format:
+  html:
+    theme: flatly
+    code-link: true
+    #code-fold: show
+    #code-tools: true
+    code-block-border-left: "#2C3E50"
+    highlight-style: github
+    number-depth: 3
+    toc-depth: 3
+    df-print: paged
+    
+title-block-banner: true

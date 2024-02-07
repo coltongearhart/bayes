@@ -1,0 +1,4 @@
+# Notes -- Inference
+
+<embed src="lectures/inference.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+

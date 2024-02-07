@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.545">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Bayesian Statistics - 1&nbsp; HW - Inference</title>
+<title>Bayesian Statistics - 2&nbsp; HW - Inference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -16,6 +16,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -61,8 +95,34 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
-<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+}</script><script src="site_libs/kePrint-0.0.1/kePrint.js"></script><link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 </head>
 <body class="nav-sidebar floating">
 
@@ -71,7 +131,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./hw-inference.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">HW - Inference</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./hw-inference.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HW - Inference</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -81,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
   </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">
-<span class="chapter-number">1</span>&nbsp; <span class="chapter-title">HW - Inference</span>
+<span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HW - Inference</span>
 </h1>
                       </div>
   </div>
@@ -118,13 +178,13 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./notes-inference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Notes – Inference</span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Notes – Inference</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./hw-inference.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">HW - Inference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HW - Inference</span></span></a>
   </div>
 </li>
     </ul>
@@ -132,14 +192,422 @@ ul.task-list li input[type="checkbox"] {
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#part-a-experiment" id="toc-part-a-experiment" class="nav-link" data-scroll-target="#part-a-experiment">Part a – Experiment</a></li>
+  <li><a href="#part-b-frequentist-confidence-interval" id="toc-part-b-frequentist-confidence-interval" class="nav-link" data-scroll-target="#part-b-frequentist-confidence-interval">Part b – Frequentist confidence interval</a></li>
+  <li><a href="#part-c-bayesian-interval" id="toc-part-c-bayesian-interval" class="nav-link" data-scroll-target="#part-c-bayesian-interval">Part c – Bayesian interval</a></li>
+  <li><a href="#part-d-comparison" id="toc-part-d-comparison" class="nav-link" data-scroll-target="#part-d-comparison">Part d – Comparison</a></li>
+  <li><a href="#part-e-new-prior" id="toc-part-e-new-prior" class="nav-link" data-scroll-target="#part-e-new-prior">Part e – New prior</a></li>
+  <li><a href="#part-f-final-comparison" id="toc-part-f-final-comparison" class="nav-link" data-scroll-target="#part-f-final-comparison">Part f – Final comparison</a></li>
+  <li><a href="#part-g-additional-insightful-plots" id="toc-part-g-additional-insightful-plots" class="nav-link" data-scroll-target="#part-g-additional-insightful-plots"><span class="header-section-number">2.1</span> Part g – Additional insightful plots</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content"><p>Hello World</p>
+<main class="content quarto-banner-title-block" id="quarto-document-content"><section id="setup" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="setup">Setup</h3>
+<p><em>Experiment: we toss a coin 100 times and count the number of “heads” among the 100 tosses.</em></p>
+<p><em>Now, suppose the coin we use is very biased, and the chance of having a “head” in such a toss is 0.05. Please simulate the experiment of 100 tosses with this coin for 1000 times and analyze the outcome using Bayesian.</em></p>
+</section><section id="part-a-experiment" class="level3"><h3 class="anchored" data-anchor-id="part-a-experiment">Part a – Experiment</h3>
+<p><em>Draw a boxplot of the 1000 different experiment outcomes; does this plot match what you expected? Why or why not?</em></p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># simulate coin 100 coin tosses 1000 times</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span><span class="va">data_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">m</span>, size <span class="op">=</span> <span class="va">n</span>, prob <span class="op">=</span> <span class="va">p</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">.</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># draw boxplot of results</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">data_results</span><span class="op">$</span><span class="va">y</span>, main <span class="op">=</span> <span class="st">"Number of heads"</span>, horizontal <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="hw-inference_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The boxplot is more or less what I expected, the median is very close the the expected number of heads out of 100 tosses. Perhaps expected it to be more right skewed because the true population proportion is so small.</p>
+</section><section id="part-b-frequentist-confidence-interval" class="level3"><h3 class="anchored" data-anchor-id="part-b-frequentist-confidence-interval">Part b – Frequentist confidence interval</h3>
+<p><em>Find the 95% interval estimates of the parameter using frequentist approach with each of the 1000 simulated experiment (approximate z-CI of the population proportion):</em></p>
+<p><span class="math inline">\(\hat{p} \pm Z_{\alpha/2} \sqrt{\frac{(\hat{p}(1 - \hat{p})}{n}}\)</span></p>
+<p><em>Among the 1000 simulations, what is the proportion of CIs including the true proportion p = 0.05? Calculate the average width of the 1000 CIs.</em></p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># define function to calculate margin of error</span></span>
+<span><span class="va">calc_moe</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p_hat</span>, <span class="va">n</span>, <span class="va">c</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">c</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">p_hat</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_hat</span><span class="op">)</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># calculate 95% frequentist confidence interval</span></span>
+<span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fl">0.95</span></span>
+<span><span class="va">data_results</span> <span class="op">%&lt;&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>p_hat <span class="op">=</span> <span class="va">y</span> <span class="op">/</span> <span class="va">n</span>,</span>
+<span>         bound_lower <span class="op">=</span> <span class="va">p_hat</span> <span class="op">-</span> <span class="fu">calc_moe</span><span class="op">(</span><span class="va">p_hat</span>, <span class="va">n</span>, <span class="va">c</span><span class="op">)</span>,</span>
+<span>         bound_upper <span class="op">=</span> <span class="va">p_hat</span> <span class="op">+</span> <span class="fu">calc_moe</span><span class="op">(</span><span class="va">p_hat</span>, <span class="va">n</span>, <span class="va">c</span><span class="op">)</span>,</span>
+<span>         capture <span class="op">=</span> <span class="va">bound_lower</span> <span class="op">&lt;</span> <span class="va">p</span> <span class="op">&amp;</span> <span class="va">bound_upper</span> <span class="op">&gt;</span> <span class="va">p</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># display first few CIs</span></span>
+<span><span class="va">data_results</span> <span class="op">%&gt;%</span> <span class="fu">display_nice</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-disable-processing="true" class="table table-striped" style="width: auto !important; ">
+<thead><tr>
+<th style="text-align:right;"> y </th>
+   <th style="text-align:right;"> p_hat </th>
+   <th style="text-align:right;"> bound_lower </th>
+   <th style="text-align:right;"> bound_upper </th>
+   <th style="text-align:left;"> capture </th>
+  </tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 0.04 </td>
+   <td style="text-align:right;"> 0.002 </td>
+   <td style="text-align:right;"> 0.078 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 0.04 </td>
+   <td style="text-align:right;"> 0.002 </td>
+   <td style="text-align:right;"> 0.078 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 0.05 </td>
+   <td style="text-align:right;"> 0.007 </td>
+   <td style="text-align:right;"> 0.093 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 0.08 </td>
+   <td style="text-align:right;"> 0.027 </td>
+   <td style="text-align:right;"> 0.133 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 0.03 </td>
+   <td style="text-align:right;"> -0.003 </td>
+   <td style="text-align:right;"> 0.063 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># nest results</span></span>
+<span><span class="va">data_results</span> <span class="op">%&lt;&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>i <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>         .before <span class="op">=</span> <span class="va">y</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">nest</span><span class="op">(</span>ci_freq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">p_hat</span>, <span class="va">bound_lower</span>, <span class="va">bound_upper</span>, <span class="va">capture</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">data_results</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["i"],"name":[1],"type":["int"],"align":["right"]},{"label":["y"],"name":[2],"type":["int"],"align":["right"]},{"label":["ci_freq"],"name":[3],"type":["list"],"align":["right"]}],"data":[{"1":"1","2":"4","3":"<tibble[,4]>"},{"1":"2","2":"4","3":"<tibble[,4]>"},{"1":"3","2":"5","3":"<tibble[,4]>"},{"1":"4","2":"8","3":"<tibble[,4]>"},{"1":"5","2":"3","3":"<tibble[,4]>"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate capture rate</span></span>
+<span><span class="va">data_results</span><span class="op">$</span><span class="va">ci_freq</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">reduce</span><span class="op">(</span><span class="va">bind_rows</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">summarize</span><span class="op">(</span>avg_width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">bound_upper</span> <span class="op">-</span> <span class="va">bound_lower</span><span class="op">)</span>,</span>
+<span>            capture_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">capture</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["avg_width"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["capture_rate"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.08317935","2":"0.884"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section><section id="part-c-bayesian-interval" class="level3"><h3 class="anchored" data-anchor-id="part-c-bayesian-interval">Part c – Bayesian interval</h3>
+<p><em>Based on the resulting posterior distribution, find the 95% Bayesian interval estimates (use equal tail) of the parameter using a uniform (0, 1) prior of the parameter for each of the 1000 simulated experiment; Among the 1000 simulations, what is the proportion of CIs including the true proportion p = 0.05? Calculate the average width of the 1000 CIs.</em></p>
+<p>Derivation of posterior distributions (for part e as well). Additionally includes the posterior mean as the theoretical point estimate.</p>
+<embed src="assignments/hw-inference.pdf" type="application/pdf" width="100%" height="500px"><div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate point estimate (posterior mean) and 95% equal tails interval</span></span>
+<span><span class="co"># -&gt; using uniform(0,1) = beta(1,1) prior</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">data_results</span> <span class="op">%&lt;&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>post_mean <span class="op">=</span> <span class="op">(</span><span class="va">y</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">alpha</span> <span class="op">+</span> <span class="va">beta</span><span class="op">)</span>,</span>
+<span>                         bound_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">qbeta</a></span><span class="op">(</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">c</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, shape1 <span class="op">=</span> <span class="va">y</span> <span class="op">+</span> <span class="va">alpha</span>, shape2 <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">beta</span><span class="op">)</span> <span class="op">-</span> <span class="va">y</span><span class="op">)</span>,</span>
+<span>                         bound_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">qbeta</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">c</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, shape1 <span class="op">=</span> <span class="va">y</span> <span class="op">+</span> <span class="va">alpha</span>, shape2 <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">beta</span><span class="op">)</span> <span class="op">-</span> <span class="va">y</span><span class="op">)</span>,</span>
+<span>                         capture <span class="op">=</span> <span class="va">bound_lower</span> <span class="op">&lt;</span> <span class="va">p</span> <span class="op">&amp;</span> <span class="va">bound_upper</span> <span class="op">&gt;</span> <span class="va">p</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># display first few CIs</span></span>
+<span><span class="va">data_results</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">ci_freq</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">display_nice</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-disable-processing="true" class="table table-striped" style="width: auto !important; ">
+<thead><tr>
+<th style="text-align:right;"> i </th>
+   <th style="text-align:right;"> y </th>
+   <th style="text-align:right;"> post_mean </th>
+   <th style="text-align:right;"> bound_lower </th>
+   <th style="text-align:right;"> bound_upper </th>
+   <th style="text-align:left;"> capture </th>
+  </tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 0.049 </td>
+   <td style="text-align:right;"> 0.016 </td>
+   <td style="text-align:right;"> 0.098 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 0.049 </td>
+   <td style="text-align:right;"> 0.016 </td>
+   <td style="text-align:right;"> 0.098 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 0.059 </td>
+   <td style="text-align:right;"> 0.022 </td>
+   <td style="text-align:right;"> 0.112 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 0.088 </td>
+   <td style="text-align:right;"> 0.042 </td>
+   <td style="text-align:right;"> 0.150 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 0.039 </td>
+   <td style="text-align:right;"> 0.011 </td>
+   <td style="text-align:right;"> 0.084 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># nest results</span></span>
+<span><span class="va">data_results</span> <span class="op">%&lt;&gt;%</span> </span>
+<span>  <span class="fu">nest</span><span class="op">(</span>ci_bayes_uniform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">post_mean</span>, <span class="va">bound_lower</span>, <span class="va">bound_upper</span>, <span class="va">capture</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">data_results</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["i"],"name":[1],"type":["int"],"align":["right"]},{"label":["y"],"name":[2],"type":["int"],"align":["right"]},{"label":["ci_freq"],"name":[3],"type":["list"],"align":["right"]},{"label":["ci_bayes_uniform"],"name":[4],"type":["list"],"align":["right"]}],"data":[{"1":"1","2":"4","3":"<tibble[,4]>","4":"<tibble[,4]>"},{"1":"2","2":"4","3":"<tibble[,4]>","4":"<tibble[,4]>"},{"1":"3","2":"5","3":"<tibble[,4]>","4":"<tibble[,4]>"},{"1":"4","2":"8","3":"<tibble[,4]>","4":"<tibble[,4]>"},{"1":"5","2":"3","3":"<tibble[,4]>","4":"<tibble[,4]>"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate capture rate</span></span>
+<span><span class="va">data_results</span><span class="op">$</span><span class="va">ci_bayes_uniform</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">reduce</span><span class="op">(</span><span class="va">bind_rows</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">summarize</span><span class="op">(</span>avg_width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">bound_upper</span> <span class="op">-</span> <span class="va">bound_lower</span><span class="op">)</span>,</span>
+<span>            capture_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">capture</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["avg_width"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["capture_rate"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.08804555","2":"0.968"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section><section id="part-d-comparison" class="level3"><h3 class="anchored" data-anchor-id="part-d-comparison">Part d – Comparison</h3>
+<p><em>Compare your results in parts b and c, how similar are they? How different are they?</em></p>
+<p>Average width of the frequentist interval is smaller than that of the equal tails Bayes interval, which implies the capture rate should be higher for the latter. However it is quite a bit higher.</p>
+</section><section id="part-e-new-prior" class="level3"><h3 class="anchored" data-anchor-id="part-e-new-prior">Part e – New prior</h3>
+<p><em>Repeat part d using a Beta(1, 10) prior of the parameter <span class="math inline">\(p\)</span>.</em></p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate point estimate (posterior mean) and 95% HPD interval</span></span>
+<span><span class="co"># -&gt; using beta(1,10)</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">data_results</span> <span class="op">%&lt;&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>post_mean <span class="op">=</span> <span class="op">(</span><span class="va">y</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">alpha</span> <span class="op">+</span> <span class="va">beta</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># TeachingDemos::hpd() not working in mutate()</span></span>
+<span><span class="va">data_results</span><span class="op">$</span><span class="va">bound_lower</span> <span class="op">&lt;-</span> <span class="va">data_results</span><span class="op">$</span><span class="va">y</span> <span class="op">%&gt;%</span> <span class="fu">map</span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">hpd</a></span><span class="op">(</span><span class="va">qbeta</span>, shape1 <span class="op">=</span> <span class="va">y</span> <span class="op">+</span> <span class="va">alpha</span>, shape2 <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">beta</span><span class="op">)</span> <span class="op">-</span> <span class="va">y</span>, conf <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="va">data_results</span><span class="op">$</span><span class="va">bound_upper</span> <span class="op">&lt;-</span> <span class="va">data_results</span><span class="op">$</span><span class="va">y</span> <span class="op">%&gt;%</span> <span class="fu">map</span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">hpd</a></span><span class="op">(</span><span class="va">qbeta</span>, shape1 <span class="op">=</span> <span class="va">y</span> <span class="op">+</span> <span class="va">alpha</span>, shape2 <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">beta</span><span class="op">)</span> <span class="op">-</span> <span class="va">y</span>, conf <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="va">data_results</span> <span class="op">%&lt;&gt;%</span> <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">bound_lower</span>, <span class="va">bound_upper</span><span class="op">)</span>, <span class="va">as.double</span><span class="op">)</span>, <span class="co"># simplify result type</span></span>
+<span>                         capture <span class="op">=</span> <span class="va">bound_lower</span> <span class="op">&lt;</span> <span class="va">p</span> <span class="op">&amp;</span> <span class="va">bound_upper</span> <span class="op">&gt;</span> <span class="va">p</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># display first few CIs</span></span>
+<span><span class="va">data_results</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">ci_freq</span>, <span class="va">ci_bayes_uniform</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">display_nice</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-disable-processing="true" class="table table-striped" style="width: auto !important; ">
+<thead><tr>
+<th style="text-align:right;"> i </th>
+   <th style="text-align:right;"> y </th>
+   <th style="text-align:right;"> post_mean </th>
+   <th style="text-align:right;"> bound_lower </th>
+   <th style="text-align:right;"> bound_upper </th>
+   <th style="text-align:left;"> capture </th>
+  </tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 0.045 </td>
+   <td style="text-align:right;"> 0.011 </td>
+   <td style="text-align:right;"> 0.084 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 0.045 </td>
+   <td style="text-align:right;"> 0.011 </td>
+   <td style="text-align:right;"> 0.084 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 0.054 </td>
+   <td style="text-align:right;"> 0.017 </td>
+   <td style="text-align:right;"> 0.096 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 0.081 </td>
+   <td style="text-align:right;"> 0.034 </td>
+   <td style="text-align:right;"> 0.132 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+<tr>
+<td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 0.036 </td>
+   <td style="text-align:right;"> 0.007 </td>
+   <td style="text-align:right;"> 0.071 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># nest results</span></span>
+<span><span class="va">data_results</span> <span class="op">%&lt;&gt;%</span> </span>
+<span>  <span class="fu">nest</span><span class="op">(</span>ci_bayes_beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">post_mean</span>, <span class="va">bound_lower</span>, <span class="va">bound_upper</span>, <span class="va">capture</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">data_results</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["i"],"name":[1],"type":["int"],"align":["right"]},{"label":["y"],"name":[2],"type":["int"],"align":["right"]},{"label":["ci_freq"],"name":[3],"type":["list"],"align":["right"]},{"label":["ci_bayes_uniform"],"name":[4],"type":["list"],"align":["right"]},{"label":["ci_bayes_beta"],"name":[5],"type":["list"],"align":["right"]}],"data":[{"1":"1","2":"4","3":"<tibble[,4]>","4":"<tibble[,4]>","5":"<tibble[,4]>"},{"1":"2","2":"4","3":"<tibble[,4]>","4":"<tibble[,4]>","5":"<tibble[,4]>"},{"1":"3","2":"5","3":"<tibble[,4]>","4":"<tibble[,4]>","5":"<tibble[,4]>"},{"1":"4","2":"8","3":"<tibble[,4]>","4":"<tibble[,4]>","5":"<tibble[,4]>"},{"1":"5","2":"3","3":"<tibble[,4]>","4":"<tibble[,4]>","5":"<tibble[,4]>"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate capture rate</span></span>
+<span><span class="va">data_results</span><span class="op">$</span><span class="va">ci_bayes_beta</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">reduce</span><span class="op">(</span><span class="va">bind_rows</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">summarize</span><span class="op">(</span>avg_width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">bound_upper</span> <span class="op">-</span> <span class="va">bound_lower</span><span class="op">)</span>,</span>
+<span>            capture_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">capture</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["avg_width"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["capture_rate"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.07828156","2":"0.952"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section><section id="part-f-final-comparison" class="level3"><h3 class="anchored" data-anchor-id="part-f-final-comparison">Part f – Final comparison</h3>
+<p><em>Compare your results in parts b, c and e. How different are they? How similar are they? Why would you see these differences?</em></p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># display all summaries at same time</span></span>
+<span><span class="va">data_results</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="fu">starts_with</span><span class="op">(</span><span class="st">"ci"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map</span><span class="op">(</span>\<span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu">reduce</span><span class="op">(</span><span class="va">col</span>, <span class="va">bind_rows</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"freq"</span>, <span class="st">"bayes_uniform"</span>, <span class="st">"bayes_beta"</span><span class="op">)</span>,</span>
+<span>       \<span class="op">(</span><span class="va">df</span>, <span class="va">nm</span><span class="op">)</span> <span class="fu">summarize</span><span class="op">(</span><span class="va">df</span>, avg_width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">bound_upper</span> <span class="op">-</span> <span class="va">bound_lower</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>,</span>
+<span>                            capture_rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">capture</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>         <span class="fu">mutate</span><span class="op">(</span>method <span class="op">=</span> <span class="va">nm</span>,</span>
+<span>                .before <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">reduce</span><span class="op">(</span><span class="va">bind_rows</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["method"],"name":[1],"type":["chr"],"align":["left"]},{"label":["avg_width"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["capture_rate"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"freq","2":"0.083","3":"0.884"},{"1":"bayes_uniform","2":"0.088","3":"0.968"},{"1":"bayes_beta","2":"0.078","3":"0.952"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Bayes beta(10,1) resulted in the smallest intervals on average, which makes sense because the prior distribution incorporated good knowledge of the true population proportion. It also had a capture rate almost as high as the, on average, wider confidence intervals from the Bayes with uniform prior.</p>
+</section><section id="part-g-additional-insightful-plots" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="part-g-additional-insightful-plots">
+<span class="header-section-number">2.1</span> Part g – Additional insightful plots</h2>
+<p>Comparison of priors.</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># compare different prior distributions for the Bayesian credible intervals</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>,</span>
+<span>                y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">dunif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            color <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>,</span>
+<span>                y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>, shape1 <span class="op">=</span> <span class="fl">1</span>, shape2 <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">annotate</span><span class="op">(</span><span class="st">"text"</span>,</span>
+<span>           x <span class="op">=</span> <span class="cn">Inf</span>, y <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>           hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>           label <span class="op">=</span> <span class="st">"Uniform(0,1)"</span>,</span>
+<span>           color <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">annotate</span><span class="op">(</span><span class="st">"text"</span>,</span>
+<span>           x <span class="op">=</span> <span class="cn">Inf</span>, y <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>           hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>           label <span class="op">=</span> <span class="st">"Beta(1,10)"</span>,</span>
+<span>           color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Prior distributions"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"p"</span>,</span>
+<span>       y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Constants.html">pi</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="hw-inference_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Comparison of point estimates (<span class="math inline">\(\hat{p}\)</span> for frequentist and <span class="math inline">\(E(\theta \mid y)\)</span> for Bayes).</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># comparative boxplots of point estiamtes</span></span>
+<span><span class="va">data_results</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="fu">starts_with</span><span class="op">(</span><span class="st">"ci"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map</span><span class="op">(</span>\<span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu">reduce</span><span class="op">(</span><span class="va">col</span>, <span class="va">bind_rows</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"freq"</span>, <span class="st">"bayes_uniform"</span>, <span class="st">"bayes_beta"</span><span class="op">)</span>,</span>
+<span>       \<span class="op">(</span><span class="va">df</span>, <span class="va">nm</span><span class="op">)</span> <span class="fu">select</span><span class="op">(</span><span class="va">df</span>, pe <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># select and rename point estimate</span></span>
+<span>         <span class="fu">mutate</span><span class="op">(</span>method <span class="op">=</span> <span class="va">nm</span>,</span>
+<span>                .before <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">reduce</span><span class="op">(</span><span class="va">bind_rows</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">pe</span>, y <span class="op">=</span> <span class="va">method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">p</span>,</span>
+<span>             col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">annotate</span><span class="op">(</span><span class="st">"text"</span>,</span>
+<span>           x <span class="op">=</span> <span class="cn">Inf</span>, y <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>,</span>
+<span>           hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, </span>
+<span>           label <span class="op">=</span> <span class="st">"true parameter"</span>,</span>
+<span>           color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Point estimate"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="hw-inference_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
-
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -526,8 +994,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./notes-inference.html" class="pagination-link  aria-label=" notes="" inference="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Notes – Inference</span>
+      <a href="./notes-inference.html" class="pagination-link  aria-label=" inference="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Notes – Inference</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

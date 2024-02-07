@@ -20,7 +20,7 @@ format:
     #code-tools: true
     code-block-border-left: "#2C3E50"
     highlight-style: github
-    number-depth: 3
+    number-depth: 2
     toc-depth: 3
     df-print: paged
     

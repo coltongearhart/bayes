@@ -12,11 +12,151 @@
   {
     "objectID": "hw-inference.html",
     "href": "hw-inference.html",
-    "title": "\n1  HW - Inference\n",
+    "title": "\n2  HW - Inference\n",
     "section": "",
-    "text": "Hello World",
+    "text": "Setup\nExperiment: we toss a coin 100 times and count the number of “heads” among the 100 tosses.\nNow, suppose the coin we use is very biased, and the chance of having a “head” in such a toss is 0.05. Please simulate the experiment of 100 tosses with this coin for 1000 times and analyze the outcome using Bayesian.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>HW - Inference</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#section",
+    "href": "hw-inference.html#section",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.5 5",
+    "text": "2.5 5\nRepeat part d using a Beta(1, 10) prior of the parameter \\(p\\).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#section-1",
+    "href": "hw-inference.html#section-1",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.6 6",
+    "text": "2.6 6\nCompare your results in parts b, c and e. How different are they? How similar are they? Why would you see these differences?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#section-2",
+    "href": "hw-inference.html#section-2",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.4 3",
+    "text": "2.4 3\nBased on the resulting posterior distribution, find the 95% Bayesian interval estimates (use equal tail) of the parameter using a uniform (0, 1) prior of the parameter for each of the 200 simulated experiment; Among the 200 simulations, what is the proportion of CIs including the true proportion p = 0.05? Calculate the average width of the 200 CIs.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#section-3",
+    "href": "hw-inference.html#section-3",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.5 4",
+    "text": "2.5 4\nCompare your results in steps 2 and 3, how similar are they? How different are they? 5.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#section-4",
+    "href": "hw-inference.html#section-4",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.6 5",
+    "text": "2.6 5\nRepeat Step 4 using a Beta(1, 10) prior of the parameter \\(p\\)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#section-5",
+    "href": "hw-inference.html#section-5",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.7 6",
+    "text": "2.7 6\nCompare your results in steps 2, 3 and 5. How different are they? How similar are they? Why would you see these differences?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#part-a-experiment",
+    "href": "hw-inference.html#part-a-experiment",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.1 Part a – Experiment",
+    "text": "2.1 Part a – Experiment\nDraw a boxplot of the 200 different experiment outcomes; does this plot match what you expected? Why or why not?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#part-b-frequentist-confidence-interval",
+    "href": "hw-inference.html#part-b-frequentist-confidence-interval",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.2 Part b – Frequentist confidence interval",
+    "text": "2.2 Part b – Frequentist confidence interval\nFind the 95% interval estimates of the parameter using frequentist approach with each of the 200 simulated experiment (approximate z-CI of the population proportion):\n\\(\\hat{p} \\pm Z_{\\alpha/2} \\sqrt{\\frac{(\\hat{p}(1 - \\hat{p})}{n}}\\)\nAmong the 200 simulations, what is the proportion of CIs including the true proportion p = 0.05? Calculate the average width of the 200 CIs.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#part-c-bayesian-interval",
+    "href": "hw-inference.html#part-c-bayesian-interval",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.3 Part c – Bayesian interval",
+    "text": "2.3 Part c – Bayesian interval\nBased on the resulting posterior distribution, find the 95% Bayesian interval estimates (use equal tail) of the parameter using a uniform (0, 1) prior of the parameter for each of the 200 simulated experiment; Among the 200 simulations, what is the proportion of CIs including the true proportion p = 0.05? Calculate the average width of the 200 CIs.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#part-d",
+    "href": "hw-inference.html#part-d",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.4 Part d –",
+    "text": "2.4 Part d –\nCompare your results in parts b and c, how similar are they? How different are they?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#part-d-comparison",
+    "href": "hw-inference.html#part-d-comparison",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.4 Part d – Comparison",
+    "text": "2.4 Part d – Comparison\nCompare your results in parts b and c, how similar are they? How different are they?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#part-e-new-prior",
+    "href": "hw-inference.html#part-e-new-prior",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.5 Part e – New prior",
+    "text": "2.5 Part e – New prior\nRepeat part d using a Beta(1, 10) prior of the parameter \\(p\\).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#part-f-final-comparison",
+    "href": "hw-inference.html#part-f-final-comparison",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.6 Part f – Final comparison",
+    "text": "2.6 Part f – Final comparison\nCompare your results in parts b, c and e. How different are they? How similar are they? Why would you see these differences?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
+    ]
+  },
+  {
+    "objectID": "hw-inference.html#part-g-additional-insightful-plots",
+    "href": "hw-inference.html#part-g-additional-insightful-plots",
+    "title": "\n2  HW - Inference\n",
+    "section": "\n2.1 Part g – Additional insightful plots",
+    "text": "2.1 Part g – Additional insightful plots\nComparison of priors.\n\n# compare different prior distributions for the Bayesian credible intervals\nggplot() + \n  geom_line(aes(x = seq(from = 0, to = 1, by = 0.001),\n                y = dunif(seq(from = 0, to = 1, by = 0.001), min = 0, max = 1)),\n            color = \"green\") +\n  geom_line(aes(x = seq(from = 0, to = 1, by = 0.001),\n                y = dbeta(seq(from = 0, to = 1, by = 0.001), shape1 = 1, shape2 = 10)),\n            color = \"blue\") + \n  annotate(\"text\",\n           x = Inf, y = Inf,\n           hjust = 1, vjust = 1,\n           label = \"Uniform(0,1)\",\n           color = \"green\") + \n  annotate(\"text\",\n           x = Inf, y = Inf,\n           hjust = 1, vjust = 3,\n           label = \"Beta(1,10)\",\n           color = \"blue\") + \n  labs(title = \"Prior distributions\",\n       x = \"p\",\n       y = expression(pi(p)))\n\n\n\n\n\n\n\nComparison of point estimates (\\(\\hat{p}\\) for frequentist and \\(E(\\theta \\mid y)\\) for Bayes).\n\n# comparative boxplots of point estiamtes\ndata_results %&gt;% \n  select(starts_with(\"ci\")) %&gt;% \n  map(\\(col) reduce(col, bind_rows)) %&gt;% \n  map2(c(\"freq\", \"bayes_uniform\", \"bayes_beta\"),\n       \\(df, nm) select(df, pe = 1) %&gt;% # select and rename point estimate\n         mutate(method = nm,\n                .before = 1)) %&gt;% \n  reduce(bind_rows) %&gt;% \n  ggplot(aes(x = pe, y = method)) + \n  geom_boxplot() + \n  geom_vline(xintercept = p,\n             col = \"blue\") + \n  annotate(\"text\",\n           x = Inf, y = -Inf,\n           hjust = 1, vjust = -1, \n           label = \"true parameter\",\n           color = \"blue\") + \n  labs(x = \"Point estimate\")",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>HW - Inference</span>"
     ]
   }
 ]

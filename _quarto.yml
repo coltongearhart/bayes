@@ -10,7 +10,12 @@ book:
   chapters:
     - index.qmd
     - notes-inference.qmd
+    - lab-inference.qmd
     - hw-inference.qmd
+    - notes-single-parameter-inference.qmd
+    - lab-prediction.qmd
+    - hw-single-parameter-inference.qmd
+
 
 format:
   html:
@@ -20,7 +25,7 @@ format:
     #code-tools: true
     code-block-border-left: "#2C3E50"
     highlight-style: github
-    number-depth: 2
+    number-depth: 1
     toc-depth: 3
     df-print: paged
     

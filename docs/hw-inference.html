@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.545">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Bayesian Statistics - 2&nbsp; HW - Inference</title>
+<title>Bayesian Statistics - 3&nbsp; HW - Inference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,7 +60,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./notes-inference.html" rel="prev">
+<link href="./notes-single-parameter-inference.html" rel="next">
+<link href="./lab-inference.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -131,7 +132,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./hw-inference.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HW - Inference</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./hw-inference.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HW - Inference</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -140,9 +141,7 @@ window.Quarto = {
     </div>
   </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">
-<span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HW - Inference</span>
-</h1>
+      <h1 class="title"><span id="sec-hw-inference" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HW - Inference</span></span></h1>
                       </div>
   </div>
     
@@ -183,8 +182,26 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./lab-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab - Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./hw-inference.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HW - Inference</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HW - Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./notes-single-parameter-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Notes – Single Parameter Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw-single-parameter-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">HW - Single Parameter Inference</span></span></a>
   </div>
 </li>
     </ul>
@@ -202,11 +219,11 @@ window.Quarto = {
   <li><a href="#part-d-comparison" id="toc-part-d-comparison" class="nav-link" data-scroll-target="#part-d-comparison">Part d – Comparison</a></li>
   <li><a href="#part-e-new-prior" id="toc-part-e-new-prior" class="nav-link" data-scroll-target="#part-e-new-prior">Part e – New prior</a></li>
   <li><a href="#part-f-final-comparison" id="toc-part-f-final-comparison" class="nav-link" data-scroll-target="#part-f-final-comparison">Part f – Final comparison</a></li>
-  <li><a href="#part-g-additional-insightful-plots" id="toc-part-g-additional-insightful-plots" class="nav-link" data-scroll-target="#part-g-additional-insightful-plots"><span class="header-section-number">2.1</span> Part g – Additional insightful plots</a></li>
+  <li><a href="#part-g-additional-insightful-plots" id="toc-part-g-additional-insightful-plots" class="nav-link" data-scroll-target="#part-g-additional-insightful-plots">Part g – Additional insightful plots</a></li>
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content"><section id="setup" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="setup">Setup</h3>
+<main class="content quarto-banner-title-block" id="quarto-document-content"><section id="setup" class="level3"><h3 class="anchored" data-anchor-id="setup">Setup</h3>
 <p><em>Experiment: we toss a coin 100 times and count the number of “heads” among the 100 tosses.</em></p>
 <p><em>Now, suppose the coin we use is very biased, and the chance of having a “head” in such a toss is 0.05. Please simulate the experiment of 100 tosses with this coin for 1000 times and analyze the outcome using Bayesian.</em></p>
 </section><section id="part-a-experiment" class="level3"><h3 class="anchored" data-anchor-id="part-a-experiment">Part a – Experiment</h3>
@@ -327,8 +344,9 @@ window.Quarto = {
 </div>
 </section><section id="part-c-bayesian-interval" class="level3"><h3 class="anchored" data-anchor-id="part-c-bayesian-interval">Part c – Bayesian interval</h3>
 <p><em>Based on the resulting posterior distribution, find the 95% Bayesian interval estimates (use equal tail) of the parameter using a uniform (0, 1) prior of the parameter for each of the 1000 simulated experiment; Among the 1000 simulations, what is the proportion of CIs including the true proportion p = 0.05? Calculate the average width of the 1000 CIs.</em></p>
-<p>Derivation of posterior distributions (for part e as well). Additionally includes the posterior mean as the theoretical point estimate.</p>
-<embed src="assignments/hw-inference.pdf" type="application/pdf" width="100%" height="500px"><div class="cell">
+<p>Derivation of posterior distributions. Additionally includes the posterior mean as the theoretical point estimate.</p>
+<p><img src="assignments/hw-inference-part-c.png" class="img-fluid"></p>
+<div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate point estimate (posterior mean) and 95% equal tails interval</span></span>
 <span><span class="co"># -&gt; using uniform(0,1) = beta(1,1) prior</span></span>
 <span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
@@ -425,6 +443,7 @@ window.Quarto = {
 <p>Average width of the frequentist interval is smaller than that of the equal tails Bayes interval, which implies the capture rate should be higher for the latter. However it is quite a bit higher.</p>
 </section><section id="part-e-new-prior" class="level3"><h3 class="anchored" data-anchor-id="part-e-new-prior">Part e – New prior</h3>
 <p><em>Repeat part d using a Beta(1, 10) prior of the parameter <span class="math inline">\(p\)</span>.</em></p>
+<p><img src="assignments/hw-inference-part-e.png" class="img-fluid"></p>
 <div class="cell">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate point estimate (posterior mean) and 95% HPD interval</span></span>
 <span><span class="co"># -&gt; using beta(1,10)</span></span>
@@ -545,8 +564,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Bayes beta(10,1) resulted in the smallest intervals on average, which makes sense because the prior distribution incorporated good knowledge of the true population proportion. It also had a capture rate almost as high as the, on average, wider confidence intervals from the Bayes with uniform prior.</p>
-</section><section id="part-g-additional-insightful-plots" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="part-g-additional-insightful-plots">
-<span class="header-section-number">2.1</span> Part g – Additional insightful plots</h2>
+</section><section id="part-g-additional-insightful-plots" class="level2"><h2 class="anchored" data-anchor-id="part-g-additional-insightful-plots">Part g – Additional insightful plots</h2>
 <p>Comparison of priors.</p>
 <div class="cell">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># compare different prior distributions for the Bayesian credible intervals</span></span>
@@ -568,8 +586,8 @@ window.Quarto = {
 <span>           label <span class="op">=</span> <span class="st">"Beta(1,10)"</span>,</span>
 <span>           color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Prior distributions"</span>,</span>
-<span>       x <span class="op">=</span> <span class="st">"p"</span>,</span>
-<span>       y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Constants.html">pi</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>       x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
+<span>       y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Constants.html">pi</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="hw-inference_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
@@ -994,11 +1012,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./notes-inference.html" class="pagination-link  aria-label=" inference="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Notes – Inference</span></span>
+      <a href="./lab-inference.html" class="pagination-link  aria-label=" inference="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab - Inference</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./notes-single-parameter-inference.html" class="pagination-link" aria-label="<span class='chapter-number'>4</span>&nbsp; <span class='chapter-title'>Notes -- Single Parameter Inference</span>">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Notes – Single Parameter Inference</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

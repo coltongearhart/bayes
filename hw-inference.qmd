@@ -1,4 +1,4 @@
-# HW - Inference
+# HW - Inference {#sec-hw-inference}
 
 ```{r}
 #| label: load-prereqs
@@ -10,7 +10,7 @@ source("_common.R")
 
 ```
 
-### Setup {.unnumbered}
+### Setup
 
 *Experiment: we toss a coin 100 times and count the number of “heads” among the 100 tosses.*
 
@@ -83,9 +83,9 @@ data_results$ci_freq %>%
 
 *Based on the resulting posterior distribution, find the 95% Bayesian interval estimates (use equal tail) of the parameter using a uniform (0, 1) prior of the parameter for each of the 1000 simulated experiment; Among the 1000 simulations, what is the proportion of CIs including the true proportion p = 0.05? Calculate the average width of the 1000 CIs.*
 
-Derivation of posterior distributions (for part e as well). Additionally includes the posterior mean as the theoretical point estimate.
+Derivation of posterior distributions. Additionally includes the posterior mean as the theoretical point estimate.
 
-<embed src="assignments/hw-inference.pdf" type="application/pdf" width="100%" height="500px"></embed>
+![](assignments/hw-inference-part-c.png)
 
 ```{r}
 
@@ -125,6 +125,8 @@ Average width of the frequentist interval is smaller than that of the equal tail
 ### Part e -- New prior
 
 *Repeat part d using a Beta(1, 10) prior of the parameter $p$.*
+
+![](assignments/hw-inference-part-e.png)
 
 ```{r}
 
@@ -207,8 +209,8 @@ ggplot() +
            label = "Beta(1,10)",
            color = "blue") + 
   labs(title = "Prior distributions",
-       x = "p",
-       y = expression(pi(p)))
+       x = expression(theta),
+       y = expression(pi(theta)))
 
 ```
 

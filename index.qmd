@@ -1,6 +1,12 @@
 # Overview {.unnumbered}
 
-These course notes introduce the Bayesian approach to statistical inference for data analysis in a variety of applications. Topics include: comparison of Bayesian and frequentist methods, Bayesian model specification, prior elicitation, Markov chain Monte Carlo, Bayes factor, Model selection, hierarchical models, Bayesian regression models. Implementation of Bayesian data analysis will be done using R and Stan. 
+These course notes introduce the Bayesian approach to statistical inference for data analysis in a variety of applications. Topics include: comparison of Bayesian and frequentist methods, Bayesian model specification, prior elicitation, Markov chain Monte Carlo, Bayes factor, Model selection, hierarchical models, Bayesian regression models. Implementation of Bayesian data analysis will be done using R and Stan.
+
+## Resources
+
+- Lecture notes are based on "Bayesian Data Analysis 3e" by Gelman, et al.
+
+- Great book also based on this book with r code examples: [Bayesian inference](https://vioshyvo.github.io/Bayesian_inference/index.html)
 
 ::: callout-note
 ## Quarto blog publish details

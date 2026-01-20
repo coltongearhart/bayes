@@ -1,4 +1,0 @@
-# Notes -- Inference {#sec-notes-inference}
-
-<embed src="lectures/notes-inference.pdf" type="application/pdf" width="100%" height="1000px"></embed>
-

@@ -1,4 +1,0 @@
-# Notes -- Single Parameter Inference
-
-<embed src="lectures/single-parameter-inference.pdf" type="application/pdf" width="100%" height="1000px"></embed>
-

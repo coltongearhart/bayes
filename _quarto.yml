@@ -9,12 +9,8 @@ book:
   cover-image: bayes.png
   chapters:
     - index.qmd
-    - notes-inference.qmd
-    - lab-inference.qmd
-    - hw-inference.qmd
-    - notes-single-parameter-inference.qmd
-    - lab-prediction.qmd
-    - hw-single-parameter-inference.qmd
+    - inference.qmd
+    - single-parameter-inference.qmd
 
 
 format:

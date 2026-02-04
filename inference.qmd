@@ -1,6 +1,7 @@
 # Inference 
 
 ## Notes 
+
 <embed src="lectures/notes-inference.pdf" type="application/pdf" width="100%" height="1000px"></embed>
 
 ## Lab
@@ -74,13 +75,13 @@ ggplot() +
                 y = dbeta(seq(from = 0, to = 1, by = 0.001), shape1 = y+1, shape2 = 101-y)),
             color = "orange") + 
   annotate("text",
-           x = Inf, y = Inf,
+           x = Inf, y = 1.75,
            hjust = 1, vjust = 1,
            label = "Prior = Uniform(0,1)",
            color = "steelblue4") + 
   annotate("text",
-           x = Inf, y = Inf,
-           hjust = 1, vjust = 3,
+           x = Inf, y = 0.5,
+           hjust = 1, vjust = 1,
            label = "Posterior = Beta(y+1,101-y)",
            color = "orange") + 
   labs(x = expression(theta),
@@ -247,36 +248,23 @@ paste0(target*100, "% HPD interval: [", round(bound_lower_hpd, 3), ", ", round(b
 
 ```{r}
 
-# define function to calculate everything (95% confidence)
-# -> freq: p-hat = x / n, asymptotic interval estimates
-# -> bayes: posterior mean, equal tails interval estimates
-calc_values <- function(y) {
-  
-  data.frame(y = y) %>% 
-    mutate(
-      pe_freq = y / 100,
-      bound_lower_freq = pe_freq - qnorm(0.975) * sqrt(pe_freq * (1 - pe_freq) / 100),
-      bound_upper_freq = pe_freq + qnorm(0.975) * sqrt(pe_freq * (1 - pe_freq) / 100),
-      pe_bayes = (y + 1) / 102,
-      bound_lower_bayes = qbeta(p = 0.025, shape1 = y+1, shape2 = 101-y),
-      bound_upper_bayes = qbeta(p = 0.975, shape1 = y+1, shape2 = 101-y)
-    )
-  
-}
-
 # simulate the number of heads many times
 y <- rbinom(n = 50, size = 100, prob = 0.5)
 
-# run simulation
-results <- y %>% 
-  map(\(y_i) calc_values(y_i)) %>% 
-  reduce(bind_rows) %>% 
-  mutate(i = row_number(),
-         .before = 1)
-results %>% round(3) %>% head
+# calculate alculate everything (95% confidence)
+# -> freq: p-hat = x / n, asymptotic interval estimates
+# -> bayes: posterior mean, equal tails interval estimates
+results <- data.frame(y = y) %>% 
+   mutate(i = row_number(),
+          pe_freq = y / 100,
+          bound_lower_freq = pe_freq - qnorm(0.975) * sqrt(pe_freq * (1 - pe_freq) / 100),
+          bound_upper_freq = pe_freq + qnorm(0.975) * sqrt(pe_freq * (1 - pe_freq) / 100),
+          pe_bayes = (y + 1) / 102,
+          bound_lower_bayes = qbeta(p = 0.025, shape1 = y+1, shape2 = 101-y),
+          bound_upper_bayes = qbeta(p = 0.975, shape1 = y+1, shape2 = 101-y))
+results %>% round(3) %>% head(n = 2)
 
 ```
-
 
 ## Homework
 
@@ -355,7 +343,7 @@ data_results$ci_freq %>%
 
 Derivation of posterior distributions. Additionally includes the posterior mean as the theoretical point estimate.
 
-![](assignments/hw-inference-part-c.png)
+![](assignments/content/hw-inference-part-c.png)
 
 ```{r}
 
@@ -396,7 +384,7 @@ Average width of the frequentist interval is smaller than that of the equal tail
 
 *Repeat part d using a Beta(1, 10) prior of the parameter $p$.*
 
-![](assignments/hw-inference-part-e.png)
+![](assignments/content/hw-inference-part-e.png)
 
 ```{r}
 
@@ -469,12 +457,12 @@ ggplot() +
                 y = dbeta(seq(from = 0, to = 1, by = 0.001), shape1 = 1, shape2 = 10)),
             color = "blue") + 
   annotate("text",
-           x = Inf, y = Inf,
+           x = Inf, y = 1.75,
            hjust = 1, vjust = 1,
            label = "Uniform(0,1)",
            color = "green") + 
   annotate("text",
-           x = Inf, y = Inf,
+           x = Inf, y = 1.25,
            hjust = 1, vjust = 3,
            label = "Beta(1,10)",
            color = "blue") + 
@@ -502,7 +490,7 @@ data_results %>%
   geom_vline(xintercept = p,
              col = "blue") + 
   annotate("text",
-           x = Inf, y = -Inf,
+           x = 0.09, y = -Inf,
            hjust = 1, vjust = -1, 
            label = "true parameter",
            color = "blue") + 

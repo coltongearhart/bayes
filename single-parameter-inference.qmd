@@ -82,7 +82,7 @@ If we do not know the math, we can still find the posterior, but we won’t have
 
 -   Thirdly, simulate random draws from the approximate posterior distribution.
 
-![](assignments/lab-single-parameter-inference-simulation-process.png)
+![](assignments/lab-single-parameter-inference.pdf)
 
 ```{r}
 
@@ -127,7 +127,7 @@ You certainly can predict your future observations based on the posterior predic
 
 Note that we have simulated $p$ from the posterior distribution and saved them in the vector `p_post`, so let’s directly use them and simulate the future observation conditional on each one of these $p$’s to get an idea of the posterior predictive distribution.
 
-- `p_post` can also be simulated directly from $\text{Beta}(51, 51)$ (the posterior distribution shown in @notes-inference) via `p_post = rbeta(nsim, 51,51)`. But the process described above is an approximation of simulating from this.
+- `p_post` can also be simulated directly from $\text{Beta}(51, 51)$ (the posterior distribution shown in the notes) via `p_post = rbeta(nsim, 51,51)`. But the process described above is an approximation of simulating from this.
 
 **One toss**: We already analytically figured out the posterior predictive distribution of 1 additional coin toss in class, so now we can numerically compare ̃the simulation vs analytical answer ($P(\tilde{Y} = 1 \mid Y = 50) = 0.5$):
 
@@ -157,7 +157,7 @@ table(y_pred_post_5_sim) / length(y_pred_post_5_sim)
 
 ```
 
-![](assignments/lab-single-parameter-inference-derivation.png)
+<embed src="assignments/lab-single-parameter-inference.pdf" type="application/pdf" width="100%" height="1000px"></embed>
 
 ```{r}
 

@@ -1,5 +1,7 @@
 # Single parameter inference
 
+## Notes
+
 <embed src="lectures/notes-single-parameter-inference-p1.pdf" type="application/pdf" width="100%" height="1000px"></embed>
 
 <embed src="lectures/notes-single-parameter-inference-p2.pdf" type="application/pdf" width="100%" height="1000px"></embed>
@@ -20,7 +22,7 @@ source("_common.R")
 
 ### Setup
 
-Let’s revisit the coin toss example today. We will work on it with multiple approaches. This time, let’s just assume we tossed the coin 100 times and get 50 ($Y = 50$) heads.
+Let’s revisit the coin toss example today. We will work on it with multiple approaches. This time, let’s just assume we tossed the coin 100 times and get 50 heads ($Y = 50$).
 
 -   Data distribution: $Y \mid p \sim Bin(100, p)$
 -   Prior: $p \sim \text{Uniform}(0,1)$
@@ -68,7 +70,7 @@ TeachingDemos::hpd(qbeta, shape1 = 51, shape2 = 51, conf = 0.95)
 
 Simulation is commonly used when the posterior doesn't have an explicit form. This process is illustrated below (although this one does have a closed form solution that we can use to validate the results).
 
--   Note that we can always write down the posterior distribution because it is just the product of the data distribution and the prior (which we always know / assume), but often the explicit for of the posterior is not a *known* form (e.g. $\sim \text{Beta}$ or $\sim \text{Normal}$.
+-   Note that we can always write down the posterior distribution because it is just the product of the data distribution and the prior (which we always know / assume), but often the explicit form of the posterior is not a *known* form (e.g. $\sim \text{Beta}$ or $\sim \text{Normal}$.
 
 If we do not know the math, we can still find the posterior, but we won’t have the exact posterior distribution, instead we are able to generate posterior samples. This is easy to implement and use when we have a simple model and single parameter.
 
@@ -82,7 +84,8 @@ If we do not know the math, we can still find the posterior, but we won’t have
 
 -   Thirdly, simulate random draws from the approximate posterior distribution.
 
-![](assignments/lab-single-parameter-inference.pdf)
+![](assignments/content/lab-single-parameter-inference-1.png)
+
 
 ```{r}
 
@@ -157,7 +160,7 @@ table(y_pred_post_5_sim) / length(y_pred_post_5_sim)
 
 ```
 
-<embed src="assignments/lab-single-parameter-inference.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+![](assignments/content/lab-single-parameter-inference-2.png)
 
 ```{r}
 
@@ -246,10 +249,6 @@ lines(density(y_pred_prior_100_sim),col = "red")
 
 ## Homework
 
-PICTURES AND RELOCATE
-
-<!-- <embed src="assignments/hw-single-parameter-inference.pdf" type="application/pdf" width="100%" height="500px"></embed> -->
-
 ### Problem 1 
 
 *Thirty randomly selected Chase customers in Cincinnati were interviewed about their experiences with Chase financial investment advising service back in 2016 and they reported the average waiting time (unit: days) until the first meeting with a financial advisor in their local branch (given below). Julia, the Chase marketing manager believes that these waiting times can be reasonably modeled with an exponential distribution, i.e., $Y_1, \ldots, Y_{30} \overset{iid}\sim \text{Exp}(\lambda)$, or $f(y_i \mid \lambda) = \lambda\mathrm{e}^{-\lambda y_i}$, where $i = 1, \ldots, 30$.*
@@ -265,9 +264,13 @@ y <- c(4.3,1.0,0.5,5.2,2.5,1.6,1.3,2.5,1.2,2.3,0.8,14.4,1.7,0.5,2.2,
 
 *Julia considered a Bayesian analysis. From the historical data, on average the bank customers waited 2.5 days until their first meeting with the bank financial advisor. She assumed that the prior variance is 0.2. Please use this information to obtain an informative prior distribution for $\lambda$.*
 
+![](assignments/content/hw-single-parameter-inference-1a.png)
+
 #### Part b -- Posterior distribution
 
 *Use the prior in (a), find the posterior distribution for $\lambda$*.
+
+![](assignments/content/hw-single-parameter-inference-1b.png)
 
 ```{r}
 
@@ -294,9 +297,13 @@ y <- c(3.8,5.0,4.5,4.2,5.5,5.8,4.6,5.3,7.2,5.7,6.0,6.3,4.8,5.6,4.9,
 
 *Please suggest a prior distribution of μ for Jeff based on the literature information.*
 
+See picture in part b.
+
 #### Part b -- Posterior distribution
 
 *Specify the posterior distribution parameters of $\mu$*.
+
+![](assignments/content/hw-single-parameter-inference-2ab.png)
 
 ```{r}
 
@@ -337,6 +344,8 @@ Using Monte Carlo methods, our estimate of $P(\mu > 5 \mid \mathbf{y}) \approx$
 *A new sheep will be selected at random from the same population of interest. Simulate the posterior predictive distribution of the progesterone level of this new sheep. Report the estimated mean and standard deviation of the progesterone level for this new sheep based on the posterior predictive distribution you obtain.*
 
 Simulation approach
+
+![](assignments/content/hw-single-parameter-inference-2d1.png)
 
 ```{r}
 
@@ -392,13 +401,62 @@ y = c(22.0,20.3,20.6,20.4,20.5,20.0,18.9,20.2,21.4,21.4,18.5,20.8,22.8,19.1,
 
 ```
 
+Theoretical approach
+
+![](assignments/content/hw-single-parameter-inference-3.png)
+
 ```{r}
 
-# simulate mu_X - mu_Y from the posterior distribution
+# specify parameters, hyperparameters and other needed constants
+sigma2_x <- 1
+sigma2_y <- sigma2_x
+mu_0_x <- 22
+mu_0_y <- 20.5
+tau2_0_x <- 4
+tau2_0_y<- tau2_0_x
+n_x <- length(x)
+n_y <- length(y)
 
+# calculate posterior parameters
+tau2_n_x <- (n_x / sigma2_x + 1 / tau2_0_x)^(-1)
+mu_n_x <- tau2_n_x * (sum(x) / sigma2_x + mu_0_x / tau2_0_x)
+tau2_n_y <- (n_y / sigma2_y + 1 / tau2_0_y)^(-1)
+mu_n_y <- tau2_n_y * (sum(y) / sigma2_y + mu_0_y / tau2_0_y)
+
+# calculate parameters for distribution of difference of posteriors
+# -> we know difference of normals is still normally distributed
+diff_mean <- mu_n_x - mu_n_y
+diff_var <- tau2_n_x + tau2_n_y
+
+# calculate resulting equal tails interval
+alpha <- 0.05
+qnorm(c(alpha / 2, 1 - alpha/2), mean = diff_mean, sd = sqrt(diff_var))
+round(qnorm(c(alpha / 2, 1 - alpha/2), mean = diff_mean, sd = sqrt(diff_var))[1], 3)
+```
+
+The 95% credible set for $\mu_x - \mu_y$ is (`r round(qnorm(c(alpha / 2, 1 - alpha/2), mean = diff_mean, sd = sqrt(diff_var))[1], 3)`, `r round(qnorm(c(alpha / 2, 1 - alpha/2), mean = diff_mean, sd = sqrt(diff_var))[2], 3)`).
+
+Simulation approach
+
+```{r}
+
+# simulate mu_X and mu_Y from each of the posterior distributions
+M <- 10000
+mu_post_sample_x <- rnorm(n = M, mean = mu_n_x, sd = sqrt(tau2_n_x))
+mu_post_sample_y <- rnorm(n = M, mean = mu_n_y, sd = sqrt(tau2_n_y))
+
+# take difference
+mu_post_sample_x_minus_y <- mu_post_sample_x - mu_post_sample_y
+
+# approximate equal tail intervals via quantiles of posterior sample
+quantile(mu_post_sample_x_minus_y, probs = c(alpha / 2, 1 - alpha/2))
+  
+# very close to theoretical results!
 
 ```
 
 ### Problem 4 
 
 *Suppose $Y \mid \theta \sim \text{Poisson}(\theta)$. Find the Jeffrey’s prior for $\theta$.*
+
+![](assignments/content/hw-single-parameter-inference-4.png)

@@ -194,8 +194,9 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li>
-<a href="#lab" id="toc-lab" class="nav-link active" data-scroll-target="#lab">Lab</a>
+<li><a href="#notes" id="toc-notes" class="nav-link active" data-scroll-target="#notes">Notes</a></li>
+  <li>
+<a href="#lab" id="toc-lab" class="nav-link" data-scroll-target="#lab">Lab</a>
   <ul class="collapse">
 <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
   <li><a href="#step-1-estimation-of-parameters-using-known-posterior-distribution" id="toc-step-1-estimation-of-parameters-using-known-posterior-distribution" class="nav-link" data-scroll-target="#step-1-estimation-of-parameters-using-known-posterior-distribution">Step 1 – Estimation of parameters using known posterior distribution</a></li>
@@ -215,9 +216,10 @@ window.Quarto = {
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content"><embed src="lectures/notes-single-parameter-inference-p1.pdf" type="application/pdf" width="100%" height="1000px"><embed src="lectures/notes-single-parameter-inference-p2.pdf" type="application/pdf" width="100%" height="1000px"><embed src="lectures/notes-single-parameter-inference-p3.pdf" type="application/pdf" width="100%" height="1000px"><section id="lab" class="level2"><h2 class="anchored" data-anchor-id="lab">Lab</h2>
+<main class="content quarto-banner-title-block" id="quarto-document-content"><section id="notes" class="level2"><h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<embed src="lectures/notes-single-parameter-inference-p1.pdf" type="application/pdf" width="100%" height="1000px"><embed src="lectures/notes-single-parameter-inference-p2.pdf" type="application/pdf" width="100%" height="1000px"><embed src="lectures/notes-single-parameter-inference-p3.pdf" type="application/pdf" width="100%" height="1000px"></section><section id="lab" class="level2"><h2 class="anchored" data-anchor-id="lab">Lab</h2>
 <section id="setup" class="level3"><h3 class="anchored" data-anchor-id="setup">Setup</h3>
-<p>Let’s revisit the coin toss example today. We will work on it with multiple approaches. This time, let’s just assume we tossed the coin 100 times and get 50 (<span class="math inline">\(Y = 50\)</span>) heads.</p>
+<p>Let’s revisit the coin toss example today. We will work on it with multiple approaches. This time, let’s just assume we tossed the coin 100 times and get 50 heads (<span class="math inline">\(Y = 50\)</span>).</p>
 <ul>
 <li>Data distribution: <span class="math inline">\(Y \mid p \sim Bin(100, p)\)</span>
 </li>
@@ -276,7 +278,7 @@ window.Quarto = {
 </section><section id="step-2-estimation-of-parameters-using-simulation" class="level3"><h3 class="anchored" data-anchor-id="step-2-estimation-of-parameters-using-simulation">Step 2 – Estimation of parameters using simulation</h3>
 <p>Simulation is commonly used when the posterior doesn’t have an explicit form. This process is illustrated below (although this one does have a closed form solution that we can use to validate the results).</p>
 <ul>
-<li>Note that we can always write down the posterior distribution because it is just the product of the data distribution and the prior (which we always know / assume), but often the explicit for of the posterior is not a <em>known</em> form (e.g.&nbsp;<span class="math inline">\(\sim \text{Beta}\)</span> or <span class="math inline">\(\sim \text{Normal}\)</span>.</li>
+<li>Note that we can always write down the posterior distribution because it is just the product of the data distribution and the prior (which we always know / assume), but often the explicit form of the posterior is not a <em>known</em> form (e.g.&nbsp;<span class="math inline">\(\sim \text{Beta}\)</span> or <span class="math inline">\(\sim \text{Normal}\)</span>.</li>
 </ul>
 <p>If we do not know the math, we can still find the posterior, but we won’t have the exact posterior distribution, instead we are able to generate posterior samples. This is easy to implement and use when we have a simple model and single parameter.</p>
 <ul>
@@ -294,7 +296,7 @@ window.Quarto = {
 </li>
 <li><p>Thirdly, simulate random draws from the approximate posterior distribution.</p></li>
 </ul>
-<p><embed src="assignments/lab-single-parameter-inference.pdf" class="img-fluid"></p>
+<p><img src="assignments/content/lab-single-parameter-inference-1.png" class="img-fluid"></p>
 <div class="cell">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 1) create a sequence of possible values for the parameter</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">0.001</span>, to <span class="op">=</span> <span class="fl">0.999</span>, by <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span></span>
@@ -322,7 +324,7 @@ window.Quarto = {
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># point estimates</span></span>
 <span><span class="op">(</span><span class="va">posterior_mean_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">p_post</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5002102</code></pre>
+<pre><code>[1] 0.5002164</code></pre>
 </div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span><span class="va">posterior_median_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">p_post</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -339,7 +341,7 @@ window.Quarto = {
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">p_post</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> 2.5% 97.5% 
-0.404 0.596 </code></pre>
+0.404 0.597 </code></pre>
 </div>
 </div>
 </section><section id="step-3-simulation-based-prediction-of-future-observations" class="level3"><h3 class="anchored" data-anchor-id="step-3-simulation-based-prediction-of-future-observations">Step 3 – Simulation-based prediction of future observations</h3>
@@ -361,14 +363,14 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>y_pred_post_1_sim
     0     1 
-49951 50049 </code></pre>
+50115 49885 </code></pre>
 </div>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate the naive posterior predictive distribution table using relative frequency</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">y_pred_post_1_sim</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y_pred_post_1_sim</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>y_pred_post_1_sim
       0       1 
-0.49951 0.50049 </code></pre>
+0.50115 0.49885 </code></pre>
 </div>
 </div>
 <p><strong>5 tosses</strong>: Now let’s assume that we plan to toss the coin for another 5 times.</p>
@@ -379,16 +381,17 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>y_pred_post_5_sim
     0     1     2     3     4     5 
- 3497 15814 30631 30648 15941  3469 </code></pre>
+ 3431 16073 30519 30653 15849  3475 </code></pre>
 </div>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">y_pred_post_5_sim</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y_pred_post_5_sim</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>y_pred_post_5_sim
       0       1       2       3       4       5 
-0.03497 0.15814 0.30631 0.30648 0.15941 0.03469 </code></pre>
+0.03431 0.16073 0.30519 0.30653 0.15849 0.03475 </code></pre>
 </div>
 </div>
-<embed src="assignments/lab-single-parameter-inference.pdf" type="application/pdf" width="100%" height="1000px"><div class="cell">
+<p><img src="assignments/content/lab-single-parameter-inference-2.png" class="img-fluid"></p>
+<div class="cell">
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate analytical result</span></span>
 <span><span class="co"># -&gt; y-pred_post | y-vec = 101! (50 + y-tilde)! (55 - y-tilde)! 5! / (50! 50! 106! y-tilde! (5 - y-tilde)!)</span></span>
 <span><span class="va">y_pred_post_5</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
@@ -470,7 +473,7 @@ window.Quarto = {
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># point estimation/prediction for the future observations</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y_pred_post_100_sim</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 50.01752</code></pre>
+<pre><code>[1] 50.00364</code></pre>
 </div>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># prediction interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">y_pred_post_100_sim</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -488,7 +491,7 @@ window.Quarto = {
 <span><span class="co"># calculate point estimate and interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y_pred_prior_100_sim</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 49.92433</code></pre>
+<pre><code>[1] 50.02462</code></pre>
 </div>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">y_pred_prior_100_sim</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>,<span class="fl">.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -510,8 +513,6 @@ window.Quarto = {
 </div>
 </div>
 </section></section><section id="homework" class="level2"><h2 class="anchored" data-anchor-id="homework">Homework</h2>
-<p>PICTURES AND RELOCATE</p>
-<!-- <embed src="assignments/hw-single-parameter-inference.pdf" type="application/pdf" width="100%" height="500px"></embed> -->
 <section id="problem-1" class="level3"><h3 class="anchored" data-anchor-id="problem-1">Problem 1</h3>
 <p><em>Thirty randomly selected Chase customers in Cincinnati were interviewed about their experiences with Chase financial investment advising service back in 2016 and they reported the average waiting time (unit: days) until the first meeting with a financial advisor in their local branch (given below). Julia, the Chase marketing manager believes that these waiting times can be reasonably modeled with an exponential distribution, i.e., <span class="math inline">\(Y_1, \ldots, Y_{30} \overset{iid}\sim \text{Exp}(\lambda)\)</span>, or <span class="math inline">\(f(y_i \mid \lambda) = \lambda\mathrm{e}^{-\lambda y_i}\)</span>, where <span class="math inline">\(i = 1, \ldots, 30\)</span>.</em></p>
 <div class="cell">
@@ -520,8 +521,10 @@ window.Quarto = {
 </div>
 <section id="part-a-prior-distribution" class="level4"><h4 class="anchored" data-anchor-id="part-a-prior-distribution">Part a – Prior distribution</h4>
 <p><em>Julia considered a Bayesian analysis. From the historical data, on average the bank customers waited 2.5 days until their first meeting with the bank financial advisor. She assumed that the prior variance is 0.2. Please use this information to obtain an informative prior distribution for <span class="math inline">\(\lambda\)</span>.</em></p>
+<p><img src="assignments/content/hw-single-parameter-inference-1a.png" class="img-fluid"></p>
 </section><section id="part-b-posterior-distribution" class="level4"><h4 class="anchored" data-anchor-id="part-b-posterior-distribution">Part b – Posterior distribution</h4>
 <p><em>Use the prior in (a), find the posterior distribution for <span class="math inline">\(\lambda\)</span></em>.</p>
+<p><img src="assignments/content/hw-single-parameter-inference-1b.png" class="img-fluid"></p>
 <div class="cell">
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># needed calculation for posterior gamma(alpha, beta)</span></span>
 <span><span class="co"># -&gt; beta-post = beta-prior + sum(y)</span></span>
@@ -539,8 +542,10 @@ window.Quarto = {
 <p><em>Jeff would like to model these measurements as normal responses from the same normal population, <span class="math inline">\(\text{N}(\mu,1.52)\)</span>. He also found out in literature that, for 80-days pregnant sheep with singletons, the average progesterone level should be centered around 8, and the range of such measurements is between 4 and 12.</em></p>
 <section id="part-a-prior-distribution-1" class="level4"><h4 class="anchored" data-anchor-id="part-a-prior-distribution-1">Part a – Prior distribution</h4>
 <p><em>Please suggest a prior distribution of μ for Jeff based on the literature information.</em></p>
+<p>See picture in part b.</p>
 </section><section id="part-b-posterior-distribution-1" class="level4"><h4 class="anchored" data-anchor-id="part-b-posterior-distribution-1">Part b – Posterior distribution</h4>
 <p><em>Specify the posterior distribution parameters of <span class="math inline">\(\mu\)</span></em>.</p>
+<p><img src="assignments/content/hw-single-parameter-inference-2ab.png" class="img-fluid"></p>
 <div class="cell">
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># specify parameters, hyperparameters and other needed constants</span></span>
 <span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">1.5</span></span>
@@ -566,19 +571,20 @@ window.Quarto = {
 <span><span class="va">mu_post_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10000</span>, mean <span class="op">=</span> <span class="va">mu_n</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">tau2_n</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mu_post_sample</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.407371 6.042755 5.832881 5.731247 5.794384</code></pre>
+<pre><code>[1] 5.559771 5.560613 5.738902 5.767248 5.497242</code></pre>
 </div>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate Monte Carlo probability</span></span>
 <span><span class="co"># -&gt; P(mu &gt; 5 | y-vec)</span></span>
 <span><span class="op">(</span><span class="va">prob</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mu_post_sample</span> <span class="op">&gt;</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9769</code></pre>
+<pre><code>[1] 0.9787</code></pre>
 </div>
 </div>
-<p>Using Monte Carlo methods, our estimate of <span class="math inline">\(P(\mu &gt; 5 \mid \mathbf{y}) \approx\)</span> 0.977</p>
+<p>Using Monte Carlo methods, our estimate of <span class="math inline">\(P(\mu &gt; 5 \mid \mathbf{y}) \approx\)</span> 0.979</p>
 </section><section id="part-d-posterior-predictive-distribution" class="level4"><h4 class="anchored" data-anchor-id="part-d-posterior-predictive-distribution">Part d – Posterior predictive distribution</h4>
 <p><em>A new sheep will be selected at random from the same population of interest. Simulate the posterior predictive distribution of the progesterone level of this new sheep. Report the estimated mean and standard deviation of the progesterone level for this new sheep based on the posterior predictive distribution you obtain.</em></p>
 <p>Simulation approach</p>
+<p><img src="assignments/content/hw-single-parameter-inference-2d1.png" class="img-fluid"></p>
 <div class="cell">
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># simulate posterior predictive distribution</span></span>
 <span></span>
@@ -587,22 +593,22 @@ window.Quarto = {
 <span><span class="va">mu_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, mean <span class="op">=</span> <span class="va">mu_n</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">tau2_n</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mu_m</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.930504 5.957450 5.436502 5.548591 5.701132 5.336697</code></pre>
+<pre><code>[1] 5.141306 5.389154 5.502065 5.626392 5.427346 5.316044</code></pre>
 </div>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># simulate new observations from data distribution using newly sampled mu's</span></span>
 <span><span class="va">y_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, mean <span class="op">=</span> <span class="va">mu_m</span>, sd <span class="op">=</span> <span class="va">sigma</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">y_new</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.627129 1.686739 4.985265 4.269982 8.080996 4.372759</code></pre>
+<pre><code>[1] 5.076336 4.281472 6.843715 6.604269 3.579661 4.013072</code></pre>
 </div>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># approximate mean and standard deviation of posterior predictive distribution</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y_new</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.517525</code></pre>
+<pre><code>[1] 5.527256</code></pre>
 </div>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">y_new</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.320171</code></pre>
+<pre><code>[1] 2.365685</code></pre>
 </div>
 </div>
 <p>Verify with known theoretical results.</p>
@@ -636,11 +642,63 @@ window.Quarto = {
 <span><span class="va">y</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">22.0</span>,<span class="fl">20.3</span>,<span class="fl">20.6</span>,<span class="fl">20.4</span>,<span class="fl">20.5</span>,<span class="fl">20.0</span>,<span class="fl">18.9</span>,<span class="fl">20.2</span>,<span class="fl">21.4</span>,<span class="fl">21.4</span>,<span class="fl">18.5</span>,<span class="fl">20.8</span>,<span class="fl">22.8</span>,<span class="fl">19.1</span>,</span>
 <span>      <span class="fl">18.8</span>,<span class="fl">19.7</span>,<span class="fl">21.0</span>,<span class="fl">20.2</span>,<span class="fl">21.3</span>,<span class="fl">20.5</span>,<span class="fl">19.2</span>,<span class="fl">20.6</span>,<span class="fl">20.1</span>,<span class="fl">18.9</span>,<span class="fl">20.9</span>,<span class="fl">19.6</span>,<span class="fl">21.3</span>,<span class="fl">21.4</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Theoretical approach</p>
+<p><img src="assignments/content/hw-single-parameter-inference-3.png" class="img-fluid"></p>
 <div class="cell">
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># simulate mu_X - mu_Y from the posterior distribution</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># specify parameters, hyperparameters and other needed constants</span></span>
+<span><span class="va">sigma2_x</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">sigma2_y</span> <span class="op">&lt;-</span> <span class="va">sigma2_x</span></span>
+<span><span class="va">mu_0_x</span> <span class="op">&lt;-</span> <span class="fl">22</span></span>
+<span><span class="va">mu_0_y</span> <span class="op">&lt;-</span> <span class="fl">20.5</span></span>
+<span><span class="va">tau2_0_x</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
+<span><span class="va">tau2_0_y</span><span class="op">&lt;-</span> <span class="va">tau2_0_x</span></span>
+<span><span class="va">n_x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="va">n_y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate posterior parameters</span></span>
+<span><span class="va">tau2_n_x</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">n_x</span> <span class="op">/</span> <span class="va">sigma2_x</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">tau2_0_x</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">mu_n_x</span> <span class="op">&lt;-</span> <span class="va">tau2_n_x</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">/</span> <span class="va">sigma2_x</span> <span class="op">+</span> <span class="va">mu_0_x</span> <span class="op">/</span> <span class="va">tau2_0_x</span><span class="op">)</span></span>
+<span><span class="va">tau2_n_y</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">n_y</span> <span class="op">/</span> <span class="va">sigma2_y</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">tau2_0_y</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">mu_n_y</span> <span class="op">&lt;-</span> <span class="va">tau2_n_y</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="va">sigma2_y</span> <span class="op">+</span> <span class="va">mu_0_y</span> <span class="op">/</span> <span class="va">tau2_0_y</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate parameters for distribution of difference of posteriors</span></span>
+<span><span class="co"># -&gt; we know difference of normals is still normally distributed</span></span>
+<span><span class="va">diff_mean</span> <span class="op">&lt;-</span> <span class="va">mu_n_x</span> <span class="op">-</span> <span class="va">mu_n_y</span></span>
+<span><span class="va">diff_var</span> <span class="op">&lt;-</span> <span class="va">tau2_n_x</span> <span class="op">+</span> <span class="va">tau2_n_y</span></span>
+<span></span>
+<span><span class="co"># calculate resulting equal tails interval</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">alpha</span> <span class="op">/</span> <span class="fl">2</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">alpha</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, mean <span class="op">=</span> <span class="va">diff_mean</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">diff_var</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.22779 2.23793</code></pre>
+</div>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">alpha</span> <span class="op">/</span> <span class="fl">2</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">alpha</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, mean <span class="op">=</span> <span class="va">diff_mean</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">diff_var</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.228</code></pre>
+</div>
+</div>
+<p>The 95% credible set for <span class="math inline">\(\mu_x - \mu_y\)</span> is (1.228, 2.238).</p>
+<p>Simulation approach</p>
+<div class="cell">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># simulate mu_X and mu_Y from each of the posterior distributions</span></span>
+<span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
+<span><span class="va">mu_post_sample_x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, mean <span class="op">=</span> <span class="va">mu_n_x</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">tau2_n_x</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mu_post_sample_y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, mean <span class="op">=</span> <span class="va">mu_n_y</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">tau2_n_y</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># take difference</span></span>
+<span><span class="va">mu_post_sample_x_minus_y</span> <span class="op">&lt;-</span> <span class="va">mu_post_sample_x</span> <span class="op">-</span> <span class="va">mu_post_sample_y</span></span>
+<span></span>
+<span><span class="co"># approximate equal tail intervals via quantiles of posterior sample</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">mu_post_sample_x_minus_y</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">alpha</span> <span class="op">/</span> <span class="fl">2</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">alpha</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    2.5%    97.5% 
+1.230959 2.239184 </code></pre>
+</div>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># very close to theoretical results!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="problem-4" class="level3"><h3 class="anchored" data-anchor-id="problem-4">Problem 4</h3>
 <p><em>Suppose <span class="math inline">\(Y \mid \theta \sim \text{Poisson}(\theta)\)</span>. Find the Jeffrey’s prior for <span class="math inline">\(\theta\)</span>.</em></p>
+<p><img src="assignments/content/hw-single-parameter-inference-4.png" class="img-fluid"></p>
 
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

@@ -1,0 +1,593 @@
+# Multi parameter models
+
+## Notes
+
+<embed src="lectures/notes-multi-parameter-models.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## Lab 1 - Monte Carlo simulation
+
+```{r}
+#| label: load-prereqs
+#| echo: false
+#| message: false
+
+# knitr options
+source("_common.R")
+
+```
+
+### Notes
+
+#### Monte Carlo simulation in Bayesian inference
+
+Monte Carlo is the art of approximating an expectation by the sample mean of a function of simulated random variables.
+
+*MY COMMENTS: Main idea in one sentence: MC is using independent samples to approximate something we are interested in.*
+
+**Definition in probability terminology**: suppose we have a random variable (univariate or multivariate, discrete or continuous) $X$, and we are interested in the expected value of a function of it, $E[g(X)]$ (e.g. $Y = g(X)$), then we can approximate it with
+
+$$
+g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
+$$
+
+where $x_1, \ldots, x_n$ are $n$ random samples of $X$.
+
+*If we know the original density function $f(x)$, then we can use $\int g(x) f(x) \, dx$ to get $E[g(x)]$. But ONLY if there is an explicit form of $f(x)$. MC methods are useful because we are working with situations when we don't know the $f(x)$ (i.e. the posterior distribution) but we still want to know $E[g(x)]$ (e.g. the posterior mean).*
+
+**Why can we use this idea in statistics inference?** Many quantities of interest may be cast as expectations: it is possible to express all probabilities (expectation of indicator variable taking on 0 or 1 only), integrals (expectation of random variables), and summations (expectation of discrete random variables) as expectations!
+
+*Ex) $P(X > 1) = \int_1^\infty f(x) \, dx = \int_1^\infty I(x > 1) f(x) \, dx$, where $I(x > 1) = g(x) = \begin{cases} 1 \text{ if } x \ge 1 \\  0 \text{ if } x < 1\\\end{cases}$*
+
+#### Why do we need Monte Carlo approximation in Bayesian inference?
+
+Summary statistics (mean, median, mode, standard deviation, quantiles) of the posterior distribution of the parameter(s) are used to conduct Bayesian inference. However, the samples from the posterior distribution can tell us a lot more than that! Examples include:
+
+  - $P(\theta \in A \mid \mathbf{y})$ for some arbitrary set $A$ of interest to us;
+  - posterior distribution of $\left| \theta_1 - \theta_2 \right|$;
+  - posterior distribution of $P(\theta_1 < \theta_2)$
+
+We usually cannot obtain the exact values of these posterior quantities, but once we have posterior samples generated from the posterior distribution, all of these posterior quantities of interest can be approximated to an arbitrary degree of precision using the Monte Carlo method!
+
+*For example, to find the posterior density of $\left| \theta_1 - \theta_2 \right|$, we would need the joint distribution of $(\theta_1, \theta_2)$. But, $f(\theta_1, \theta_2)$ may be hard to find. So instead, by using Monte Carlo methods, we can generate samples of $\theta_1$ and $\theta_2$ from their respective posteriors and then estimate lots of things using these samples. This is super easy!* 
+
+*Said another way, we can use a sample from $P(\theta \mid \mathbf{y})$ to approximate the actual posterior distribution. This empirical density can be used to estimate any quantity of interest, e.g. $P(\theta < \theta_0) = ?? \rightarrow $ just look at percent of sample that meets this condition.*
+
+#### Monte Carlo approximation in Bayesian inference
+
+Once we obtain $iid$ posterior samples $\theta^{(1)}, \ldots, \theta^{(m)}$ from $p(\theta \mid \mathbf{y})$,
+
+  - The empirical distribution of $\{\theta^{(1)}, \ldots, \theta^{(m)}\}$ is known as a Monte Carlo approximation to $p(\theta \mid \mathbf{y})$.
+  - $\bar{\theta} = \frac{1}{m}\sum_{s=1}^{m} \theta^{(s)} \rightarrow E(\theta \mid \mathbf{y})$
+  - $\frac{\sum_{s=1}^{m} (\theta^{(s)} - \bar{\theta})^2}{m-1} \rightarrow \mathrm{Var}(\theta \mid \mathbf{y})$
+  - $\frac{\text{Number of } \theta^{(s)} \le c}{m} \rightarrow \Pr(\theta \le c \mid \mathbf{y})$
+  - the lower tail $\alpha$ percentile of $\{\theta^{(1)}, \ldots, \theta^{(m)}\} \rightarrow \theta_{\alpha}$
+- For any function of $\theta$, $g(\theta)$, when $m \to \infty$,
+
+$$
+\frac{1}{m}\sum_{s=1}^{m} g(\theta^{(s)}) \rightarrow  E[g(\theta) \mid \mathbf{y}] = \int g(\theta) \, p(\theta \mid \mathbf{y})\, d\theta
+$$
+
+### Examples
+
+#### Example 1
+
+The numbers of children for 44 women without college degrees in a city are recorded as $Y_1, \ldots, Y_{44}$. Here we assume that
+
+  - $Y_1, \ldots, Y_{44} \overset{iid}\sim \text{Poisson}(\theta)$
+  - Observed data: $\bar{y} = 1.50$
+  - Prior distribution: $\theta \sim \text{Gamma}(\alpha, \beta)$
+
+Prior knowledge: Roughly 90% women have 0 to 4 children in this country, and the median number of children for each women is 2.1. So it is reasonable to pick the prior mean $\alpha / \beta$ close to 2.1 and values of $\alpha$ and $\beta$ that result a probability of $P(0 < \theta < 4)$ near 0.9. One set of such parameter values would be $\alpha = 2$, $\beta = 1$.
+
+```{r}
+
+# set hyperparameters
+# -> we can easily set the mean for gamma dist, so picking parameters that give a mean close to what the median is
+alpha <- 2
+beta <- 1
+
+# check to see if values match the given information about the population
+# -> mean = alpha / beta = shape / rate
+alpha / beta
+# -> P(0 < theta < 4) = 0.9?
+pgamma(q = 4, shape = alpha, rate = beta)
+
+```
+
+*Here, the probability and mean match pretty good. In this example, it was easy to choose values. If that is not the case, then we can solve for the hyperparameters to match the given situation (or at a minimum try many combinations). The goal is to take into account the extra info for our prior (in this case we were given a measure of center and a probability)*
+
+```{r}
+
+# set function to solve
+# -> need two things to be true: mean = 2.1 and P(theta < 4) = 0.9
+# -> for the second, uniroot() solves for zeros, so just subtract 0.9
+f <- function(rate) {
+  
+  # using this parameterization, the mean is guaranteed to be 2.1 and we want the rate that gives us the desired probability (i.e. rate is going to be variable)
+  # -> theta (which is our x value), is fixed at 4 in this equation
+  pgamma(q = 4, shape = 2.1 * rate, rate = rate) - 0.9
+  
+}
+
+# solve for the desired rate (and thus the shape as well)
+(beta_solved <- uniroot(f, interval = c(0,4))$root)
+(alpha_solved <- 2.1 * beta_solved)
+
+# check
+alpha_solved / beta_solved
+pgamma(4, shape = alpha_solved, rate = beta_solved)
+
+# plot two possible priors to compare
+curve(dgamma(x, shape = alpha, rate = beta), from = 0, to = 6, col = "blue", xlab = "theta", ylab = "f(theta)")
+curve(dgamma(x, shape = alpha_solved, rate = beta_solved), col = "orange", from = 0, to = 6, add = TRUE)
+text(x = 3, y = 0.35, labels = "chosen", col = "blue")
+text(x = 3, y = 0.325, labels = "solved", col = "orange")
+
+```
+
+  - The resulting posterior would be:
+  
+$$
+\theta \mid \mathbf{y} \sim \text{Gamma}(\alpha + \sum y_i, \beta + n)
+$$
+
+Plug in that $n = 44$, $\bar{y}= 1.5$, $\alpha = 2$, and $\beta = 1$ (the chosen hyperparameters), we have
+
+$$
+\theta \mid \mathbf{y} \sim \text{Gamma}(68, 45)
+$$
+
+Now, please find quantities we are interested in:
+
+  (a) $\text{Pr}(θ < 2 \mid \mathbf{y})$
+  (b) $E(\theta \mid \mathbf{y})$
+  (c) 95% quantile-based credible interval of $\theta$
+
+What would you do? numerical integration? Monte Carlo approximation?
+
+```{r}
+
+# set other known info
+# -> using chosen hyperparameters from above
+n <- 44
+y_bar <- 1.5
+
+```
+
+```{r}
+
+# part a -> P(theta < 2 | y)
+
+# theoretical results
+# -> we know what the posterior is, so can just find probability directly from that distribution
+alpha_post <- alpha + n * y_bar
+beta_post <- beta + n
+pgamma(q = 2, shape = alpha_post, rate = beta_post)
+
+# OR we can generate a sample from the posterior distribution and approximate using MC methods
+M <- 10000
+sample_post <- rgamma(n = M, shape = alpha_post, rate = beta_post)
+mean(sample_post < 2)
+
+```
+
+```{r}
+
+# part b -> E(theta | y)
+
+# theoretical results
+alpha_post / beta_post
+
+# MC methods
+mean(sample_post)
+
+```
+
+```{r}
+
+# part c -> equal tails 95% credible interval
+
+# theoretical results
+qgamma(p = c(0.025, 0.975), shape = alpha_post, rate = beta_post)
+
+# MC methods
+quantile(x = sample_post, probs = c(0.025, 0.975))
+
+```
+
+#### Example 2
+
+  - Data: 54% of the respondents in the 1998 General Social Survey reported their religious preference as Protestant, leaving non-Protestants in the minority. Respondents were also asked if they agreed with a Supreme Court ruling that prohibited state or local governments from requiring the reading of religious texts in public schools. Of the $n = 860$ individuals in the religious minority (non-Protestant), $y = 441$ (51%) said they agreed with the Supreme Court ruling, whereas 353 of the 1011 Protestants (35%) agreed with the ruling.
+  - $\theta$: the population proportion agreeing with the ruling in the minority population.
+  - Prior: $\theta \sim \text{Uniform}(0,1)$.
+  - Posterior: $\theta \mid \mathbf{y} \sim \text{Beta}(442,420)$.
+  - quantity of interest: log-odds $\gamma = \log \frac{\theta}{1 - \theta}$.
+
+Approximate the distribution of $f(\gamma \mid \mathbf{y})$ and summarize it.
+
+```{r}
+
+# sample directly from posterior distribution -> theta | y ~ Beta(442,420)
+M <- 10000
+sample_post_theta <- rbeta(n = M, shape1 = 442, shape2 = 420)
+
+# approximate posterior mean using MC methods
+mean(sample_post_theta)
+
+# transform sample to the log odds -> gamma = log(theta / (1 - theta))
+sample_post_gamma <- log(sample_post_theta / (1 - sample_post_theta))
+
+# plot density curve of sample
+density(sample_post_gamma) %>% plot(main = "f(gamma | y)")
+
+# summarize new empirical distribution
+summary(sample_post_gamma)
+
+```
+
+*Note that we because we had the posterior distribution for $\theta$, we could have derived the density function for $\gamma = \log \frac{\theta}{1 - \theta}$, but this would be a lot of work. Instead, get a posterior sample for $\theta$ and apply transformation, done!*
+
+#### Example 3
+
+Objective:
+
+It is of interest to compare the number of credit cards owned by millennial in the United States and Canada.
+
+  - $Y_{11}, \ldots, Y_{1n_1}$: numbers of credit cards owned by $n_1$ randomly selected millennials in the US, $Y_{11}, \ldots, Y_{1n_1} \mid \theta_1 \overset{iid}\sim \text{Poisson}(\theta_1)$.
+  - $Y_{21}, \ldots, Y_{2n_2}$: numbers of credit cards owned by $n_1$ randomly selected millennials in Canada, $Y_{21}, \ldots, Y_{2n_2} \mid \theta_2 \overset{iid}\sim \text{Poisson}(\theta_2)$.
+
+Data and model:
+
+  - US millennial: $n_1 = 111$, $\sum_{i=1}^{n_1} y_i = 217$.
+  - Canada millennial: $n_2 = 44$, $\sum_{i=1}^{n_1} y_i = 66$.
+  - Prior: consider conjugate prior for both $(\theta_1)$ and $(\theta_2)$,
+  
+$$
+\theta_i \overset{iid}\sim \text{Gamma}(\alpha = 2, \beta = 1), \quad i = 1,2
+$$
+
+  - Posterior: recall that $\theta \mid \mathbf{y} \sim \text{Gamma}(\alpha + \sum y_i, \beta + n)$
+  
+$$
+\begin{align*}
+\theta_1 &\mid n_1 = 111, \bar{y} = 1.95 \sim \text{Gamma}(219,112)\\
+\theta_2 &\mid n_2 = 44, \bar{y} = 1.50 \sim \text{Gamma}(68,45)
+\end{align*}
+$$
+
+  - Quantity #1 of interest: $\text{Pr}(\theta_1 > \theta_2 \mid \mathbf{y_1}, \mathbf{y_2})$;
+  
+```{r}
+
+# sample directly from posterior distributions -> theta_i | y ~ gamma(alpha + sum(y_i), beta + n)
+M <- 10000
+sample_post_theta1 <- rgamma(n = M, shape = 219, rate = 112)
+sample_post_theta2 <- rgamma(n = M, shape = 68, rate = 45)
+
+# approximate probability using MC methods
+mean(sample_post_theta1 > sample_post_theta2)
+
+```
+
+  - Quantity #2 of interest: $\text{Pr}(\tilde{Y_1} > \tilde{Y_2} \mid \mathbf{y_1}, \mathbf{y_2})$, where $\tilde{Y_1}$ and $\tilde{Y_2}$ are future US and Canadian observations.
+  
+```{r}
+
+# generate future observations based on the generated thetas -> y_new ~ Poisson(theta_i)
+y1_new <- rpois(n = M, lambda = sample_post_theta1)
+y2_new <- rpois(n = M, lambda = sample_post_theta2)
+
+# approximate probability using MC methods
+mean(y1_new > y2_new)
+
+# compare to known theoretical results (not shown here)
+# -> posterior predictive distribution is negative binomial
+# -> sample directly from these
+y1_new_sample <- rnbinom(n = M, size = 2 + 217, mu = (2 + 217) / (1 + 111))
+y2_new_sample <- rnbinom(n = M, size = 2 + 66, mu = (2 + 66) / (1 + 44))
+mean( y1_new_sample > y2_new_sample)
+
+```
+
+*Same idea when working with the posterior predictive distribution. Just get a sample from the posterior distribution for the parameters of interest, then use those as the parameter values when generating new samples using the data distribution.*
+
+## Lab 2 - Multi-parameter models
+
+### Normal Models with unknown mean and variance
+
+  - Data: $Y_1, \ldots, Y_n \overset{iid}\sim N(\mu, \sigma^2)$,
+
+$$
+p(\mathbf{y} \mid \mu, \sigma^2) \propto (\sigma^2)^{-n/2} \exp\left(-\frac{\sum_{i=1}^{n} (Y_i - \mu)^2}{2\sigma^2}\right)
+$$
+
+Here are the BMI measurements of patients in one clinic:
+
+```{r}
+
+y <- c(18.3, 19.4, 19.7, 23.4, 30.9, 21.7, 21.7, 21.4, 26.3, 25.3)
+y_bar <- mean(y)
+n <- length(y)
+s2 <- var(y)
+
+```
+
+#### Part a -- What if we use noninformative priors?
+
+  - Prior:
+
+$$
+p(\mu, \sigma^2) \propto \frac{1}{\sigma^2}
+$$
+
+  - Posteriors:
+      - Conditional posterior of $\mu$ given $\sigma^2$ and $\mathbf{y}$:
+      
+        $$
+        \mu \mid \sigma^2, \mathbf{y} \sim N\left(\bar{y}, \frac{\sigma^2}{n}\right)
+        $$
+      - Marginal posterior of $\sigma^2$ given $\mathbf{y}$:
+      
+        $$
+        \sigma^2 \mid \mathbf{y} \sim \text{Inv-Gamma}\left(\frac{n-1}{2}, \frac{(n-1)s^2}{2}\right)
+        $$
+
+Simulation takes two steps:
+
+  1. Simulation of $\sigma^2$ from the inverse gamma distribution (note that an inverse gamma random variable can be expressed as the reciprocal of a gamma random variable with the same shape and rate parameters. Alternatively, you can use the `rinvgamma()` in `invgamma` package.)
+  2. Simulation of $\mu$ from the normal distribution.
+  
+```{r}
+
+# sample from marginal posterior for sigma2 given y vector
+M <- 10000
+sample_post_sigma2 <- invgamma::rinvgamma(n = M, shape = (n - 1) / 2, rate = (n - 1) * s2 / 2)
+
+```
+
+```{r}
+#| eval: false
+
+# OR use reciprocal transformation
+sample_post_sigma2 <- 1 / rgamma(n = M, shape = (n - 1) / 2, rate = (n - 1) * s2 / 2)
+
+```
+
+```{r}
+
+# sample from conditional posterior for mu given sigma2 & y vector
+sample_post_mu <- rnorm(n = M, mean = y_bar, sd = sqrt(sample_post_sigma2 / n))
+
+# plots of the distributions
+hist(sample_post_sigma2)
+hist(sample_post_mu)
+
+# point estimates
+c("mean(sigma2)" = mean(sample_post_sigma2), "median(sigma2)" = median(sample_post_sigma2), "mean(mu)" = mean(sample_post_mu), "median(mu)" = median(sample_post_mu))
+
+# 95% equal tail interval estimates
+quantile(sample_post_sigma2, probs = c(0.025,0.975))
+quantile(sample_post_mu, probs = c(0.025,0.975))
+
+# 95% HPD interval estimates
+TeachingDemos::emp.hpd(sample_post_sigma2)
+TeachingDemos::emp.hpd(sample_post_mu)
+
+```
+
+Plotting the joint density of $\mu$ and $\sigma^2$:
+
+```{r}
+
+# values of mu and sigma to draw the plot with
+# -> selected values based on credible intervals
+k <- 500 # number of discrete values to use for calculations
+x_mu <- seq(from = 20, to = 26, length = k)
+x_sigma2 <- seq(from = 2, to = 25, length = k)
+
+# calculate joint distribution functional values
+joint_posterior <- matrix(NA, nrow = k, ncol = k)
+for (i in 1:k) {
+  
+  # P(mu, sigma2 | y) = P(mu | sigma2, y) * P(sigma2 | y)
+  density_sigma2 <- invgamma::dinvgamma(x_sigma2[i], shape = (n - 1) / 2, rate = (n - 1) * s2 / 2) # one sigma value (iterate through these)
+  joint_posterior[,i] = density_sigma2 * dnorm(x_mu, mean = y_bar, sd = sqrt(x_sigma2[i] / n)) # across all mu values
+
+}
+
+# draw different plots to visualize surface
+contour(x = x_mu, y = x_sigma2, z = joint_posterior)
+image(x = x_mu, y = x_sigma2, z = joint_posterior, xlab = "mu", ylab = "sigma2")
+
+```
+
+```{r}
+#| eval: FALSE
+
+persp(x = x_mu, y = x_sigma2, z = joint_posterior, xlab = "mu", ylab = "sigma2")
+
+```
+
+#### Part b -- What if we use conjugate priors?
+
+  - Prior:
+    - marginal prior of $\sigma^2$:
+    
+      $$
+      \sigma^2 \sim \text{Inv-Gamma}(\alpha, \beta)
+      $$
+    - Conditional prior of $\mu$ given $\sigma^2$:
+      
+      $$
+      \mu \mid \sigma^2 \sim N\left(\mu_0, \frac{\sigma^2}{\kappa_0}\right),\quad\quad\text{where}\quad \sigma_n^2 = \frac{\sigma^2}{n + \kappa_0}, \mu_n = \frac{n \bar{y} + \kappa_0 \mu_0}{n + \kappa_0}
+      $$
+
+Use the same two-step process to simulate from the posterior distribution using
+$\mu_0 = 20$, $\kappa_0 = 0.01$, $\alpha = 0.1$ and $\beta = 10$. Report the marginal posterior median, mean, credible intervals for $\mu$ and $\sigma^2$. Draw the posterior distribution of $(\mu,\sigma^2)$.
+
+```{r}
+
+# initialize items
+M <- 10000
+alpha <- 0.1
+beta <- 10
+mu_0 <- 20
+k_0 <- 0.01
+
+# sample from marginal posterior for sigma2 given y vector after defining new parameters
+alpha_post <- n / 2 + alpha 
+beta_post <- (n - 1) * s2 / 2 + n * k_0 / (2 * (k_0 + n)) * (mu_0 - y_bar)^2 + beta
+sample_post_sigma2 <- invgamma::rinvgamma(n = M, shape = alpha_post, rate = beta_post)
+
+# calculate posterior distribution mean and standard deviation
+mu_n <- (n * y_bar + k_0 * mu_0) / (n + k_0)
+
+# sample from conditional posterior distribution for mu given sigma2 and y vector
+sample_post_mu <- rnorm(n = M, mean = mu_n, sd = sqrt(sample_post_sigma2 / (n + k_0)))
+
+# point estimates
+c("mean(sigma2)" = mean(sample_post_sigma2), "median(sigma2)" = median(sample_post_sigma2), "mean(mu)" = mean(sample_post_mu), "median(mu)" = median(sample_post_mu))
+
+# 95% equal tail interval estimates
+quantile(sample_post_sigma2, probs = c(0.025,0.975))
+quantile(sample_post_mu, probs = c(0.025,0.975))
+
+# 95% HPD interval estimates
+TeachingDemos::emp.hpd(sample_post_sigma2, conf = 0.95)
+TeachingDemos::emp.hpd(sample_post_mu, conf = 0.95)
+
+# initialize sequence for plots for mu and sigma2
+k <- 500
+x_mu <- seq(from = 20, to = 26, length = k)
+x_sigma2 <- seq(from = 3, to = 25, length = k)
+
+# initialize matrix of joint posterior density values
+joint_posterior <- matrix(data = NA, nrow = k, ncol = k)
+
+# estimate joint posterior by finding density values for each mu and sigma2 combination
+for (i in 1:500) {
+  
+  # sample from marginal posterior density of sigma2 given y vector
+  density_sigma2 <- invgamma::dinvgamma(x_sigma2[i], shape = alpha_post, rate = beta_post)
+  
+  # sample from conditional posterior of mu given sigma2 and y vector
+  joint_posterior[, i] <- density_sigma2 * dnorm(x = x_mu, mean = mu_n, sd = sqrt(x_sigma2[i] / (n + k_0)))
+  
+}
+
+# draw different plots to visualize surface
+contour(x = x_mu, y = x_sigma2, z = joint_posterior)
+image(x = x_mu, y = x_sigma2, z = joint_posterior, xlab = "mu", ylab = "sigma2")
+
+```
+
+```{r}
+#| eval: FALSE
+
+persp(x = x_mu, y = x_sigma2, z = joint_posterior, xlab = "mu", ylab = "sigma2")
+
+```
+
+### Multinomial models with conjugate priors
+
+Experiment:
+
+  - Fixed number of $n$ trials.
+  - Each trial is an independent event.
+  - The same $J$ outcomes are possible in each trial.
+  - Probability of each outcome to occur is constant for each trial.
+  - The multivariate response $Y = $ the number of diﬀerent outcomes among these trials.
+
+Example:
+
+30 aircrafts that have been in service for 10 years were examined in a safety test. Among them,
+
+- 19 have no wing cracks (Status 1)
+- 9 have detectable wing cracks (Status 2)
+- 2 have critical wing cracks (Status 3)
+
+Could you estimate the probability of aircrafts having status 1, 2 and 3 after serving for 10 years?
+
+- Data: $Y_1, \ldots, Y_J \sim \mathrm{Multinomial}(n, \theta_1, \ldots, \theta_J),\quad n = Y_1 + \cdots + Y_J,\; n = 30,\; J = 3$
+- Conjugate prior: $\theta_1, \ldots, \theta_J \mid \alpha_1, \ldots, \alpha_J \sim \mathrm{Dirichlet}(\alpha_1, \ldots, \alpha_J)$
+
+```{r}
+
+aircraft.data = c(1,3,1,1,1,1,1,1,1,1,2,1,1,1,2,2,2,2,2,1,2,3,2,1,1,1,1,2,1,1)
+table(aircraft.data)
+y <- as.numeric(table(aircraft.data))
+
+```
+
+#### One prior
+
+```{r}
+
+# set hyperparameters that were arbitrarily chosen
+alphas <- c(3, 2, 1)
+
+# calculate posterior parameters
+posterior_thetas <- y + alphas
+
+# find exact posterior mean for each of theta1, theta2, theta3 (theoretical results)
+(posterior_means <- posterior_thetas / sum(posterior_thetas))
+
+# now use MC methods to approximate
+sample_post <- gtools::rdirichlet(n = 10000, alpha = posterior_thetas)
+
+# approximate posterior means for each theta
+apply(sample_post, MARGIN = 2, mean)
+
+# approximate posterior medians and 95% credible intervals for each theta
+apply(sample_post, MARGIN = 2, FUN = quantile, probs = c(.025, 0.5, .975))
+
+```
+
+#### Uniform prior
+
+```{r}
+
+# set hyperparameters to be uniform
+alphas_unif <- c(1, 1, 1)
+
+# calculate posterior parameters
+posterior_thetas_unif <- y + alphas_unif
+
+# find exact posterior mean for each of theta1, theta2, theta3 (theoretical results)
+(posterior_means_unif <- posterior_thetas_unif / sum(posterior_thetas_unif))
+
+# now use MC methods to approximate
+sample_post_unif <- gtools::rdirichlet(n = 10000, alpha = posterior_thetas_unif)
+
+# approximate posterior means for each theta
+apply(sample_post_unif, MARGIN = 2, mean)
+
+# approximate posterior medians and 95% credible intervals for each theta
+apply(sample_post_unif, MARGIN = 2, FUN = quantile, probs = c(.025, 0.5, .975))
+
+```
+
+#### Stronger prior
+
+```{r}
+
+# set hyperparameters -> increasing alphas in prior distribution gives stronger prior input
+alphas_strong <- c(30, 20, 10)
+
+# calculate posterior parameters
+posterior_thetas_strong <- y + alphas_strong
+
+# find exact posterior mean for each of theta1, theta2, theta3 (theoretical results)
+(posterior_means_strong <- posterior_thetas_strong / sum(posterior_thetas_strong))
+
+# now use MC methods to approximate
+sample_post_strong <- gtools::rdirichlet(n = 10000, alpha = posterior_thetas_strong)
+
+# approximate posterior means for each theta
+apply(sample_post_strong, MARGIN = 2, mean)
+
+# approximate posterior medians and 95% credible intervals for each theta
+apply(sample_post_strong, MARGIN = 2, FUN = quantile, probs = c(.025, 0.5, .975))
+
+```
+

@@ -1,0 +1,42 @@
+# < title >
+
+## Notes
+
+<embed src="lectures/notes-<...>.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## Lab
+
+```{r}
+#| label: load-prereqs
+#| echo: false
+#| message: false
+
+# knitr options
+source("_common.R")
+
+```
+
+### Setup
+
+
+### Step 1 -- 
+
+
+
+### Step 2 -- 
+
+
+![](assignments/content/lab-<...>.png)
+
+## Homework
+
+### Problem 1 
+
+*<... setup ...*
+
+
+#### Part a -- 
+
+![](assignments/content/hw-<...>.png)
+
+#### Part b -- 

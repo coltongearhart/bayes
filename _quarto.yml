@@ -11,6 +11,7 @@ book:
     - index.qmd
     - inference.qmd
     - single-parameter-inference.qmd
+    - multi-parameter-models.qmd
 
 
 format:

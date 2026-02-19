@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>3&nbsp; Multi parameter models – Bayesian Statistics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./single-parameter-inference.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./multi-parameter-models.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multi parameter models</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">
+<span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multi parameter models</span>
+</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bayesian Statistics</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./single-parameter-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Single parameter inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multi-parameter-models.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multi parameter models</span></span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#notes" id="toc-notes" class="nav-link active" data-scroll-target="#notes">Notes</a></li>
+  <li>
+<a href="#lab-1---monte-carlo-simulation" id="toc-lab-1---monte-carlo-simulation" class="nav-link" data-scroll-target="#lab-1---monte-carlo-simulation">Lab 1 - Monte Carlo simulation</a>
+  <ul class="collapse">
+<li><a href="#notes-1" id="toc-notes-1" class="nav-link" data-scroll-target="#notes-1">Notes</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#lab-2---multi-parameter-models" id="toc-lab-2---multi-parameter-models" class="nav-link" data-scroll-target="#lab-2---multi-parameter-models">Lab 2 - Multi-parameter models</a>
+  <ul class="collapse">
+<li><a href="#normal-models-with-unknown-mean-and-variance" id="toc-normal-models-with-unknown-mean-and-variance" class="nav-link" data-scroll-target="#normal-models-with-unknown-mean-and-variance">Normal Models with unknown mean and variance</a></li>
+  <li><a href="#multinomial-models-with-conjugate-priors" id="toc-multinomial-models-with-conjugate-priors" class="nav-link" data-scroll-target="#multinomial-models-with-conjugate-priors">Multinomial models with conjugate priors</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><section id="notes" class="level2"><h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<embed src="lectures/notes-multi-parameter-models.pdf" type="application/pdf" width="100%" height="1000px"></section><section id="lab-1---monte-carlo-simulation" class="level2"><h2 class="anchored" data-anchor-id="lab-1---monte-carlo-simulation">Lab 1 - Monte Carlo simulation</h2>
+<section id="notes-1" class="level3"><h3 class="anchored" data-anchor-id="notes-1">Notes</h3>
+<section id="monte-carlo-simulation-in-bayesian-inference" class="level4"><h4 class="anchored" data-anchor-id="monte-carlo-simulation-in-bayesian-inference">Monte Carlo simulation in Bayesian inference</h4>
+<p>Monte Carlo is the art of approximating an expectation by the sample mean of a function of simulated random variables.</p>
+<p><em>MY COMMENTS: Main idea in one sentence: MC is using independent samples to approximate something we are interested in.</em></p>
+<p><strong>Definition in probability terminology</strong>: suppose we have a random variable (univariate or multivariate, discrete or continuous) <span class="math inline">\(X\)</span>, and we are interested in the expected value of a function of it, <span class="math inline">\(E[g(X)]\)</span> (e.g.&nbsp;<span class="math inline">\(Y = g(X)\)</span>), then we can approximate it with</p>
+<p><span class="math display">\[
+g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
+\]</span></p>
+<p>where <span class="math inline">\(x_1, \ldots, x_n\)</span> are <span class="math inline">\(n\)</span> random samples of <span class="math inline">\(X\)</span>.</p>
+<p><em>If we know the original density function <span class="math inline">\(f(x)\)</span>, then we can use <span class="math inline">\(\int g(x) f(x) \, dx\)</span> to get <span class="math inline">\(E[g(x)]\)</span>. But ONLY if there is an explicit form of <span class="math inline">\(f(x)\)</span>. MC methods are useful because we are working with situations when we don’t know the <span class="math inline">\(f(x)\)</span> (i.e.&nbsp;the posterior distribution) but we still want to know <span class="math inline">\(E[g(x)]\)</span> (e.g.&nbsp;the posterior mean).</em></p>
+<p><strong>Why can we use this idea in statistics inference?</strong> Many quantities of interest may be cast as expectations: it is possible to express all probabilities (expectation of indicator variable taking on 0 or 1 only), integrals (expectation of random variables), and summations (expectation of discrete random variables) as expectations!</p>
+<p><em>Ex) <span class="math inline">\(P(X &gt; 1) = \int_1^\infty f(x) \, dx = \int_1^\infty I(x &gt; 1) f(x) \, dx\)</span>, where <span class="math inline">\(I(x &gt; 1) = g(x) = \begin{cases} 1 \text{ if } x \ge 1 \\  0 \text{ if } x &lt; 1\\\end{cases}\)</span></em></p>
+</section><section id="why-do-we-need-monte-carlo-approximation-in-bayesian-inference" class="level4"><h4 class="anchored" data-anchor-id="why-do-we-need-monte-carlo-approximation-in-bayesian-inference">Why do we need Monte Carlo approximation in Bayesian inference?</h4>
+<p>Summary statistics (mean, median, mode, standard deviation, quantiles) of the posterior distribution of the parameter(s) are used to conduct Bayesian inference. However, the samples from the posterior distribution can tell us a lot more than that! Examples include:</p>
+<ul>
+<li>
+<span class="math inline">\(P(\theta \in A \mid \mathbf{y})\)</span> for some arbitrary set <span class="math inline">\(A\)</span> of interest to us;</li>
+<li>posterior distribution of <span class="math inline">\(\left| \theta_1 - \theta_2 \right|\)</span>;</li>
+<li>posterior distribution of <span class="math inline">\(P(\theta_1 &lt; \theta_2)\)</span>
+</li>
+</ul>
+<p>We usually cannot obtain the exact values of these posterior quantities, but once we have posterior samples generated from the posterior distribution, all of these posterior quantities of interest can be approximated to an arbitrary degree of precision using the Monte Carlo method!</p>
+<p><em>For example, to find the posterior density of <span class="math inline">\(\left| \theta_1 - \theta_2 \right|\)</span>, we would need the joint distribution of <span class="math inline">\((\theta_1, \theta_2)\)</span>. But, <span class="math inline">\(f(\theta_1, \theta_2)\)</span> may be hard to find. So instead, by using Monte Carlo methods, we can generate samples of <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span> from their respective posteriors and then estimate lots of things using these samples. This is super easy!</em></p>
+<p>*Said another way, we can use a sample from <span class="math inline">\(P(\theta \mid \mathbf{y})\)</span> to approximate the actual posterior distribution. This empirical density can be used to estimate any quantity of interest, e.g.&nbsp;$P(&lt; _0) = ?? $ just look at percent of sample that meets this condition.*</p>
+</section><section id="monte-carlo-approximation-in-bayesian-inference" class="level4"><h4 class="anchored" data-anchor-id="monte-carlo-approximation-in-bayesian-inference">Monte Carlo approximation in Bayesian inference</h4>
+<p>Once we obtain <span class="math inline">\(iid\)</span> posterior samples <span class="math inline">\(\theta^{(1)}, \ldots, \theta^{(m)}\)</span> from <span class="math inline">\(p(\theta \mid \mathbf{y})\)</span>,</p>
+<ul>
+<li>The empirical distribution of <span class="math inline">\(\{\theta^{(1)}, \ldots, \theta^{(m)}\}\)</span> is known as a Monte Carlo approximation to <span class="math inline">\(p(\theta \mid \mathbf{y})\)</span>.</li>
+<li><span class="math inline">\(\bar{\theta} = \frac{1}{m}\sum_{s=1}^{m} \theta^{(s)} \rightarrow E(\theta \mid \mathbf{y})\)</span></li>
+<li><span class="math inline">\(\frac{\sum_{s=1}^{m} (\theta^{(s)} - \bar{\theta})^2}{m-1} \rightarrow \mathrm{Var}(\theta \mid \mathbf{y})\)</span></li>
+<li><span class="math inline">\(\frac{\text{Number of } \theta^{(s)} \le c}{m} \rightarrow \Pr(\theta \le c \mid \mathbf{y})\)</span></li>
+<li>the lower tail <span class="math inline">\(\alpha\)</span> percentile of <span class="math inline">\(\{\theta^{(1)}, \ldots, \theta^{(m)}\} \rightarrow \theta_{\alpha}\)</span>
+</li>
+<li>For any function of <span class="math inline">\(\theta\)</span>, <span class="math inline">\(g(\theta)\)</span>, when <span class="math inline">\(m \to \infty\)</span>,</li>
+</ul>
+<p><span class="math display">\[
+\frac{1}{m}\sum_{s=1}^{m} g(\theta^{(s)}) \rightarrow  E[g(\theta) \mid \mathbf{y}] = \int g(\theta) \, p(\theta \mid \mathbf{y})\, d\theta
+\]</span></p>
+</section></section><section id="examples" class="level3"><h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<section id="example-1" class="level4"><h4 class="anchored" data-anchor-id="example-1">Example 1</h4>
+<p>The numbers of children for 44 women without college degrees in a city are recorded as <span class="math inline">\(Y_1, \ldots, Y_{44}\)</span>. Here we assume that</p>
+<ul>
+<li><span class="math inline">\(Y_1, \ldots, Y_{44} \overset{iid}\sim \text{Poisson}(\theta)\)</span></li>
+<li>Observed data: <span class="math inline">\(\bar{y} = 1.50\)</span>
+</li>
+<li>Prior distribution: <span class="math inline">\(\theta \sim \text{Gamma}(\alpha, \beta)\)</span>
+</li>
+</ul>
+<p>Prior knowledge: Roughly 90% women have 0 to 4 children in this country, and the median number of children for each women is 2.1. So it is reasonable to pick the prior mean <span class="math inline">\(\alpha / \beta\)</span> close to 2.1 and values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> that result a probability of <span class="math inline">\(P(0 &lt; \theta &lt; 4)\)</span> near 0.9. One set of such parameter values would be <span class="math inline">\(\alpha = 2\)</span>, <span class="math inline">\(\beta = 1\)</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set hyperparameters</span></span>
+<span><span class="co"># -&gt; we can easily set the mean for gamma dist, so picking parameters that give a mean close to what the median is</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="co"># check to see if values match the given information about the population</span></span>
+<span><span class="co"># -&gt; mean = alpha / beta = shape / rate</span></span>
+<span><span class="va">alpha</span> <span class="op">/</span> <span class="va">beta</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># -&gt; P(0 &lt; theta &lt; 4) = 0.9?</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">4</span>, shape <span class="op">=</span> <span class="va">alpha</span>, rate <span class="op">=</span> <span class="va">beta</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9084218</code></pre>
+</div>
+</div>
+<p><em>Here, the probability and mean match pretty good. In this example, it was easy to choose values. If that is not the case, then we can solve for the hyperparameters to match the given situation (or at a minimum try many combinations). The goal is to take into account the extra info for our prior (in this case we were given a measure of center and a probability)</em></p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set function to solve</span></span>
+<span><span class="co"># -&gt; need two things to be true: mean = 2.1 and P(theta &lt; 4) = 0.9</span></span>
+<span><span class="co"># -&gt; for the second, uniroot() solves for zeros, so just subtract 0.9</span></span>
+<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">rate</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co"># using this parameterization, the mean is guaranteed to be 2.1 and we want the rate that gives us the desired probability (i.e. rate is going to be variable)</span></span>
+<span>  <span class="co"># -&gt; theta (which is our x value), is fixed at 4 in this equation</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">4</span>, shape <span class="op">=</span> <span class="fl">2.1</span> <span class="op">*</span> <span class="va">rate</span>, rate <span class="op">=</span> <span class="va">rate</span><span class="op">)</span> <span class="op">-</span> <span class="fl">0.9</span></span>
+<span>  </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># solve for the desired rate (and thus the shape as well)</span></span>
+<span><span class="op">(</span><span class="va">beta_solved</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/uniroot.html">uniroot</a></span><span class="op">(</span><span class="va">f</span>, interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">root</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.041271</code></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span><span class="va">alpha_solved</span> <span class="op">&lt;-</span> <span class="fl">2.1</span> <span class="op">*</span> <span class="va">beta_solved</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.186669</code></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># check</span></span>
+<span><span class="va">alpha_solved</span> <span class="op">/</span> <span class="va">beta_solved</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.1</code></pre>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma</a></span><span class="op">(</span><span class="fl">4</span>, shape <span class="op">=</span> <span class="va">alpha_solved</span>, rate <span class="op">=</span> <span class="va">beta_solved</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8999998</code></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># plot two possible priors to compare</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">x</span>, shape <span class="op">=</span> <span class="va">alpha</span>, rate <span class="op">=</span> <span class="va">beta</span><span class="op">)</span>, from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">6</span>, col <span class="op">=</span> <span class="st">"blue"</span>, xlab <span class="op">=</span> <span class="st">"theta"</span>, ylab <span class="op">=</span> <span class="st">"f(theta)"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">x</span>, shape <span class="op">=</span> <span class="va">alpha_solved</span>, rate <span class="op">=</span> <span class="va">beta_solved</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"orange"</span>, from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">6</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span>, y <span class="op">=</span> <span class="fl">0.35</span>, labels <span class="op">=</span> <span class="st">"chosen"</span>, col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span>, y <span class="op">=</span> <span class="fl">0.325</span>, labels <span class="op">=</span> <span class="st">"solved"</span>, col <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multi-parameter-models_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>The resulting posterior would be:</li>
+</ul>
+<p><span class="math display">\[
+\theta \mid \mathbf{y} \sim \text{Gamma}(\alpha + \sum y_i, \beta + n)
+\]</span></p>
+<p>Plug in that <span class="math inline">\(n = 44\)</span>, <span class="math inline">\(\bar{y}= 1.5\)</span>, <span class="math inline">\(\alpha = 2\)</span>, and <span class="math inline">\(\beta = 1\)</span> (the chosen hyperparameters), we have</p>
+<p><span class="math display">\[
+\theta \mid \mathbf{y} \sim \text{Gamma}(68, 45)
+\]</span></p>
+<p>Now, please find quantities we are interested in:</p>
+<ol type="a">
+<li><span class="math inline">\(\text{Pr}(θ &lt; 2 \mid \mathbf{y})\)</span></li>
+<li><span class="math inline">\(E(\theta \mid \mathbf{y})\)</span></li>
+<li>95% quantile-based credible interval of <span class="math inline">\(\theta\)</span>
+</li>
+</ol>
+<p>What would you do? numerical integration? Monte Carlo approximation?</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set other known info</span></span>
+<span><span class="co"># -&gt; using chosen hyperparameters from above</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">44</span></span>
+<span><span class="va">y_bar</span> <span class="op">&lt;-</span> <span class="fl">1.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># part a -&gt; P(theta &lt; 2 | y)</span></span>
+<span></span>
+<span><span class="co"># theoretical results</span></span>
+<span><span class="co"># -&gt; we know what the posterior is, so can just find probability directly from that distribution</span></span>
+<span><span class="va">alpha_post</span> <span class="op">&lt;-</span> <span class="va">alpha</span> <span class="op">+</span> <span class="va">n</span> <span class="op">*</span> <span class="va">y_bar</span></span>
+<span><span class="va">beta_post</span> <span class="op">&lt;-</span> <span class="va">beta</span> <span class="op">+</span> <span class="va">n</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">pgamma</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">2</span>, shape <span class="op">=</span> <span class="va">alpha_post</span>, rate <span class="op">=</span> <span class="va">beta_post</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.993132</code></pre>
+</div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># OR we can generate a sample from the posterior distribution and approximate using MC methods</span></span>
+<span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
+<span><span class="va">sample_post</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">rgamma</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, shape <span class="op">=</span> <span class="va">alpha_post</span>, rate <span class="op">=</span> <span class="va">beta_post</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post</span> <span class="op">&lt;</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.992</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># part b -&gt; E(theta | y)</span></span>
+<span></span>
+<span><span class="co"># theoretical results</span></span>
+<span><span class="va">alpha_post</span> <span class="op">/</span> <span class="va">beta_post</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.511111</code></pre>
+</div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># MC methods</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.512786</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># part c -&gt; equal tails 95% credible interval</span></span>
+<span></span>
+<span><span class="co"># theoretical results</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">qgamma</a></span><span class="op">(</span>p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, shape <span class="op">=</span> <span class="va">alpha_post</span>, rate <span class="op">=</span> <span class="va">beta_post</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.173437 1.890836</code></pre>
+</div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># MC methods</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_post</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    2.5%    97.5% 
+1.179246 1.900757 </code></pre>
+</div>
+</div>
+</section><section id="example-2" class="level4"><h4 class="anchored" data-anchor-id="example-2">Example 2</h4>
+<ul>
+<li>Data: 54% of the respondents in the 1998 General Social Survey reported their religious preference as Protestant, leaving non-Protestants in the minority. Respondents were also asked if they agreed with a Supreme Court ruling that prohibited state or local governments from requiring the reading of religious texts in public schools. Of the <span class="math inline">\(n = 860\)</span> individuals in the religious minority (non-Protestant), <span class="math inline">\(y = 441\)</span> (51%) said they agreed with the Supreme Court ruling, whereas 353 of the 1011 Protestants (35%) agreed with the ruling.</li>
+<li>
+<span class="math inline">\(\theta\)</span>: the population proportion agreeing with the ruling in the minority population.</li>
+<li>Prior: <span class="math inline">\(\theta \sim \text{Uniform}(0,1)\)</span>.</li>
+<li>Posterior: <span class="math inline">\(\theta \mid \mathbf{y} \sim \text{Beta}(442,420)\)</span>.</li>
+<li>quantity of interest: log-odds <span class="math inline">\(\gamma = \log \frac{\theta}{1 - \theta}\)</span>.</li>
+</ul>
+<p>Approximate the distribution of <span class="math inline">\(f(\gamma \mid \mathbf{y})\)</span> and summarize it.</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># sample directly from posterior distribution -&gt; theta | y ~ Beta(442,420)</span></span>
+<span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
+<span><span class="va">sample_post_theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">rbeta</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, shape1 <span class="op">=</span> <span class="fl">442</span>, shape2 <span class="op">=</span> <span class="fl">420</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># approximate posterior mean using MC methods</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_theta</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.512717</code></pre>
+</div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># transform sample to the log odds -&gt; gamma = log(theta / (1 - theta))</span></span>
+<span><span class="va">sample_post_gamma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">sample_post_theta</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">sample_post_theta</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot density curve of sample</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/density.html">density</a></span><span class="op">(</span><span class="va">sample_post_gamma</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"f(gamma | y)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multi-parameter-models_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># summarize new empirical distribution</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sample_post_gamma</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-0.21045  0.00504  0.05037  0.05094  0.09744  0.30446 </code></pre>
+</div>
+</div>
+<p><em>Note that we because we had the posterior distribution for <span class="math inline">\(\theta\)</span>, we could have derived the density function for <span class="math inline">\(\gamma = \log \frac{\theta}{1 - \theta}\)</span>, but this would be a lot of work. Instead, get a posterior sample for <span class="math inline">\(\theta\)</span> and apply transformation, done!</em></p>
+</section><section id="example-3" class="level4"><h4 class="anchored" data-anchor-id="example-3">Example 3</h4>
+<p>Objective:</p>
+<p>It is of interest to compare the number of credit cards owned by millennial in the United States and Canada.</p>
+<ul>
+<li>
+<span class="math inline">\(Y_{11}, \ldots, Y_{1n_1}\)</span>: numbers of credit cards owned by <span class="math inline">\(n_1\)</span> randomly selected millennials in the US, <span class="math inline">\(Y_{11}, \ldots, Y_{1n_1} \mid \theta_1 \overset{iid}\sim \text{Poisson}(\theta_1)\)</span>.</li>
+<li>
+<span class="math inline">\(Y_{21}, \ldots, Y_{2n_2}\)</span>: numbers of credit cards owned by <span class="math inline">\(n_1\)</span> randomly selected millennials in Canada, <span class="math inline">\(Y_{21}, \ldots, Y_{2n_2} \mid \theta_2 \overset{iid}\sim \text{Poisson}(\theta_2)\)</span>.</li>
+</ul>
+<p>Data and model:</p>
+<ul>
+<li>US millennial: <span class="math inline">\(n_1 = 111\)</span>, <span class="math inline">\(\sum_{i=1}^{n_1} y_i = 217\)</span>.</li>
+<li>Canada millennial: <span class="math inline">\(n_2 = 44\)</span>, <span class="math inline">\(\sum_{i=1}^{n_1} y_i = 66\)</span>.</li>
+<li>Prior: consider conjugate prior for both <span class="math inline">\((\theta_1)\)</span> and <span class="math inline">\((\theta_2)\)</span>,</li>
+</ul>
+<p><span class="math display">\[
+\theta_i \overset{iid}\sim \text{Gamma}(\alpha = 2, \beta = 1), \quad i = 1,2
+\]</span></p>
+<ul>
+<li>Posterior: recall that <span class="math inline">\(\theta \mid \mathbf{y} \sim \text{Gamma}(\alpha + \sum y_i, \beta + n)\)</span>
+</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+\theta_1 &amp;\mid n_1 = 111, \bar{y} = 1.95 \sim \text{Gamma}(219,112)\\
+\theta_2 &amp;\mid n_2 = 44, \bar{y} = 1.50 \sim \text{Gamma}(68,45)
+\end{align*}
+\]</span></p>
+<ul>
+<li>Quantity #1 of interest: <span class="math inline">\(\text{Pr}(\theta_1 &gt; \theta_2 \mid \mathbf{y_1}, \mathbf{y_2})\)</span>;</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># sample directly from posterior distributions -&gt; theta_i | y ~ gamma(alpha + sum(y_i), beta + n)</span></span>
+<span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
+<span><span class="va">sample_post_theta1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">rgamma</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, shape <span class="op">=</span> <span class="fl">219</span>, rate <span class="op">=</span> <span class="fl">112</span><span class="op">)</span></span>
+<span><span class="va">sample_post_theta2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">rgamma</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, shape <span class="op">=</span> <span class="fl">68</span>, rate <span class="op">=</span> <span class="fl">45</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># approximate probability using MC methods</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_theta1</span> <span class="op">&gt;</span> <span class="va">sample_post_theta2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.971</code></pre>
+</div>
+</div>
+<ul>
+<li>Quantity #2 of interest: <span class="math inline">\(\text{Pr}(\tilde{Y_1} &gt; \tilde{Y_2} \mid \mathbf{y_1}, \mathbf{y_2})\)</span>, where <span class="math inline">\(\tilde{Y_1}\)</span> and <span class="math inline">\(\tilde{Y_2}\)</span> are future US and Canadian observations.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># generate future observations based on the generated thetas -&gt; y_new ~ Poisson(theta_i)</span></span>
+<span><span class="va">y1_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, lambda <span class="op">=</span> <span class="va">sample_post_theta1</span><span class="op">)</span></span>
+<span><span class="va">y2_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, lambda <span class="op">=</span> <span class="va">sample_post_theta2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># approximate probability using MC methods</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y1_new</span> <span class="op">&gt;</span> <span class="va">y2_new</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4891</code></pre>
+</div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># compare to known theoretical results (not shown here)</span></span>
+<span><span class="co"># -&gt; posterior predictive distribution is negative binomial</span></span>
+<span><span class="co"># -&gt; sample directly from these</span></span>
+<span><span class="va">y1_new_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html">rnbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, size <span class="op">=</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">217</span>, mu <span class="op">=</span> <span class="op">(</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">217</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fl">111</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">y2_new_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html">rnbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, size <span class="op">=</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">66</span>, mu <span class="op">=</span> <span class="op">(</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">66</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fl">44</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span> <span class="va">y1_new_sample</span> <span class="op">&gt;</span> <span class="va">y2_new_sample</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4895</code></pre>
+</div>
+</div>
+<p><em>Same idea when working with the posterior predictive distribution. Just get a sample from the posterior distribution for the parameters of interest, then use those as the parameter values when generating new samples using the data distribution.</em></p>
+</section></section></section><section id="lab-2---multi-parameter-models" class="level2"><h2 class="anchored" data-anchor-id="lab-2---multi-parameter-models">Lab 2 - Multi-parameter models</h2>
+<section id="normal-models-with-unknown-mean-and-variance" class="level3"><h3 class="anchored" data-anchor-id="normal-models-with-unknown-mean-and-variance">Normal Models with unknown mean and variance</h3>
+<ul>
+<li>Data: <span class="math inline">\(Y_1, \ldots, Y_n \overset{iid}\sim N(\mu, \sigma^2)\)</span>,</li>
+</ul>
+<p><span class="math display">\[
+p(\mathbf{y} \mid \mu, \sigma^2) \propto (\sigma^2)^{-n/2} \exp\left(-\frac{\sum_{i=1}^{n} (Y_i - \mu)^2}{2\sigma^2}\right)
+\]</span></p>
+<p>Here are the BMI measurements of patients in one clinic:</p>
+<div class="cell">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">18.3</span>, <span class="fl">19.4</span>, <span class="fl">19.7</span>, <span class="fl">23.4</span>, <span class="fl">30.9</span>, <span class="fl">21.7</span>, <span class="fl">21.7</span>, <span class="fl">21.4</span>, <span class="fl">26.3</span>, <span class="fl">25.3</span><span class="op">)</span></span>
+<span><span class="va">y_bar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span><span class="va">s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="part-a-what-if-we-use-noninformative-priors" class="level4"><h4 class="anchored" data-anchor-id="part-a-what-if-we-use-noninformative-priors">Part a – What if we use noninformative priors?</h4>
+<ul>
+<li>Prior:</li>
+</ul>
+<p><span class="math display">\[
+p(\mu, \sigma^2) \propto \frac{1}{\sigma^2}
+\]</span></p>
+<ul>
+<li>Posteriors:
+<ul>
+<li>
+<p>Conditional posterior of <span class="math inline">\(\mu\)</span> given <span class="math inline">\(\sigma^2\)</span> and <span class="math inline">\(\mathbf{y}\)</span>:</p>
+<p><span class="math display">\[
+\mu \mid \sigma^2, \mathbf{y} \sim N\left(\bar{y}, \frac{\sigma^2}{n}\right)
+\]</span></p>
+</li>
+<li>
+<p>Marginal posterior of <span class="math inline">\(\sigma^2\)</span> given <span class="math inline">\(\mathbf{y}\)</span>:</p>
+<p><span class="math display">\[
+\sigma^2 \mid \mathbf{y} \sim \text{Inv-Gamma}\left(\frac{n-1}{2}, \frac{(n-1)s^2}{2}\right)
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Simulation takes two steps:</p>
+<ol type="1">
+<li>Simulation of <span class="math inline">\(\sigma^2\)</span> from the inverse gamma distribution (note that an inverse gamma random variable can be expressed as the reciprocal of a gamma random variable with the same shape and rate parameters. Alternatively, you can use the <code>rinvgamma()</code> in <code>invgamma</code> package.)</li>
+<li>Simulation of <span class="math inline">\(\mu\)</span> from the normal distribution.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># sample from marginal posterior for sigma2 given y vector</span></span>
+<span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
+<span><span class="va">sample_post_sigma2</span> <span class="op">&lt;-</span> <span class="fu">invgamma</span><span class="fu">::</span><span class="fu"><a href="https://dkahle.github.io/invgamma/reference/invgamma.html">rinvgamma</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, shape <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span>, rate <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">s2</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># OR use reciprocal transformation</span></span>
+<span><span class="va">sample_post_sigma2</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">rgamma</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, shape <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span>, rate <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">s2</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># sample from conditional posterior for mu given sigma2 &amp; y vector</span></span>
+<span><span class="va">sample_post_mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, mean <span class="op">=</span> <span class="va">y_bar</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plots of the distributions</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multi-parameter-models_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multi-parameter-models_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># point estimates</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mean(sigma2)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span>, <span class="st">"median(sigma2)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span>, <span class="st">"mean(mu)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span>, <span class="st">"median(mu)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  mean(sigma2) median(sigma2)       mean(mu)     median(mu) 
+      18.50469       15.56327       22.81641       22.81583 </code></pre>
+</div>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% equal tail interval estimates</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     2.5%     97.5% 
+ 6.871395 46.822598 </code></pre>
+</div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">sample_post_mu</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    2.5%    97.5% 
+20.14638 25.58646 </code></pre>
+</div>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% HPD interval estimates</span></span>
+<span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  3.55921 38.06298</code></pre>
+</div>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 16.14095 25.03970</code></pre>
+</div>
+</div>
+<p>Plotting the joint density of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># values of mu and sigma to draw the plot with</span></span>
+<span><span class="co"># -&gt; selected values based on credible intervals</span></span>
+<span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fl">500</span> <span class="co"># number of discrete values to use for calculations</span></span>
+<span><span class="va">x_mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">20</span>, to <span class="op">=</span> <span class="fl">26</span>, length <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span>
+<span><span class="va">x_sigma2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">2</span>, to <span class="op">=</span> <span class="fl">25</span>, length <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate joint distribution functional values</span></span>
+<span><span class="va">joint_posterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="va">k</span>, ncol <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co"># P(mu, sigma2 | y) = P(mu | sigma2, y) * P(sigma2 | y)</span></span>
+<span>  <span class="va">density_sigma2</span> <span class="op">&lt;-</span> <span class="fu">invgamma</span><span class="fu">::</span><span class="fu"><a href="https://dkahle.github.io/invgamma/reference/invgamma.html">dinvgamma</a></span><span class="op">(</span><span class="va">x_sigma2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, shape <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span>, rate <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">s2</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># one sigma value (iterate through these)</span></span>
+<span>  <span class="va">joint_posterior</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="va">density_sigma2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x_mu</span>, mean <span class="op">=</span> <span class="va">y_bar</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x_sigma2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="co"># across all mu values</span></span>
+<span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># draw different plots to visualize surface</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/contour.html">contour</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, y <span class="op">=</span> <span class="va">x_sigma2</span>, z <span class="op">=</span> <span class="va">joint_posterior</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multi-parameter-models_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/image.html">image</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, y <span class="op">=</span> <span class="va">x_sigma2</span>, z <span class="op">=</span> <span class="va">joint_posterior</span>, xlab <span class="op">=</span> <span class="st">"mu"</span>, ylab <span class="op">=</span> <span class="st">"sigma2"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multi-parameter-models_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/persp.html">persp</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, y <span class="op">=</span> <span class="va">x_sigma2</span>, z <span class="op">=</span> <span class="va">joint_posterior</span>, xlab <span class="op">=</span> <span class="st">"mu"</span>, ylab <span class="op">=</span> <span class="st">"sigma2"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="part-b-what-if-we-use-conjugate-priors" class="level4"><h4 class="anchored" data-anchor-id="part-b-what-if-we-use-conjugate-priors">Part b – What if we use conjugate priors?</h4>
+<ul>
+<li>Prior:
+<ul>
+<li>
+<p>marginal prior of <span class="math inline">\(\sigma^2\)</span>:</p>
+<p><span class="math display">\[
+\sigma^2 \sim \text{Inv-Gamma}(\alpha, \beta)
+\]</span></p>
+</li>
+<li>
+<p>Conditional prior of <span class="math inline">\(\mu\)</span> given <span class="math inline">\(\sigma^2\)</span>:</p>
+<p><span class="math display">\[
+\mu \mid \sigma^2 \sim N\left(\mu_0, \frac{\sigma^2}{\kappa_0}\right),\quad\quad\text{where}\quad \sigma_n^2 = \frac{\sigma^2}{n + \kappa_0}, \mu_n = \frac{n \bar{y} + \kappa_0 \mu_0}{n + \kappa_0}
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Use the same two-step process to simulate from the posterior distribution using <span class="math inline">\(\mu_0 = 20\)</span>, <span class="math inline">\(\kappa_0 = 0.01\)</span>, <span class="math inline">\(\alpha = 0.1\)</span> and <span class="math inline">\(\beta = 10\)</span>. Report the marginal posterior median, mean, credible intervals for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>. Draw the posterior distribution of <span class="math inline">\((\mu,\sigma^2)\)</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize items</span></span>
+<span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.1</span></span>
+<span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">mu_0</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
+<span><span class="va">k_0</span> <span class="op">&lt;-</span> <span class="fl">0.01</span></span>
+<span></span>
+<span><span class="co"># sample from marginal posterior for sigma2 given y vector after defining new parameters</span></span>
+<span><span class="va">alpha_post</span> <span class="op">&lt;-</span> <span class="va">n</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">+</span> <span class="va">alpha</span> </span>
+<span><span class="va">beta_post</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">s2</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">+</span> <span class="va">n</span> <span class="op">*</span> <span class="va">k_0</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="va">k_0</span> <span class="op">+</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">mu_0</span> <span class="op">-</span> <span class="va">y_bar</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">beta</span></span>
+<span><span class="va">sample_post_sigma2</span> <span class="op">&lt;-</span> <span class="fu">invgamma</span><span class="fu">::</span><span class="fu"><a href="https://dkahle.github.io/invgamma/reference/invgamma.html">rinvgamma</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, shape <span class="op">=</span> <span class="va">alpha_post</span>, rate <span class="op">=</span> <span class="va">beta_post</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate posterior distribution mean and standard deviation</span></span>
+<span><span class="va">mu_n</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">n</span> <span class="op">*</span> <span class="va">y_bar</span> <span class="op">+</span> <span class="va">k_0</span> <span class="op">*</span> <span class="va">mu_0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">k_0</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># sample from conditional posterior distribution for mu given sigma2 and y vector</span></span>
+<span><span class="va">sample_post_mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, mean <span class="op">=</span> <span class="va">mu_n</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">k_0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># point estimates</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mean(sigma2)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span>, <span class="st">"median(sigma2)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span>, <span class="st">"mean(mu)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span>, <span class="st">"median(mu)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  mean(sigma2) median(sigma2)       mean(mu)     median(mu) 
+      18.50376       15.80760       22.80467       22.81093 </code></pre>
+</div>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% equal tail interval estimates</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     2.5%     97.5% 
+ 7.245754 45.038906 </code></pre>
+</div>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">sample_post_mu</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    2.5%    97.5% 
+20.05610 25.51519 </code></pre>
+</div>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% HPD interval estimates</span></span>
+<span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span>, conf <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  3.056603 37.288275</code></pre>
+</div>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">sample_post_mu</span>, conf <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 16.10803 25.02352</code></pre>
+</div>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize sequence for plots for mu and sigma2</span></span>
+<span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
+<span><span class="va">x_mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">20</span>, to <span class="op">=</span> <span class="fl">26</span>, length <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span>
+<span><span class="va">x_sigma2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">3</span>, to <span class="op">=</span> <span class="fl">25</span>, length <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># initialize matrix of joint posterior density values</span></span>
+<span><span class="va">joint_posterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NA</span>, nrow <span class="op">=</span> <span class="va">k</span>, ncol <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># estimate joint posterior by finding density values for each mu and sigma2 combination</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co"># sample from marginal posterior density of sigma2 given y vector</span></span>
+<span>  <span class="va">density_sigma2</span> <span class="op">&lt;-</span> <span class="fu">invgamma</span><span class="fu">::</span><span class="fu"><a href="https://dkahle.github.io/invgamma/reference/invgamma.html">dinvgamma</a></span><span class="op">(</span><span class="va">x_sigma2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, shape <span class="op">=</span> <span class="va">alpha_post</span>, rate <span class="op">=</span> <span class="va">beta_post</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># sample from conditional posterior of mu given sigma2 and y vector</span></span>
+<span>  <span class="va">joint_posterior</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">density_sigma2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, mean <span class="op">=</span> <span class="va">mu_n</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x_sigma2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">k_0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># draw different plots to visualize surface</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/contour.html">contour</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, y <span class="op">=</span> <span class="va">x_sigma2</span>, z <span class="op">=</span> <span class="va">joint_posterior</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multi-parameter-models_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/image.html">image</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, y <span class="op">=</span> <span class="va">x_sigma2</span>, z <span class="op">=</span> <span class="va">joint_posterior</span>, xlab <span class="op">=</span> <span class="st">"mu"</span>, ylab <span class="op">=</span> <span class="st">"sigma2"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="multi-parameter-models_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/persp.html">persp</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, y <span class="op">=</span> <span class="va">x_sigma2</span>, z <span class="op">=</span> <span class="va">joint_posterior</span>, xlab <span class="op">=</span> <span class="st">"mu"</span>, ylab <span class="op">=</span> <span class="st">"sigma2"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section><section id="multinomial-models-with-conjugate-priors" class="level3"><h3 class="anchored" data-anchor-id="multinomial-models-with-conjugate-priors">Multinomial models with conjugate priors</h3>
+<p>Experiment:</p>
+<ul>
+<li>Fixed number of <span class="math inline">\(n\)</span> trials.</li>
+<li>Each trial is an independent event.</li>
+<li>The same <span class="math inline">\(J\)</span> outcomes are possible in each trial.</li>
+<li>Probability of each outcome to occur is constant for each trial.</li>
+<li>The multivariate response $Y = $ the number of diﬀerent outcomes among these trials.</li>
+</ul>
+<p>Example:</p>
+<p>30 aircrafts that have been in service for 10 years were examined in a safety test. Among them,</p>
+<ul>
+<li>19 have no wing cracks (Status 1)</li>
+<li>9 have detectable wing cracks (Status 2)</li>
+<li>2 have critical wing cracks (Status 3)</li>
+</ul>
+<p>Could you estimate the probability of aircrafts having status 1, 2 and 3 after serving for 10 years?</p>
+<ul>
+<li>Data: <span class="math inline">\(Y_1, \ldots, Y_J \sim \mathrm{Multinomial}(n, \theta_1, \ldots, \theta_J),\quad n = Y_1 + \cdots + Y_J,\; n = 30,\; J = 3\)</span>
+</li>
+<li>Conjugate prior: <span class="math inline">\(\theta_1, \ldots, \theta_J \mid \alpha_1, \ldots, \alpha_J \sim \mathrm{Dirichlet}(\alpha_1, \ldots, \alpha_J)\)</span>
+</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">aircraft.data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">aircraft.data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>aircraft.data
+ 1  2  3 
+19  9  2 </code></pre>
+</div>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">aircraft.data</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="one-prior" class="level4"><h4 class="anchored" data-anchor-id="one-prior">One prior</h4>
+<div class="cell">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set hyperparameters that were arbitrarily chosen</span></span>
+<span><span class="va">alphas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate posterior parameters</span></span>
+<span><span class="va">posterior_thetas</span> <span class="op">&lt;-</span> <span class="va">y</span> <span class="op">+</span> <span class="va">alphas</span></span>
+<span></span>
+<span><span class="co"># find exact posterior mean for each of theta1, theta2, theta3 (theoretical results)</span></span>
+<span><span class="op">(</span><span class="va">posterior_means</span> <span class="op">&lt;-</span> <span class="va">posterior_thetas</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">posterior_thetas</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.61111111 0.30555556 0.08333333</code></pre>
+</div>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># now use MC methods to approximate</span></span>
+<span><span class="va">sample_post</span> <span class="op">&lt;-</span> <span class="fu">gtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gtools/man/dirichlet.html">rdirichlet</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10000</span>, alpha <span class="op">=</span> <span class="va">posterior_thetas</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># approximate posterior means for each theta</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.61171716 0.30504931 0.08323354</code></pre>
+</div>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># approximate posterior medians and 95% credible intervals for each theta</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, FUN <span class="op">=</span> <span class="va">quantile</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">0.5</span>, <span class="fl">.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]      [,2]       [,3]
+2.5%  0.4503702 0.1694207 0.01792615
+50%   0.6131945 0.3011640 0.07623915
+97.5% 0.7586966 0.4622226 0.19206876</code></pre>
+</div>
+</div>
+</section><section id="uniform-prior" class="level4"><h4 class="anchored" data-anchor-id="uniform-prior">Uniform prior</h4>
+<div class="cell">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set hyperparameters to be uniform</span></span>
+<span><span class="va">alphas_unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate posterior parameters</span></span>
+<span><span class="va">posterior_thetas_unif</span> <span class="op">&lt;-</span> <span class="va">y</span> <span class="op">+</span> <span class="va">alphas_unif</span></span>
+<span></span>
+<span><span class="co"># find exact posterior mean for each of theta1, theta2, theta3 (theoretical results)</span></span>
+<span><span class="op">(</span><span class="va">posterior_means_unif</span> <span class="op">&lt;-</span> <span class="va">posterior_thetas_unif</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">posterior_thetas_unif</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.60606061 0.30303030 0.09090909</code></pre>
+</div>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># now use MC methods to approximate</span></span>
+<span><span class="va">sample_post_unif</span> <span class="op">&lt;-</span> <span class="fu">gtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gtools/man/dirichlet.html">rdirichlet</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10000</span>, alpha <span class="op">=</span> <span class="va">posterior_thetas_unif</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># approximate posterior means for each theta</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post_unif</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.60469728 0.30395005 0.09135266</code></pre>
+</div>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># approximate posterior medians and 95% credible intervals for each theta</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post_unif</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, FUN <span class="op">=</span> <span class="va">quantile</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">0.5</span>, <span class="fl">.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]      [,2]       [,3]
+2.5%  0.4356675 0.1613421 0.01981107
+50%   0.6069090 0.2996047 0.08325223
+97.5% 0.7618602 0.4676706 0.21182893</code></pre>
+</div>
+</div>
+</section><section id="stronger-prior" class="level4"><h4 class="anchored" data-anchor-id="stronger-prior">Stronger prior</h4>
+<div class="cell">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set hyperparameters -&gt; increasing alphas in prior distribution gives stronger prior input</span></span>
+<span><span class="va">alphas_strong</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">20</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate posterior parameters</span></span>
+<span><span class="va">posterior_thetas_strong</span> <span class="op">&lt;-</span> <span class="va">y</span> <span class="op">+</span> <span class="va">alphas_strong</span></span>
+<span></span>
+<span><span class="co"># find exact posterior mean for each of theta1, theta2, theta3 (theoretical results)</span></span>
+<span><span class="op">(</span><span class="va">posterior_means_strong</span> <span class="op">&lt;-</span> <span class="va">posterior_thetas_strong</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">posterior_thetas_strong</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5444444 0.3222222 0.1333333</code></pre>
+</div>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># now use MC methods to approximate</span></span>
+<span><span class="va">sample_post_strong</span> <span class="op">&lt;-</span> <span class="fu">gtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gtools/man/dirichlet.html">rdirichlet</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10000</span>, alpha <span class="op">=</span> <span class="va">posterior_thetas_strong</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># approximate posterior means for each theta</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post_strong</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5443084 0.3225300 0.1331616</code></pre>
+</div>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># approximate posterior medians and 95% credible intervals for each theta</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post_strong</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, FUN <span class="op">=</span> <span class="va">quantile</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">0.5</span>, <span class="fl">.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]      [,2]       [,3]
+2.5%  0.4412608 0.2307202 0.07177584
+50%   0.5446903 0.3209130 0.13083078
+97.5% 0.6461864 0.4243152 0.20791137</code></pre>
+</div>
+</div>
+
+
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./single-parameter-inference.html" class="pagination-link" aria-label="Single parameter inference">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Single parameter inference</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

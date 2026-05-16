@@ -9,10 +9,10 @@ book:
   cover-image: bayes.png
   chapters:
     - index.qmd
-    - inference.qmd
-    - single-parameter-inference.qmd
-    - multi-parameter-models.qmd
-    - mcmc.qmd
+    - 1-inference.qmd
+    - 2-single-parameter-inference.qmd
+    - 3-multi-parameter-models.qmd
+    - 4-mcmc.qmd
 
 format:
   html:

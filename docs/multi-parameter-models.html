@@ -60,6 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./mcmc.html" rel="next">
 <link href="./single-parameter-inference.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -192,6 +193,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multi parameter models</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mcmc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Markov Chain Monte Carlo (MCMC)</span></span></a>
+  </div>
+</li>
     </ul>
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
@@ -243,7 +250,7 @@ g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
 </ul>
 <p>We usually cannot obtain the exact values of these posterior quantities, but once we have posterior samples generated from the posterior distribution, all of these posterior quantities of interest can be approximated to an arbitrary degree of precision using the Monte Carlo method!</p>
 <p><em>For example, to find the posterior density of <span class="math inline">\(\left| \theta_1 - \theta_2 \right|\)</span>, we would need the joint distribution of <span class="math inline">\((\theta_1, \theta_2)\)</span>. But, <span class="math inline">\(f(\theta_1, \theta_2)\)</span> may be hard to find. So instead, by using Monte Carlo methods, we can generate samples of <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span> from their respective posteriors and then estimate lots of things using these samples. This is super easy!</em></p>
-<p>*Said another way, we can use a sample from <span class="math inline">\(P(\theta \mid \mathbf{y})\)</span> to approximate the actual posterior distribution. This empirical density can be used to estimate any quantity of interest, e.g.&nbsp;$P(&lt; _0) = ?? $ just look at percent of sample that meets this condition.*</p>
+<p>*Said another way, we can use a sample from <span class="math inline">\(P(\theta \mid \mathbf{y})\)</span> to approximate the actual posterior distribution. This empirical density can be used to estimate any quantity of interest, e.g.&nbsp;$P(&lt; _0) = $ just look at percent of sample that meets this condition.*</p>
 </section><section id="monte-carlo-approximation-in-bayesian-inference" class="level4"><h4 class="anchored" data-anchor-id="monte-carlo-approximation-in-bayesian-inference">Monte Carlo approximation in Bayesian inference</h4>
 <p>Once we obtain <span class="math inline">\(iid\)</span> posterior samples <span class="math inline">\(\theta^{(1)}, \ldots, \theta^{(m)}\)</span> from <span class="math inline">\(p(\theta \mid \mathbf{y})\)</span>,</p>
 <ul>
@@ -370,7 +377,7 @@ g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
 <span><span class="va">sample_post</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">rgamma</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, shape <span class="op">=</span> <span class="va">alpha_post</span>, rate <span class="op">=</span> <span class="va">beta_post</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post</span> <span class="op">&lt;</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.992</code></pre>
+<pre><code>[1] 0.993</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -384,7 +391,7 @@ g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># MC methods</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.512786</code></pre>
+<pre><code>[1] 1.511076</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -399,7 +406,7 @@ g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_post</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    2.5%    97.5% 
-1.179246 1.900757 </code></pre>
+1.175043 1.886592 </code></pre>
 </div>
 </div>
 </section><section id="example-2" class="level4"><h4 class="anchored" data-anchor-id="example-2">Example 2</h4>
@@ -420,7 +427,7 @@ g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
 <span><span class="co"># approximate posterior mean using MC methods</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_theta</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.512717</code></pre>
+<pre><code>[1] 0.5126777</code></pre>
 </div>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># transform sample to the log odds -&gt; gamma = log(theta / (1 - theta))</span></span>
 <span><span class="va">sample_post_gamma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">sample_post_theta</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">sample_post_theta</span><span class="op">)</span><span class="op">)</span></span>
@@ -436,8 +443,8 @@ g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># summarize new empirical distribution</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sample_post_gamma</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
--0.21045  0.00504  0.05037  0.05094  0.09744  0.30446 </code></pre>
+<pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+-0.234103  0.004488  0.050795  0.050782  0.096579  0.313889 </code></pre>
 </div>
 </div>
 <p><em>Note that we because we had the posterior distribution for <span class="math inline">\(\theta\)</span>, we could have derived the density function for <span class="math inline">\(\gamma = \log \frac{\theta}{1 - \theta}\)</span>, but this would be a lot of work. Instead, get a posterior sample for <span class="math inline">\(\theta\)</span> and apply transformation, done!</em></p>
@@ -481,7 +488,7 @@ g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
 <span><span class="co"># approximate probability using MC methods</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_theta1</span> <span class="op">&gt;</span> <span class="va">sample_post_theta2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.971</code></pre>
+<pre><code>[1] 0.9712</code></pre>
 </div>
 </div>
 <ul>
@@ -495,7 +502,7 @@ g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
 <span><span class="co"># approximate probability using MC methods</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y1_new</span> <span class="op">&gt;</span> <span class="va">y2_new</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4891</code></pre>
+<pre><code>[1] 0.4866</code></pre>
 </div>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># compare to known theoretical results (not shown here)</span></span>
 <span><span class="co"># -&gt; posterior predictive distribution is negative binomial</span></span>
@@ -504,7 +511,7 @@ g(\bar{X}) = \frac{1}{n}\sum_{i=1}^{n} g(x_i),
 <span><span class="va">y2_new_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html">rnbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">M</span>, size <span class="op">=</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">66</span>, mu <span class="op">=</span> <span class="op">(</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">66</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fl">44</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span> <span class="va">y1_new_sample</span> <span class="op">&gt;</span> <span class="va">y2_new_sample</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4895</code></pre>
+<pre><code>[1] 0.4929</code></pre>
 </div>
 </div>
 <p><em>Same idea when working with the posterior predictive distribution. Just get a sample from the posterior distribution for the parameters of interest, then use those as the parameter values when generating new samples using the data distribution.</em></p>
@@ -585,27 +592,28 @@ p(\mu, \sigma^2) \propto \frac{1}{\sigma^2}
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mean(sigma2)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span>, <span class="st">"median(sigma2)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span>, <span class="st">"mean(mu)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span>, <span class="st">"median(mu)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  mean(sigma2) median(sigma2)       mean(mu)     median(mu) 
-      18.50469       15.56327       22.81641       22.81583 </code></pre>
+      18.78966       15.70610       22.82259       22.82255 </code></pre>
 </div>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% equal tail interval estimates</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     2.5%     97.5% 
- 6.871395 46.822598 </code></pre>
+ 6.879843 48.238799 </code></pre>
 </div>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">sample_post_mu</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    2.5%    97.5% 
-20.14638 25.58646 </code></pre>
+20.01901 25.55379 </code></pre>
 </div>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% HPD interval estimates</span></span>
+<span><span class="co"># -&gt; emp.hpd() uses posterior sample to estimate bounds rather than using a density function to find the exact bounds like hpd() does</span></span>
 <span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  3.55921 38.06298</code></pre>
+<pre><code>[1]  3.778476 38.987863</code></pre>
 </div>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 16.14095 25.03970</code></pre>
+<pre><code>[1] 14.91954 25.03099</code></pre>
 </div>
 </div>
 <p>Plotting the joint density of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>:</p>
@@ -688,27 +696,27 @@ p(\mu, \sigma^2) \propto \frac{1}{\sigma^2}
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mean(sigma2)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span>, <span class="st">"median(sigma2)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span><span class="op">)</span>, <span class="st">"mean(mu)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span>, <span class="st">"median(mu)"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">sample_post_mu</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  mean(sigma2) median(sigma2)       mean(mu)     median(mu) 
-      18.50376       15.80760       22.80467       22.81093 </code></pre>
+      18.02781       15.51416       22.84161       22.84830 </code></pre>
 </div>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% equal tail interval estimates</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     2.5%     97.5% 
- 7.245754 45.038906 </code></pre>
+ 7.150975 43.053286 </code></pre>
 </div>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">sample_post_mu</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    2.5%    97.5% 
-20.05610 25.51519 </code></pre>
+20.18118 25.49023 </code></pre>
 </div>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% HPD interval estimates</span></span>
 <span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">sample_post_sigma2</span>, conf <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  3.056603 37.288275</code></pre>
+<pre><code>[1]  3.821547 36.544552</code></pre>
 </div>
 <div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">sample_post_mu</span>, conf <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 16.10803 25.02352</code></pre>
+<pre><code>[1] 15.32861 25.00682</code></pre>
 </div>
 <div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize sequence for plots for mu and sigma2</span></span>
 <span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
@@ -800,15 +808,15 @@ p(\mu, \sigma^2) \propto \frac{1}{\sigma^2}
 <span><span class="co"># approximate posterior means for each theta</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.61171716 0.30504931 0.08323354</code></pre>
+<pre><code>[1] 0.60907837 0.30710565 0.08381598</code></pre>
 </div>
 <div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># approximate posterior medians and 95% credible intervals for each theta</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, FUN <span class="op">=</span> <span class="va">quantile</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">0.5</span>, <span class="fl">.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           [,1]      [,2]       [,3]
-2.5%  0.4503702 0.1694207 0.01792615
-50%   0.6131945 0.3011640 0.07623915
-97.5% 0.7586966 0.4622226 0.19206876</code></pre>
+2.5%  0.4472212 0.1700586 0.01796942
+50%   0.6101834 0.3034290 0.07618473
+97.5% 0.7621343 0.4668518 0.19414755</code></pre>
 </div>
 </div>
 </section><section id="uniform-prior" class="level4"><h4 class="anchored" data-anchor-id="uniform-prior">Uniform prior</h4>
@@ -830,15 +838,15 @@ p(\mu, \sigma^2) \propto \frac{1}{\sigma^2}
 <span><span class="co"># approximate posterior means for each theta</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post_unif</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.60469728 0.30395005 0.09135266</code></pre>
+<pre><code>[1] 0.60707771 0.30248214 0.09044015</code></pre>
 </div>
 <div class="sourceCode" id="cb82"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># approximate posterior medians and 95% credible intervals for each theta</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post_unif</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, FUN <span class="op">=</span> <span class="va">quantile</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">0.5</span>, <span class="fl">.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           [,1]      [,2]       [,3]
-2.5%  0.4356675 0.1613421 0.01981107
-50%   0.6069090 0.2996047 0.08325223
-97.5% 0.7618602 0.4676706 0.21182893</code></pre>
+2.5%  0.4386162 0.1619009 0.02017708
+50%   0.6089524 0.2998789 0.08218516
+97.5% 0.7636612 0.4679767 0.20545088</code></pre>
 </div>
 </div>
 </section><section id="stronger-prior" class="level4"><h4 class="anchored" data-anchor-id="stronger-prior">Stronger prior</h4>
@@ -860,15 +868,15 @@ p(\mu, \sigma^2) \propto \frac{1}{\sigma^2}
 <span><span class="co"># approximate posterior means for each theta</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post_strong</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5443084 0.3225300 0.1331616</code></pre>
+<pre><code>[1] 0.5445207 0.3225343 0.1329450</code></pre>
 </div>
 <div class="sourceCode" id="cb88"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># approximate posterior medians and 95% credible intervals for each theta</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sample_post_strong</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, FUN <span class="op">=</span> <span class="va">quantile</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">0.5</span>, <span class="fl">.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           [,1]      [,2]       [,3]
-2.5%  0.4412608 0.2307202 0.07177584
-50%   0.5446903 0.3209130 0.13083078
-97.5% 0.6461864 0.4243152 0.20791137</code></pre>
+<pre><code>           [,1]      [,2]      [,3]
+2.5%  0.4421381 0.2320459 0.0717139
+50%   0.5446290 0.3205237 0.1302451
+97.5% 0.6460844 0.4221447 0.2102777</code></pre>
 </div>
 </div>
 
@@ -1298,6 +1306,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./mcmc.html" class="pagination-link" aria-label="Markov Chain Monte Carlo (MCMC)">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Markov Chain Monte Carlo (MCMC)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

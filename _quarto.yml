@@ -12,7 +12,7 @@ book:
     - inference.qmd
     - single-parameter-inference.qmd
     - multi-parameter-models.qmd
-
+    - mcmc.qmd
 
 format:
   html:

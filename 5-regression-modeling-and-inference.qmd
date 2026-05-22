@@ -1,0 +1,485 @@
+# Regression modeling and inference
+
+## Notes
+
+<embed src="lectures/notes-regression-modeling-and-inference.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+## Lab 1
+
+```{r}
+#| label: load-prereqs
+#| echo: false
+#| message: false
+
+# knitr options
+source("_common.R")
+
+# needed if run stan so that it compiles without any errors
+Sys.setenv(
+  SDKROOT = "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+  CXXFLAGS = "-stdlib=libc++",
+  CXX11FLAGS = "-stdlib=libc++",
+  CXX14FLAGS = "-stdlib=libc++",
+  CXX17FLAGS = "-stdlib=libc++"
+)
+
+```
+
+### Normal models with unknown mean and variance
+
+- Data:
+
+$$
+Y_1, \ldots, Y_n \overset{iid}\sim N(\mu,\sigma^2)
+$$
+
+$$
+p(\mathbf{y} \mid \mu, \sigma^2) \propto (\sigma^2)^{-n/2}
+\exp\left(-\frac{\sum_{i=1}^n (Y_i - \mu)^2}{2\sigma^2}\right)
+$$
+
+- Here are the BMI measurements of patients in one clinic:
+
+```{r}
+
+y <- c(18.3,19.4,19.7,23.4,30.9,21.7,21.7,21.4,26.3, 25.3)
+y_bar <- mean(y)
+n <- length(y)
+s2 <- var(y)
+
+```
+
+#### What if we use noninformative priors?
+
+- Prior:
+
+  $$
+  p(\mu,\sigma^2) \propto \frac{1}{\sigma^2}
+  $$
+
+- Posteriors:
+
+  - Conditional posterior of $\mu$ given $\sigma^2$ and $\mathbf{y}$:
+  
+    $$
+    \mu \mid \sigma^2, \mathbf{y} \sim \text{N}\left(\bar{y}, \frac{\sigma^2}{n}\right)
+    $$
+  
+  - Marginal posterior of $\sigma^2$ given $\mathbf{y}$:
+  
+      $$
+      \sigma^2 \mid \mathbf{y} \sim \text{Inv-Gamma}\left(\frac{n-1}{2}, \frac{(n-1)s^2}{2}\right)
+      $$
+
+- Simulation takes two steps:
+  
+  1. Simulation of $\sigma^2$ from the inverse gamma distribution (note that an inverse gamma random variable can be expressed as the reciprocal of a gamma random variable with the same shape and rate parameters. Alternatively, you can use `invgamma::rigamma()`).
+  
+  2. Simulation of $\mu$ from the normal distribution
+
+```{r}
+
+# initialize items
+m <- 1000
+
+# sample from marginal posterior for sigma^2 given y
+post_sigma2 <- 1 / rgamma(n = m, shape = (n - 1) / 2, rate = (n - 1) * s2 / 2)
+
+# sample from conditional posterior for mu given sigma^2 and y
+post_mu <- rnorm(n = m, mean = y_bar, sd = sqrt(post_sigma2 / n))
+
+# plot the distributions
+hist(post_sigma2)
+hist(post_mu)
+
+# point estimates
+c("med sigma2" = median(post_sigma2), "mean sigma2" = mean(post_sigma2), "med mu" = median(post_mu), "mean mu" = mean(post_mu))
+
+# 95% equal tail interval estimates
+quantile(post_sigma2, probs = c(0.025,0.975))
+quantile(post_mu, probs = c(0.025,0.975))
+
+# 95% HPD interval estimates
+TeachingDemos::emp.hpd(post_sigma2)
+TeachingDemos::emp.hpd(post_mu)
+
+```
+
+Now we can plot the joint posterior density for $\mu$ and $\sigma^2$.
+
+```{r}
+
+# initialize items
+# -> values of parameters for which you want to draw the plot with
+# -> results holder
+x_mu <- seq(from = 20, to = 26, length = 600)
+x_sigma2 <- seq(from = 3, to = 25, length = 600)
+post_joint <- matrix(data = 0, nrow = 600, ncol = 600)
+
+# calculate joint posterior density
+for (i in 1:600) {
+  
+  # -> P(mu, sigma^2 | y) = P(mu | sigma^2, y) * P(sigma^2 | y)
+  post_joint[,i] = invgamma::dinvgamma(x = x_sigma2[i], shape = (n - 1) / 2, rate = (n - 1) * s2 / 2) * dnorm(x = x_mu, mean = y_bar, sd = sqrt(x_sigma2[i] / n))
+
+}
+
+# draw plots
+contour(x = x_mu, y = x_sigma2, z = post_joint)
+image(x = x_mu, y = x_sigma2, z = post_joint, xlab = "mu", ylab = "sigma^2")
+
+```
+
+```{r}
+#| eval: false
+
+# NOT RUN
+persp(x = x_mu, y = x_sigma2, z = post_joint, xlab = "mu", ylab = "sigma^2")
+
+```
+
+#### What if we use conjugate priors?
+
+- Prior:
+
+  - Marginal prior of $\sigma^2$:
+  
+    $$
+    \sigma^2 \sim \text{Inv-Gamma}(\alpha,\beta)
+    $$
+    
+  - Conditional prior of $\mu$ given $\sigma^2$:
+  
+    $$
+    \mu \mid \sigma^2 \sim N\left(\mu_0, \frac{\sigma^2}{\kappa_0}\right),
+    $$
+    
+  where $\kappa$ reflects our confidence in the prior.
+  
+
+- Posteriors:
+
+  - Conditional posterior of $\mu$ given $\sigma^2$ and $\mathbf{y}$:
+  
+    $$
+    \mu \mid \sigma^2,\mathbf{y} \sim \text{N}(\mu_n,\sigma_n^2),
+    $$
+    
+  where $\mu_n = \frac{n\bar{y} + \kappa_0 \mu_0}{n + \kappa_0}, \quad \sigma_n^2 = \frac{\sigma^2}{n + \kappa_0}$
+  
+  - Marginal posterior of $\sigma^2$ given $\mathbf{y}$:
+  
+      $$
+      \sigma^2 \mid \mathbf{y} \sim \text{Inv-Gamma}\left(
+\frac{n}{2}+\alpha, \frac{(n-1)s^2}{2}+\frac{n\kappa_0}{2(n+\kappa_0)}(\mu_0-\bar{y})^2+\beta\right)
+      $$
+      
+Use the same two-step process to simulate from the posterior distribution using $µ_0 = 20$, $\kappa_0 = 0.01$, $\alpha = 0.1$ and $\beta = 10$. Report the marginal posterior median, mean, credible intervals for $\mu$ and $\sigma^2$. Draw the posterior distribution of $(\mu,\sigma^2)$.
+
+```{r}
+
+# initialize items
+m <- 1000
+alpha_0 <- 0.1
+beta <- 10
+mu_0 <- 20
+k_0 <- 0.01
+
+# sample from marginal posterior for sigma^2 given y
+alpha_post <- n / 2 + alpha_0
+beta_post <- (n - 1) * s2 / 2 + n * k_0 / (2 * (k_0 + n)) * (mu_0 - y_bar)^2 + beta
+post_sigma2_conj <- invgamma::rinvgamma(n = m, shape = alpha_post, rate = beta_post)
+
+# calculate posterior distribution mean
+mu_n <- (n * y_bar + k_0 * mu_0) / (n + k_0)
+
+# sample from conditional posterior for mu given sigma^2 and y
+post_mu_conj <- rnorm(n = m, mean = mu_n, sd = sqrt(post_sigma2_conj / (n + k_0)))
+
+# point estimates
+c("med sigma2" = median(post_sigma2_conj), "mean sigma2" = mean(post_sigma2_conj), "med mu" = median(post_mu_conj), "mean mu" = mean(post_mu_conj))
+
+# 95% equal tail interval estimates
+quantile(post_sigma2_conj, probs = c(0.025,0.975))
+quantile(post_mu_conj, probs = c(0.025,0.975))
+
+# 95% HPD interval estimates
+TeachingDemos::emp.hpd(post_sigma2_conj, conf = 0.95)
+TeachingDemos::emp.hpd(post_mu_conj, conf = 0.95)
+
+```
+
+```{r}
+
+# initialize items
+# -> values of parameters for which you want to draw the plot with
+# -> results holder
+x_mu <- seq(from = 20, to = 26, length = 600)
+x_sigma2 <- seq(from = 3, to = 25, length = 600)
+post_joint_conj <- matrix(data = 0, nrow = 600, ncol = 600)
+
+# calculate joint posterior density
+for (i in 1:600) {
+  
+  # -> P(mu, sigma^2 | y) = P(mu | sigma^2, y) * P(sigma^2 | y)
+  post_joint_conj[,i] = invgamma::dinvgamma(x = x_sigma2[i], shape = alpha_post, rate = beta_post) * dnorm(x = x_mu, mean = y_bar, sd = sqrt(x_sigma2[i] / n))
+
+}
+
+# draw plot
+contour(x = x_mu, y = x_sigma2, z = post_joint_conj)
+
+```
+
+### Multinomial models with conjugate priors
+
+#### Setup
+
+Experiment:
+
+- Fixed number of $n$ trials.
+- Each trial is an independent event.
+- The same $J$ outcomes are possible in each trial.
+- Probability of each outcome to occur is constant for each trial.
+- The multivariate response $Y$ equals the number of diﬀerent outcomes among these trials.
+
+Example:
+
+30 aircrafts that have been in service for 10 years were examined in a safety test. Among them,
+
+- 19 have no wing cracks (Status 1)
+- 9 have detectable wing cracks (Status 2)
+- 2 have critical wing cracks (Status 3)
+
+```{r}
+
+data_aircraft <- c(1,3,1,1,1,1,1,1,1,1,2,1,1,1,2,2,2,2,2,1,2,3,2,1,1,1,1,2,1,1)
+table(data_aircraft)
+
+# save summary data
+y <- as.numeric(table(data_aircraft))
+
+```
+
+Could you estimate the probability of aircrafts having status 1, 2 and 3 after serving for 10 years?
+
+- Data: $Y_1, \ldots, Y_J \sim \text{Multinomial}(n,\theta_1,\ldots,\theta_J) \quad \text{where } n = Y_1 + \ldots + Y_n,n=30,J=3$
+- Conjugate prior: $(\theta_1,\ldots,\theta_J) \sim \text{Dirichlet}(\alpha_1,\ldots,\alpha_J)$
+
+How can we implement the Bayesian model to obtain the posterior samples of $\theta_1,\ldots,\theta_J$?
+
+#### One prior
+
+Just using some selected values for $\mathbf{\alpha} = (3,2,1)$.
+
+IMPORTANT NOTE: Because of the conjugate prior, we know that the posteriors for $\mathbf{\theta}$ will also follow Dirichlet distribution, just with updated parameters.
+
+```{r}
+
+# set prior parameters
+alphas <- c(3,2,1)
+
+# calculate posterior parameters
+post_params <- y + alphas
+
+# calculate exact posterior mean for each of theta1, theta2, theta3
+(post_theta_means <- post_params / sum(post_params))
+
+# Monte Carlo simulation
+post_thetas <- gtools::rdirichlet(n = 10000, alpha = post_params)
+
+# approximate posterior means for each of theta1, theta2, theta3
+post_thetas %>% 
+  data.frame %>% 
+  map_dbl(\(col) mean(col))
+
+# approximate posterior medians and 95% credible intervals for each of theta1, theta2, theta3
+post_thetas %>% 
+  data.frame %>% 
+  map(\(col) quantile(col, probs = c(0.025,0.50,0.975)))
+
+```
+
+#### Uniform prior
+
+```{r}
+
+# set prior parameters
+alphas_unif <- c(1,1,1)
+
+# calculate posterior parameters
+post_params_unif <- y + alphas
+
+# calculate exact posterior mean for each of theta1, theta2, theta3
+(post_theta_means_unif <- post_params_unif / sum(post_params_unif))
+
+# Monte Carlo simulation
+post_thetas_unif <- gtools::rdirichlet(n = 10000, alpha = post_params_unif)
+
+# approximate posterior means for each of theta1, theta2, theta3
+post_thetas_unif %>% 
+  data.frame %>% 
+  map_dbl(\(col) mean(col))
+
+# approximate posterior medians and 95% credible intervals for each of theta1, theta2, theta3
+post_thetas_unif %>% 
+  data.frame %>% 
+  map(\(col) quantile(col, probs = c(0.025,0.50,0.975)))
+
+```
+
+#### Strong prior
+
+```{r}
+
+# set prior parameters
+# NOTE: increasing alpha's in prior distribution gives stronger prior input
+alphas_strong <- c(1,1,1)
+
+# calculate posterior parameters
+post_params_strong <- y + alphas
+
+# calculate exact posterior mean for each of theta1, theta2, theta3
+(post_theta_means_strong <- post_params_strong / sum(post_params_strong))
+
+# Monte Carlo simulation
+post_thetas_strong <- gtools::rdirichlet(n = 10000, alpha = post_params_strong)
+
+# approximate posterior means for each of theta1, theta2, theta3
+post_thetas_strong %>% 
+  data.frame %>% 
+  map_dbl(\(col) mean(col))
+
+# approximate posterior medians and 95% credible intervals for each of theta1, theta2, theta3
+post_thetas_strong %>% 
+  data.frame %>% 
+  map(\(col) quantile(col, probs = c(0.025,0.50,0.975)))
+
+```
+
+## Lab 2
+
+### The coin example
+
+- Experiment; Suppose that a coin is tossed 20 times, but Chloe only recorded the first 19 outcomes:
+$\{1,1,1,1,1,0,1,1,1,1,0,1,1,0,1,1,0,0,1\}$
+- Data: 
+
+  - $X_1, X_2, \ldots, X_{19}$ taking on values of 1 (head) or 0 (tail), $X_{20}$ is missing.
+  - $X_i \sim \text{Bernoulli}(\theta)$
+
+- Parameter of interest: $\theta$.
+- We can use Gibbs sampler to find posterior distribution of both $\theta$ and $X_{20}$!
+
+```{r}
+
+# obsersved data
+# Observed data
+x <- c(1,1,1,1,1,0,1,1,1,1,0,1,1,0,1,1,0,0,1)
+y <- sum(x)
+
+# initialize items
+m <- 10000
+m_burn_in <- 5000
+post_theta <- c()
+post_x20 <- c()
+
+# Gibbs sampler!
+# -> set initial values of p and X20
+post_theta[1] <- 0.5
+post_x20[1] <- 1
+
+# add values to the chain
+for (i in 2:m){
+  
+  # derived in previous notes
+  post_theta[i] <- rbeta(n = 1, shape1 = y + post_x20[i-1], shape2 = 20 - y - post_x20[i-1] + 1)
+  post_x20[i] <- rbinom(n = 1, size = 1, prob = post_theta[i])
+
+}
+
+# time series plot of the Markov Chain path for "p"
+plot(post_theta, type = 'l')
+
+# display and summarize kept values
+hist(post_theta[(m_burn_in + 1):m])
+mean(post_theta[(m_burn_in + 1):m])
+sd(post_theta[(m_burn_in + 1):m])
+table(post_x20[(m_burn_in + 1):m])
+
+```
+
+### Normal models with noninformative priors
+
+Consider a normal models with noninformative priors. $Y_1, \ldots, Y_n \sim \text{N}(\mu, \sigma^2)$. The data set is simulated from the below code.
+
+```{r}
+
+y <- rnorm(100,20, 5)
+
+```
+
+Use Rstan to build the model and obtain the posterior distribution of $\mu$ and $\sigma^2$. Draw histograms for each parameter. Obtain the posterior predictive distribution for a future observation. Draw a histogram.
+
+```stan
+data {
+  int<lower=0> n;
+  real y[n];
+}
+parameters {
+  real mu;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(mu, sqrt(sigma2));
+  target += -log(sigma2);
+}
+generated quantities {
+  real y_pred;
+  y_pred = normal_rng(mu, sqrt(sigma2));
+}
+```
+
+```{r}
+#| cache: true
+
+# specify stand code
+stan_code <- "
+data {
+  int<lower=0> n;
+  real y[n];
+}
+parameters {
+  real mu;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(mu, sqrt(sigma2));
+  target += -log(sigma2);
+}
+generated quantities {
+  real y_pred;
+  y_pred = normal_rng(mu, sqrt(sigma2));
+}
+"
+
+# save model, provide data and run
+stan_mod <- rstan::stan_model(model_code = stan_code)
+data_stan <- list(n = length(y),
+                  y = y)
+stan_fit <- rstan::sampling(object = stan_mod, data = data_stan,
+                            seed = 1, chains = 2, warmup = 5000, iter = 10000)
+
+# view results
+rstan::summary(stan_fit)
+print(stan_fit, digits = 2)
+
+# save and visualize results
+list_draws <- rstan::extract(stan_fit)
+hist(list_draws$mu)
+hist(list_draws$sigma2)
+hist(list_draws$y_pred)
+mean(list_draws$mu)
+mean(list_draws$sigma2)
+
+```

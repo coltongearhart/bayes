@@ -14,6 +14,15 @@
 # knitr options
 source("_common.R")
 
+# needed if run stan so that it compiles without any errors
+Sys.setenv(
+  SDKROOT = "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+  CXXFLAGS = "-stdlib=libc++",
+  CXX11FLAGS = "-stdlib=libc++",
+  CXX14FLAGS = "-stdlib=libc++",
+  CXX17FLAGS = "-stdlib=libc++"
+)
+
 ```
 
 ### Intro

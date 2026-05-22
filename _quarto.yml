@@ -13,6 +13,7 @@ book:
     - 2-single-parameter-inference.qmd
     - 3-multi-parameter-models.qmd
     - 4-mcmc.qmd
+    - 5-regression-modeling-and-inference.qmd
 
 format:
   html:

@@ -14,6 +14,7 @@ book:
     - 3-multi-parameter-models.qmd
     - 4-mcmc.qmd
     - 5-regression-modeling-and-inference.qmd
+    - 6-bayesian-hypothesis-tests.qmd
 
 format:
   html:

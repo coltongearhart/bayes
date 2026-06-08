@@ -205,6 +205,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Regression modeling and inference</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-bayesian-hypothesis-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bayesian hypothesis tests, Bayes factor, and information critiria</span></span></a>
+  </div>
+</li>
     </ul>
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
@@ -222,9 +228,23 @@ window.Quarto = {
   </ul>
 </li>
   <li>
+<a href="#lab-1" id="toc-lab-1" class="nav-link" data-scroll-target="#lab-1">Lab 1</a>
+  <ul class="collapse">
+<li><a href="#normal-models-with-unknown-mean-and-variance" id="toc-normal-models-with-unknown-mean-and-variance" class="nav-link" data-scroll-target="#normal-models-with-unknown-mean-and-variance">Normal models with unknown mean and variance</a></li>
+  <li><a href="#multinomial-models-with-conjugate-priors" id="toc-multinomial-models-with-conjugate-priors" class="nav-link" data-scroll-target="#multinomial-models-with-conjugate-priors">Multinomial models with conjugate priors</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#lab-2" id="toc-lab-2" class="nav-link" data-scroll-target="#lab-2">Lab 2</a>
+  <ul class="collapse">
+<li><a href="#the-coin-example" id="toc-the-coin-example" class="nav-link" data-scroll-target="#the-coin-example">The coin example</a></li>
+  <li><a href="#normal-models-with-noninformative-priors" id="toc-normal-models-with-noninformative-priors" class="nav-link" data-scroll-target="#normal-models-with-noninformative-priors">Normal models with noninformative priors</a></li>
+  </ul>
+</li>
+  <li>
 <a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">Homework</a>
   <ul class="collapse">
-<li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+<li><a href="#setup-1" id="toc-setup-1" class="nav-link" data-scroll-target="#setup-1">Setup</a></li>
   <li><a href="#part-a" id="toc-part-a" class="nav-link" data-scroll-target="#part-a">Part a</a></li>
   <li><a href="#part-b" id="toc-part-b" class="nav-link" data-scroll-target="#part-b">Part b</a></li>
   <li><a href="#part-c" id="toc-part-c" class="nav-link" data-scroll-target="#part-c">Part c</a></li>
@@ -297,6 +317,21 @@ window.Quarto = {
 <span></span>
 <span><span class="co"># save as model</span></span>
 <span><span class="va">stan_mod1</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stan_model.html">stan_model</a></span><span class="op">(</span>model_code <span class="op">=</span> <span class="va">stan_code1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+using C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.3.2)’
+using SDK: ‘MacOSX26.2.sdk’
+clang -arch arm64 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+In file included from &lt;built-in&gt;:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/Core:19:
+/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+  679 | #include &lt;cmath&gt;
+      |          ^~~~~~~
+1 error generated.
+make: *** [foo.o] Error 1</code></pre>
+</div>
 </div>
 <p>Now we can provide data to the specified Stan model and run it. Note that you must pass a list object with all needed information to <code><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html">rstan::sampling()</a></code> function. Arguments of <code><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html">rstan::sampling()</a></code>:</p>
 <ul>
@@ -312,7 +347,7 @@ window.Quarto = {
 <code>iter</code> = the number total number of iterations run (burn-in + keep ones).</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create data object to pass to Stan</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create data object to pass to Stan</span></span>
 <span><span class="co"># -&gt; it needs it as a list</span></span>
 <span><span class="va">data_stan1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">10</span>, n <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>                   y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">35</span>, <span class="fl">18</span>, <span class="fl">22</span>, <span class="fl">29</span>, <span class="fl">37</span>, <span class="fl">31</span>, <span class="fl">36</span>, <span class="fl">24</span><span class="op">)</span><span class="op">)</span></span>
@@ -324,8 +359,8 @@ window.Quarto = {
 <pre><code>
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 Chain 1: 
-Chain 1: Gradient evaluation took 7e-06 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+Chain 1: Gradient evaluation took 2e-06 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
@@ -372,7 +407,7 @@ Chain 2:                0 seconds (Sampling)
 Chain 2:                0 seconds (Total)
 Chain 2: </code></pre>
 </div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># display the output</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># display the output</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">stan_fit1</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Inference for Stan model: anon_model.
@@ -383,7 +418,7 @@ post-warmup draws per chain=300, total post-warmup draws=600.
 p       0.28    0.00 0.01    0.26    0.27    0.28    0.29    0.31   228    1
 lp__ -596.93    0.04 0.69 -598.63 -597.12 -596.68 -596.49 -596.43   384    1
 
-Samples were drawn using NUTS(diag_e) at Fri May 22 16:11:45 2026.
+Samples were drawn using NUTS(diag_e) at Mon Jun  8 14:41:06 2026.
 For each parameter, n_eff is a crude measure of effective sample size,
 and Rhat is the potential scale reduction factor on split chains (at 
 convergence, Rhat=1).</code></pre>
@@ -426,15 +461,15 @@ convergence, Rhat=1).</code></pre>
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  mu ~ normal(<span class="dv">0</span>,<span class="dv">10</span>);</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  sigma ~ cauchy(<span class="dv">0</span>,<span class="dv">5</span>);</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sigma);</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  mu ~ normal(<span class="dv">0</span>,<span class="dv">10</span>);</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  sigma ~ cauchy(<span class="dv">0</span>,<span class="dv">5</span>);</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sigma);</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Note that “accumulating” is taken to mean:</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">target +=</span> log_density;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">target +=</span> log_density;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>i.e.&nbsp;Stan keeps a running total of the log probability by adding each log-density contribution to an internal variable called <code>target</code>, which represents <span class="math inline">\(\log p(\theta \mid \mathbf{y})\)</span>. Stan builds this step by step.</li>
 <li>Conceptually, think this:
@@ -456,11 +491,11 @@ convergence, Rhat=1).</code></pre>
 <ul>
 <li>Continuing with the example from 4… If the prior for <span class="math inline">\(\mu\)</span> is now <span class="math inline">\(\mu \sim N(0,\sigma)\)</span>, the only change in the model specification is in the prior line for <span class="math inline">\(\mu\)</span>.</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  sigma ~ cauchy(<span class="dv">0</span>,<span class="dv">5</span>);</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  mu ~ normal(<span class="dv">0</span>, sigma);</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sigma);</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  sigma ~ cauchy(<span class="dv">0</span>,<span class="dv">5</span>);</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  mu ~ normal(<span class="dv">0</span>, sigma);</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sigma);</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Easy as that; Stan automatically handles the dependency structure. Now it accumulates <span class="math inline">\(\log p(\sigma) + \log p(\mu \mid \sigma) + \log p(y \mid \mu, \sigma)\)</span>. So the joint posterior becomes <span class="math inline">\(p(\mu, \sigma \mid y) \propto p(y \mid \mu, \sigma) \, p(\mu \mid \sigma) \, p(\sigma)\)</span>.</p>
 <ol start="6" type="1">
 <li>No need for conjugacy</li>
@@ -477,7 +512,7 @@ convergence, Rhat=1).</code></pre>
 </ul></section><section id="example-1-cont" class="level4"><h4 class="anchored" data-anchor-id="example-1-cont">Example 1 cont…</h4>
 <p>Now we can summarize the posterior samples.</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># obtain posterior samples</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># obtain posterior samples</span></span>
 <span><span class="va">list_draws1</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-extract.html">extract</a></span><span class="op">(</span><span class="va">stan_fit1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">list_draws1</span><span class="op">$</span><span class="va">p</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -486,7 +521,7 @@ convergence, Rhat=1).</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get overall summary statistics and for each chain</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get overall summary statistics and for each chain</span></span>
 <span><span class="fu">rstan</span><span class="fu">::</span><span class="fu">summary</span><span class="op">(</span><span class="va">stan_fit1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$summary
@@ -520,13 +555,13 @@ parameter          75%        97.5%
      p       0.2927143    0.3088646
      lp__ -596.5023325 -596.4301997</code></pre>
 </div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># -&gt; get other / specific quantities</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># -&gt; get other / specific quantities</span></span>
 <span><span class="fu">rstan</span><span class="fu">::</span><span class="fu">summary</span><span class="op">(</span><span class="va">stan_fit1</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">summary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       mean      se_mean         sd       10%      90%    n_eff     Rhat
 p 0.2814923 0.0009364378 0.01413206 0.2639058 0.300729 227.7473 1.001212</code></pre>
 </div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># display default intial values used by rstan (because we didn't specify them)</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># display default intial values used by rstan (because we didn't specify them)</span></span>
 <span><span class="co"># -&gt; picks random values</span></span>
 <span><span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-class.html">get_inits</a></span><span class="op">(</span><span class="va">stan_fit1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -539,7 +574,7 @@ p 0.2814923 0.0009364378 0.01413206 0.2639058 0.300729 227.7473 1.001212</code><
 [[2]]$p
 [1] 0.1428226</code></pre>
 </div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># display runtime (i.e. MCMC computation time (in seconds))</span></span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># display runtime (i.e. MCMC computation time (in seconds))</span></span>
 <span><span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-class.html">get_elapsed_time</a></span><span class="op">(</span><span class="va">stan_fit1</span><span class="op">)</span> <span class="co">#-&gt; results in 0s because super small simulation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        warmup sample
@@ -548,13 +583,13 @@ chain:2      0      0</code></pre>
 </div>
 </div>
 <p>We can also do prediction, just need to add a statement to the stan code:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">// &lt; previous statements &gt;</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">generated quantities</span>{</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y_pred; <span class="co">// predicted future observation</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  y_pred = binomial_rng(n, p);</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">// &lt; previous statements &gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">generated quantities</span>{</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y_pred; <span class="co">// predicted future observation</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  y_pred = binomial_rng(n, p);</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># modify stan code to generate posterior predictions</span></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># modify stan code to generate posterior predictions</span></span>
 <span><span class="co"># specify stand code</span></span>
 <span><span class="va">stan_code1</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
 <span><span class="st">data {</span></span>
@@ -576,8 +611,23 @@ chain:2      0      0</code></pre>
 <span><span class="st">"</span></span>
 <span></span>
 <span><span class="co"># save, provide needed info, and run model</span></span>
-<span><span class="va">stan_mod1</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stan_model.html">stan_model</a></span><span class="op">(</span>model_code <span class="op">=</span> <span class="va">stan_code1</span><span class="op">)</span></span>
-<span><span class="va">data_stan1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">10</span>, n <span class="op">=</span> <span class="fl">100</span>,</span>
+<span><span class="va">stan_mod1</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stan_model.html">stan_model</a></span><span class="op">(</span>model_code <span class="op">=</span> <span class="va">stan_code1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+using C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.3.2)’
+using SDK: ‘MacOSX26.2.sdk’
+clang -arch arm64 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+In file included from &lt;built-in&gt;:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/Core:19:
+/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+  679 | #include &lt;cmath&gt;
+      |          ^~~~~~~
+1 error generated.
+make: *** [foo.o] Error 1</code></pre>
+</div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data_stan1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">10</span>, n <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>                   y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">35</span>, <span class="fl">18</span>, <span class="fl">22</span>, <span class="fl">29</span>, <span class="fl">37</span>, <span class="fl">31</span>, <span class="fl">36</span>, <span class="fl">24</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">stan_fit1</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html">sampling</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">stan_mod1</span>, data <span class="op">=</span> <span class="va">data_stan1</span>,</span>
 <span>                                 seed <span class="op">=</span> <span class="fl">1</span>, chains <span class="op">=</span> <span class="fl">2</span>, warmup <span class="op">=</span> <span class="fl">200</span>, iter <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -585,8 +635,8 @@ chain:2      0      0</code></pre>
 <pre><code>
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 Chain 1: 
-Chain 1: Gradient evaluation took 4e-06 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.04 seconds.
+Chain 1: Gradient evaluation took 3e-06 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.03 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
@@ -633,7 +683,7 @@ Chain 2:                0 seconds (Sampling)
 Chain 2:                0 seconds (Total)
 Chain 2: </code></pre>
 </div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># view results</span></span>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># view results</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">stan_fit1</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Inference for Stan model: anon_model.
@@ -645,12 +695,12 @@ p         0.28    0.00 0.01    0.26    0.27    0.28    0.29    0.31   246    1
 y_pred   28.46    0.19 4.83   20.00   25.00   28.00   32.00   39.00   646    1
 lp__   -596.86    0.03 0.59 -598.52 -597.03 -596.64 -596.48 -596.43   287    1
 
-Samples were drawn using NUTS(diag_e) at Fri May 22 16:12:00 2026.
+Samples were drawn using NUTS(diag_e) at Mon Jun  8 14:41:21 2026.
 For each parameter, n_eff is a crude measure of effective sample size,
 and Rhat is the potential scale reduction factor on split chains (at 
 convergence, Rhat=1).</code></pre>
 </div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">list_draws1</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-extract.html">extract</a></span><span class="op">(</span><span class="va">stan_fit1</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">list_draws1</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-extract.html">extract</a></span><span class="op">(</span><span class="va">stan_fit1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">list_draws1</span><span class="op">$</span><span class="va">y_pred</span><span class="op">)</span> <span class="co"># -&gt; each y_pred represents the number of heads resulting from 100 flips of another coin</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -668,38 +718,38 @@ convergence, Rhat=1).</code></pre>
 <li>Thinning (<code>thin</code>)</li>
 </ul></section><section id="example-2-normal-models-with-power-prior" class="level4"><h4 class="anchored" data-anchor-id="example-2-normal-models-with-power-prior">Example 2: Normal models with power prior</h4>
 <p>This example is for normal models with unknown <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> (nuisance parameter). We also have historical data that we want to take into account. Here is the stan code.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; m; <span class="co">// sample size of historical data</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; n; <span class="co">// sample size of current data</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y0[m]; <span class="co">// historical data</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y[n]; <span class="co">// current data</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>, <span class="kw">upper</span>=<span class="dv">1</span>&gt; a0; <span class="co">// power of the historical information</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu;</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma2;</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">// see note 1</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sqrt(sigma2));</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> a0 * normal_lpdf(y0 | mu, sqrt(sigma2)); <span class="co">// see note 2</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  mu ~ normal(<span class="dv">25</span>, <span class="dv">4</span>); <span class="co">// initial prior</span></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  sigma2 ~ inv_gamma(<span class="dv">2</span>,<span class="dv">1</span>);</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; m; <span class="co">// sample size of historical data</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; n; <span class="co">// sample size of current data</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y0[m]; <span class="co">// historical data</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y[n]; <span class="co">// current data</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>, <span class="kw">upper</span>=<span class="dv">1</span>&gt; a0; <span class="co">// power of the historical information</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu;</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma2;</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co">// see note 1</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sqrt(sigma2));</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> a0 * normal_lpdf(y0 | mu, sqrt(sigma2)); <span class="co">// see note 2</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  mu ~ normal(<span class="dv">25</span>, <span class="dv">4</span>); <span class="co">// initial prior</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  sigma2 ~ inv_gamma(<span class="dv">2</span>,<span class="dv">1</span>);</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Notes:</p>
 <ol type="1">
 <li>We could also transform the parameters after declaring them as usual and then use the transformed version like usual.</li>
 </ol>
-<div class="sourceCode" id="cb26"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">transformed parameters</span> {</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma;</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  sigma = sqrt(sigma2);</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">transformed parameters</span> {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma;</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  sigma = sqrt(sigma2);</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li>If we want to specify a user supplied density function in the model, or we want to compute the (log) marginal likelihood for a stan model, we need to directly use the (log) density functions instead of using <code>~</code> signs for specifying distributions.</li>
 </ol>
 <p>Now run the model.</p>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># specify stand code</span></span>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># specify stand code</span></span>
 <span><span class="va">stan_code2</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
 <span><span class="st">data {</span></span>
 <span><span class="st">  int&lt;lower=0&gt; m;</span></span>
@@ -721,8 +771,23 @@ convergence, Rhat=1).</code></pre>
 <span><span class="st">"</span></span>
 <span></span>
 <span><span class="co"># save model, provide data and run</span></span>
-<span><span class="va">stan_mod2</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stan_model.html">stan_model</a></span><span class="op">(</span>model_code <span class="op">=</span> <span class="va">stan_code2</span><span class="op">)</span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
+<span><span class="va">stan_mod2</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stan_model.html">stan_model</a></span><span class="op">(</span>model_code <span class="op">=</span> <span class="va">stan_code2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+using C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.3.2)’
+using SDK: ‘MacOSX26.2.sdk’
+clang -arch arm64 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+In file included from &lt;built-in&gt;:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/Core:19:
+/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+  679 | #include &lt;cmath&gt;
+      |          ^~~~~~~
+1 error generated.
+make: *** [foo.o] Error 1</code></pre>
+</div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">80</span></span>
 <span><span class="va">data_stan2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">n</span>, a0 <span class="op">=</span> <span class="fl">0.5</span>, <span class="co"># power of historical information</span></span>
 <span>                   y0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">m</span>, mean <span class="op">=</span> <span class="fl">20</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n</span>, mean <span class="op">=</span> <span class="fl">20</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -732,8 +797,8 @@ convergence, Rhat=1).</code></pre>
 <pre><code>
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 Chain 1: 
-Chain 1: Gradient evaluation took 1.9e-05 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
+Chain 1: Gradient evaluation took 1.6e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
@@ -757,8 +822,8 @@ Chain 1:
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
 Chain 2: 
-Chain 2: Gradient evaluation took 1e-06 seconds
-Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
+Chain 2: Gradient evaluation took 0 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
 Chain 2: Adjust your expectations accordingly!
 Chain 2: 
 Chain 2: 
@@ -780,45 +845,45 @@ Chain 2:                0.001 seconds (Sampling)
 Chain 2:                0.002 seconds (Total)
 Chain 2: </code></pre>
 </div>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># view results</span></span>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># view results</span></span>
 <span><span class="fu">rstan</span><span class="fu">::</span><span class="fu">summary</span><span class="op">(</span><span class="va">stan_fit2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$summary
-             mean     se_mean        sd        2.5%         25%         50%
-mu      20.009341 0.005018324 0.1063075  19.7821082  19.9400786  20.0144238
-sigma2   1.016481 0.007943990 0.1586553   0.7547453   0.9029555   0.9988614
-lp__   -57.048195 0.062704395 1.0422809 -59.6190424 -57.4661324 -56.7127853
-              75%      97.5%    n_eff     Rhat
-mu      20.082503  20.203778 448.7565 1.001135
-sigma2   1.124228   1.364398 398.8704 1.007775
-lp__   -56.297238 -56.007183 276.2953 1.008887
+             mean    se_mean        sd        2.5%       25%        50%
+mu      19.961763 0.00520053 0.1251578  19.7243694  19.87992  19.963652
+sigma2   1.298483 0.01064090 0.2015093   0.9474296   1.16310   1.284461
+lp__   -68.532934 0.06875509 1.0458450 -71.1607340 -68.99869 -68.205523
+              75%      97.5%    n_eff      Rhat
+mu      20.044323  20.199030 579.1890 0.9996354
+sigma2   1.428652   1.732214 358.6193 0.9999918
+lp__   -67.749350 -67.463650 231.3795 1.0004263
 
 $c_summary
 , , chains = chain:1
 
          stats
-parameter       mean        sd        2.5%         25%        50%        75%
-   mu      20.013930 0.1107648  19.7797860  19.9384781  20.021249  20.090359
-   sigma2   1.024926 0.1683955   0.7478997   0.9052587   1.000279   1.146167
-   lp__   -57.143876 1.1856410 -60.0939074 -57.5615404 -56.739213 -56.375318
+parameter       mean        sd        2.5%       25%        50%        75%
+   mu      19.958153 0.1223010  19.7269759  19.87939  19.957644  20.038289
+   sigma2   1.310026 0.2151175   0.9326961   1.16352   1.294815   1.454544
+   lp__   -68.580703 1.1065955 -71.4854435 -69.08519 -68.218381 -67.727850
          stats
 parameter      97.5%
-   mu      20.213373
-   sigma2   1.397834
-   lp__   -56.007447
+   mu      20.192572
+   sigma2   1.769019
+   lp__   -67.475523
 
 , , chains = chain:2
 
          stats
-parameter       mean        sd        2.5%         25%         50%        75%
-   mu      20.004752 0.1016331  19.7945876  19.9452850  20.0127581  20.069121
-   sigma2   1.008036 0.1480778   0.7550034   0.8967502   0.9945936   1.112401
-   lp__   -56.952514 0.8673043 -59.0932060 -57.4018091 -56.6913147 -56.238499
+parameter      mean        sd        2.5%        25%        50%        75%
+   mu      19.96537 0.1280532  19.7198478  19.883727  19.967672  20.048208
+   sigma2   1.28694 0.1865607   0.9640953   1.158857   1.277629   1.417128
+   lp__   -68.48516 0.9808715 -71.0403131 -68.926096 -68.199506 -67.762952
          stats
 parameter      97.5%
-   mu      20.183550
-   sigma2   1.330256
-   lp__   -56.007917</code></pre>
+   mu      20.200729
+   sigma2   1.687496
+   lp__   -67.462782</code></pre>
 </div>
 </div>
 <p>Final notes:</p>
@@ -835,11 +900,716 @@ parameter      97.5%
 <li>Thus, the prior is specified by adding to <code>target</code>: <code>target += -log(sigma2)</code>.</li>
 </ul>
 </li>
-</ul></section></section></section><section id="homework" class="level2"><h2 class="anchored" data-anchor-id="homework">Homework</h2>
-<section id="setup" class="level3"><h3 class="anchored" data-anchor-id="setup">Setup</h3>
+</ul></section></section></section><section id="lab-1" class="level2"><h2 class="anchored" data-anchor-id="lab-1">Lab 1</h2>
+<section id="normal-models-with-unknown-mean-and-variance" class="level3"><h3 class="anchored" data-anchor-id="normal-models-with-unknown-mean-and-variance">Normal models with unknown mean and variance</h3>
+<ul>
+<li>Data:</li>
+</ul>
+<p><span class="math display">\[
+Y_1, \ldots, Y_n \overset{iid}\sim N(\mu,\sigma^2)
+\]</span></p>
+<p><span class="math display">\[
+p(\mathbf{y} \mid \mu, \sigma^2) \propto (\sigma^2)^{-n/2}
+\exp\left(-\frac{\sum_{i=1}^n (Y_i - \mu)^2}{2\sigma^2}\right)
+\]</span></p>
+<ul>
+<li>Here are the BMI measurements of patients in one clinic:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">18.3</span>,<span class="fl">19.4</span>,<span class="fl">19.7</span>,<span class="fl">23.4</span>,<span class="fl">30.9</span>,<span class="fl">21.7</span>,<span class="fl">21.7</span>,<span class="fl">21.4</span>,<span class="fl">26.3</span>, <span class="fl">25.3</span><span class="op">)</span></span>
+<span><span class="va">y_bar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span><span class="va">s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="what-if-we-use-noninformative-priors" class="level4"><h4 class="anchored" data-anchor-id="what-if-we-use-noninformative-priors">What if we use noninformative priors?</h4>
+<ul>
+<li>
+<p>Prior:</p>
+<p><span class="math display">\[
+p(\mu,\sigma^2) \propto \frac{1}{\sigma^2}
+\]</span></p>
+</li>
+<li>
+<p>Posteriors:</p>
+<ul>
+<li>
+<p>Conditional posterior of <span class="math inline">\(\mu\)</span> given <span class="math inline">\(\sigma^2\)</span> and <span class="math inline">\(\mathbf{y}\)</span>:</p>
+<p><span class="math display">\[
+\mu \mid \sigma^2, \mathbf{y} \sim \text{N}\left(\bar{y}, \frac{\sigma^2}{n}\right)
+\]</span></p>
+</li>
+<li>
+<p>Marginal posterior of <span class="math inline">\(\sigma^2\)</span> given <span class="math inline">\(\mathbf{y}\)</span>:</p>
+<p><span class="math display">\[
+  \sigma^2 \mid \mathbf{y} \sim \text{Inv-Gamma}\left(\frac{n-1}{2}, \frac{(n-1)s^2}{2}\right)
+  \]</span></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Simulation takes two steps:</p>
+<ol type="1">
+<li><p>Simulation of <span class="math inline">\(\sigma^2\)</span> from the inverse gamma distribution (note that an inverse gamma random variable can be expressed as the reciprocal of a gamma random variable with the same shape and rate parameters. Alternatively, you can use <code>invgamma::rigamma()</code>).</p></li>
+<li><p>Simulation of <span class="math inline">\(\mu\)</span> from the normal distribution</p></li>
+</ol>
+</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize items</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span></span>
+<span><span class="co"># sample from marginal posterior for sigma^2 given y</span></span>
+<span><span class="va">post_sigma2</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">rgamma</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">m</span>, shape <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span>, rate <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">s2</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># sample from conditional posterior for mu given sigma^2 and y</span></span>
+<span><span class="va">post_mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">m</span>, mean <span class="op">=</span> <span class="va">y_bar</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">post_sigma2</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot the distributions</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">post_sigma2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">post_mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># point estimates</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"med sigma2"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">post_sigma2</span><span class="op">)</span>, <span class="st">"mean sigma2"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">post_sigma2</span><span class="op">)</span>, <span class="st">"med mu"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">post_mu</span><span class="op">)</span>, <span class="st">"mean mu"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">post_mu</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> med sigma2 mean sigma2      med mu     mean mu 
+   16.00573    18.42131    22.76807    22.81886 </code></pre>
+</div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% equal tail interval estimates</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">post_sigma2</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     2.5%     97.5% 
+ 6.836372 45.108423 </code></pre>
+</div>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">post_mu</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    2.5%    97.5% 
+20.23316 25.43321 </code></pre>
+</div>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% HPD interval estimates</span></span>
+<span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">post_sigma2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  4.353353 40.050670</code></pre>
+</div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">post_mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 17.23103 24.98520</code></pre>
+</div>
+</div>
+<p>Now we can plot the joint posterior density for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize items</span></span>
+<span><span class="co"># -&gt; values of parameters for which you want to draw the plot with</span></span>
+<span><span class="co"># -&gt; results holder</span></span>
+<span><span class="va">x_mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">20</span>, to <span class="op">=</span> <span class="fl">26</span>, length <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
+<span><span class="va">x_sigma2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">3</span>, to <span class="op">=</span> <span class="fl">25</span>, length <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
+<span><span class="va">post_joint</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fl">0</span>, nrow <span class="op">=</span> <span class="fl">600</span>, ncol <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate joint posterior density</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">600</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co"># -&gt; P(mu, sigma^2 | y) = P(mu | sigma^2, y) * P(sigma^2 | y)</span></span>
+<span>  <span class="va">post_joint</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="fu">invgamma</span><span class="fu">::</span><span class="fu"><a href="https://dkahle.github.io/invgamma/reference/invgamma.html">dinvgamma</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_sigma2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, shape <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span>, rate <span class="op">=</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">s2</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, mean <span class="op">=</span> <span class="va">y_bar</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x_sigma2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># draw plots</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/contour.html">contour</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, y <span class="op">=</span> <span class="va">x_sigma2</span>, z <span class="op">=</span> <span class="va">post_joint</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/image.html">image</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, y <span class="op">=</span> <span class="va">x_sigma2</span>, z <span class="op">=</span> <span class="va">post_joint</span>, xlab <span class="op">=</span> <span class="st">"mu"</span>, ylab <span class="op">=</span> <span class="st">"sigma^2"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># NOT RUN</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/persp.html">persp</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, y <span class="op">=</span> <span class="va">x_sigma2</span>, z <span class="op">=</span> <span class="va">post_joint</span>, xlab <span class="op">=</span> <span class="st">"mu"</span>, ylab <span class="op">=</span> <span class="st">"sigma^2"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="what-if-we-use-conjugate-priors" class="level4"><h4 class="anchored" data-anchor-id="what-if-we-use-conjugate-priors">What if we use conjugate priors?</h4>
+<ul>
+<li>
+<p>Prior:</p>
+<ul>
+<li>
+<p>Marginal prior of <span class="math inline">\(\sigma^2\)</span>:</p>
+<p><span class="math display">\[
+\sigma^2 \sim \text{Inv-Gamma}(\alpha,\beta)
+\]</span></p>
+</li>
+<li>
+<p>Conditional prior of <span class="math inline">\(\mu\)</span> given <span class="math inline">\(\sigma^2\)</span>:</p>
+<p><span class="math display">\[
+\mu \mid \sigma^2 \sim N\left(\mu_0, \frac{\sigma^2}{\kappa_0}\right),
+\]</span></p>
+</li>
+</ul>
+<p>where <span class="math inline">\(\kappa\)</span> reflects our confidence in the prior.</p>
+</li>
+<li>
+<p>Posteriors:</p>
+<ul>
+<li>
+<p>Conditional posterior of <span class="math inline">\(\mu\)</span> given <span class="math inline">\(\sigma^2\)</span> and <span class="math inline">\(\mathbf{y}\)</span>:</p>
+<p><span class="math display">\[
+\mu \mid \sigma^2,\mathbf{y} \sim \text{N}(\mu_n,\sigma_n^2),
+\]</span></p>
+</li>
+</ul>
+<p>where <span class="math inline">\(\mu_n = \frac{n\bar{y} + \kappa_0 \mu_0}{n + \kappa_0}, \quad \sigma_n^2 = \frac{\sigma^2}{n + \kappa_0}\)</span></p>
+<ul>
+<li>
+<p>Marginal posterior of <span class="math inline">\(\sigma^2\)</span> given <span class="math inline">\(\mathbf{y}\)</span>:</p>
+<p><span class="math display">\[
+  \sigma^2 \mid \mathbf{y} \sim \text{Inv-Gamma}\left(
+\frac{n}{2}+\alpha, \frac{(n-1)s^2}{2}+\frac{n\kappa_0}{2(n+\kappa_0)}(\mu_0-\bar{y})^2+\beta\right)
+  \]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Use the same two-step process to simulate from the posterior distribution using <span class="math inline">\(µ_0 = 20\)</span>, <span class="math inline">\(\kappa_0 = 0.01\)</span>, <span class="math inline">\(\alpha = 0.1\)</span> and <span class="math inline">\(\beta = 10\)</span>. Report the marginal posterior median, mean, credible intervals for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>. Draw the posterior distribution of <span class="math inline">\((\mu,\sigma^2)\)</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize items</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span><span class="va">alpha_0</span> <span class="op">&lt;-</span> <span class="fl">0.1</span></span>
+<span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">mu_0</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
+<span><span class="va">k_0</span> <span class="op">&lt;-</span> <span class="fl">0.01</span></span>
+<span></span>
+<span><span class="co"># sample from marginal posterior for sigma^2 given y</span></span>
+<span><span class="va">alpha_post</span> <span class="op">&lt;-</span> <span class="va">n</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">+</span> <span class="va">alpha_0</span></span>
+<span><span class="va">beta_post</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">s2</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">+</span> <span class="va">n</span> <span class="op">*</span> <span class="va">k_0</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="va">k_0</span> <span class="op">+</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">mu_0</span> <span class="op">-</span> <span class="va">y_bar</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">beta</span></span>
+<span><span class="va">post_sigma2_conj</span> <span class="op">&lt;-</span> <span class="fu">invgamma</span><span class="fu">::</span><span class="fu"><a href="https://dkahle.github.io/invgamma/reference/invgamma.html">rinvgamma</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">m</span>, shape <span class="op">=</span> <span class="va">alpha_post</span>, rate <span class="op">=</span> <span class="va">beta_post</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate posterior distribution mean</span></span>
+<span><span class="va">mu_n</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">n</span> <span class="op">*</span> <span class="va">y_bar</span> <span class="op">+</span> <span class="va">k_0</span> <span class="op">*</span> <span class="va">mu_0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">k_0</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># sample from conditional posterior for mu given sigma^2 and y</span></span>
+<span><span class="va">post_mu_conj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">m</span>, mean <span class="op">=</span> <span class="va">mu_n</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">post_sigma2_conj</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="va">k_0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># point estimates</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"med sigma2"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">post_sigma2_conj</span><span class="op">)</span>, <span class="st">"mean sigma2"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">post_sigma2_conj</span><span class="op">)</span>, <span class="st">"med mu"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">post_mu_conj</span><span class="op">)</span>, <span class="st">"mean mu"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">post_mu_conj</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> med sigma2 mean sigma2      med mu     mean mu 
+   15.38430    18.41405    22.74235    22.78612 </code></pre>
+</div>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% equal tail interval estimates</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">post_sigma2_conj</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     2.5%     97.5% 
+ 7.051196 45.938322 </code></pre>
+</div>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">post_mu_conj</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    2.5%    97.5% 
+20.36869 25.33343 </code></pre>
+</div>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 95% HPD interval estimates</span></span>
+<span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">post_sigma2_conj</span>, conf <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  5.128976 37.585109</code></pre>
+</div>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">post_mu_conj</span>, conf <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 17.06081 24.88202</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize items</span></span>
+<span><span class="co"># -&gt; values of parameters for which you want to draw the plot with</span></span>
+<span><span class="co"># -&gt; results holder</span></span>
+<span><span class="va">x_mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">20</span>, to <span class="op">=</span> <span class="fl">26</span>, length <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
+<span><span class="va">x_sigma2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">3</span>, to <span class="op">=</span> <span class="fl">25</span>, length <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
+<span><span class="va">post_joint_conj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fl">0</span>, nrow <span class="op">=</span> <span class="fl">600</span>, ncol <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate joint posterior density</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">600</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co"># -&gt; P(mu, sigma^2 | y) = P(mu | sigma^2, y) * P(sigma^2 | y)</span></span>
+<span>  <span class="va">post_joint_conj</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="fu">invgamma</span><span class="fu">::</span><span class="fu"><a href="https://dkahle.github.io/invgamma/reference/invgamma.html">dinvgamma</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_sigma2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, shape <span class="op">=</span> <span class="va">alpha_post</span>, rate <span class="op">=</span> <span class="va">beta_post</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, mean <span class="op">=</span> <span class="va">y_bar</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x_sigma2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># draw plot</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/contour.html">contour</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_mu</span>, y <span class="op">=</span> <span class="va">x_sigma2</span>, z <span class="op">=</span> <span class="va">post_joint_conj</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="multinomial-models-with-conjugate-priors" class="level3"><h3 class="anchored" data-anchor-id="multinomial-models-with-conjugate-priors">Multinomial models with conjugate priors</h3>
+<section id="setup" class="level4"><h4 class="anchored" data-anchor-id="setup">Setup</h4>
+<p>Experiment:</p>
+<ul>
+<li>Fixed number of <span class="math inline">\(n\)</span> trials.</li>
+<li>Each trial is an independent event.</li>
+<li>The same <span class="math inline">\(J\)</span> outcomes are possible in each trial.</li>
+<li>Probability of each outcome to occur is constant for each trial.</li>
+<li>The multivariate response <span class="math inline">\(Y\)</span> equals the number of diﬀerent outcomes among these trials.</li>
+</ul>
+<p>Example:</p>
+<p>30 aircrafts that have been in service for 10 years were examined in a safety test. Among them,</p>
+<ul>
+<li>19 have no wing cracks (Status 1)</li>
+<li>9 have detectable wing cracks (Status 2)</li>
+<li>2 have critical wing cracks (Status 3)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data_aircraft</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">data_aircraft</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>data_aircraft
+ 1  2  3 
+19  9  2 </code></pre>
+</div>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># save summary data</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">data_aircraft</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Could you estimate the probability of aircrafts having status 1, 2 and 3 after serving for 10 years?</p>
+<ul>
+<li>Data: <span class="math inline">\(Y_1, \ldots, Y_J \sim \text{Multinomial}(n,\theta_1,\ldots,\theta_J) \quad \text{where } n = Y_1 + \ldots + Y_n,n=30,J=3\)</span>
+</li>
+<li>Conjugate prior: <span class="math inline">\((\theta_1,\ldots,\theta_J) \sim \text{Dirichlet}(\alpha_1,\ldots,\alpha_J)\)</span>
+</li>
+</ul>
+<p>How can we implement the Bayesian model to obtain the posterior samples of <span class="math inline">\(\theta_1,\ldots,\theta_J\)</span>?</p>
+</section><section id="one-prior" class="level4"><h4 class="anchored" data-anchor-id="one-prior">One prior</h4>
+<p>Just using some selected values for <span class="math inline">\(\mathbf{\alpha} = (3,2,1)\)</span>.</p>
+<p>IMPORTANT NOTE: Because of the conjugate prior, we know that the posteriors for <span class="math inline">\(\mathbf{\theta}\)</span> will also follow Dirichlet distribution, just with updated parameters.</p>
+<div class="cell">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set prior parameters</span></span>
+<span><span class="va">alphas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate posterior parameters</span></span>
+<span><span class="va">post_params</span> <span class="op">&lt;-</span> <span class="va">y</span> <span class="op">+</span> <span class="va">alphas</span></span>
+<span></span>
+<span><span class="co"># calculate exact posterior mean for each of theta1, theta2, theta3</span></span>
+<span><span class="op">(</span><span class="va">post_theta_means</span> <span class="op">&lt;-</span> <span class="va">post_params</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">post_params</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.61111111 0.30555556 0.08333333</code></pre>
+</div>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Monte Carlo simulation</span></span>
+<span><span class="va">post_thetas</span> <span class="op">&lt;-</span> <span class="fu">gtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gtools/man/dirichlet.html">rdirichlet</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10000</span>, alpha <span class="op">=</span> <span class="va">post_params</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># approximate posterior means for each of theta1, theta2, theta3</span></span>
+<span><span class="va">post_thetas</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">data.frame</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map_dbl</span><span class="op">(</span>\<span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">col</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        X1         X2         X3 
+0.61075606 0.30590793 0.08333602 </code></pre>
+</div>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># approximate posterior medians and 95% credible intervals for each of theta1, theta2, theta3</span></span>
+<span><span class="va">post_thetas</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">data.frame</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map</span><span class="op">(</span>\<span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">col</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.50</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$X1
+     2.5%       50%     97.5% 
+0.4472534 0.6119912 0.7642037 
+
+$X2
+     2.5%       50%     97.5% 
+0.1646724 0.3018589 0.4676288 
+
+$X3
+      2.5%        50%      97.5% 
+0.01697746 0.07552526 0.19297544 </code></pre>
+</div>
+</div>
+</section><section id="uniform-prior" class="level4"><h4 class="anchored" data-anchor-id="uniform-prior">Uniform prior</h4>
+<div class="cell">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set prior parameters</span></span>
+<span><span class="va">alphas_unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate posterior parameters</span></span>
+<span><span class="va">post_params_unif</span> <span class="op">&lt;-</span> <span class="va">y</span> <span class="op">+</span> <span class="va">alphas</span></span>
+<span></span>
+<span><span class="co"># calculate exact posterior mean for each of theta1, theta2, theta3</span></span>
+<span><span class="op">(</span><span class="va">post_theta_means_unif</span> <span class="op">&lt;-</span> <span class="va">post_params_unif</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">post_params_unif</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.61111111 0.30555556 0.08333333</code></pre>
+</div>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Monte Carlo simulation</span></span>
+<span><span class="va">post_thetas_unif</span> <span class="op">&lt;-</span> <span class="fu">gtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gtools/man/dirichlet.html">rdirichlet</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10000</span>, alpha <span class="op">=</span> <span class="va">post_params_unif</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># approximate posterior means for each of theta1, theta2, theta3</span></span>
+<span><span class="va">post_thetas_unif</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">data.frame</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map_dbl</span><span class="op">(</span>\<span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">col</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        X1         X2         X3 
+0.61176138 0.30496805 0.08327058 </code></pre>
+</div>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># approximate posterior medians and 95% credible intervals for each of theta1, theta2, theta3</span></span>
+<span><span class="va">post_thetas_unif</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">data.frame</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map</span><span class="op">(</span>\<span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">col</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.50</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$X1
+     2.5%       50%     97.5% 
+0.4492485 0.6152335 0.7618748 
+
+$X2
+     2.5%       50%     97.5% 
+0.1691604 0.3010768 0.4627105 
+
+$X3
+      2.5%        50%      97.5% 
+0.01844583 0.07587239 0.18823044 </code></pre>
+</div>
+</div>
+</section><section id="strong-prior" class="level4"><h4 class="anchored" data-anchor-id="strong-prior">Strong prior</h4>
+<div class="cell">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set prior parameters</span></span>
+<span><span class="co"># NOTE: increasing alpha's in prior distribution gives stronger prior input</span></span>
+<span><span class="va">alphas_strong</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate posterior parameters</span></span>
+<span><span class="va">post_params_strong</span> <span class="op">&lt;-</span> <span class="va">y</span> <span class="op">+</span> <span class="va">alphas</span></span>
+<span></span>
+<span><span class="co"># calculate exact posterior mean for each of theta1, theta2, theta3</span></span>
+<span><span class="op">(</span><span class="va">post_theta_means_strong</span> <span class="op">&lt;-</span> <span class="va">post_params_strong</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">post_params_strong</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.61111111 0.30555556 0.08333333</code></pre>
+</div>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Monte Carlo simulation</span></span>
+<span><span class="va">post_thetas_strong</span> <span class="op">&lt;-</span> <span class="fu">gtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gtools/man/dirichlet.html">rdirichlet</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10000</span>, alpha <span class="op">=</span> <span class="va">post_params_strong</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># approximate posterior means for each of theta1, theta2, theta3</span></span>
+<span><span class="va">post_thetas_strong</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">data.frame</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map_dbl</span><span class="op">(</span>\<span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">col</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        X1         X2         X3 
+0.61214853 0.30462715 0.08322432 </code></pre>
+</div>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># approximate posterior medians and 95% credible intervals for each of theta1, theta2, theta3</span></span>
+<span><span class="va">post_thetas_strong</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">data.frame</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map</span><span class="op">(</span>\<span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">col</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">0.50</span>,<span class="fl">0.975</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$X1
+     2.5%       50%     97.5% 
+0.4522083 0.6141691 0.7622460 
+
+$X2
+     2.5%       50%     97.5% 
+0.1688785 0.3018798 0.4612701 
+
+$X3
+      2.5%        50%      97.5% 
+0.01781104 0.07594849 0.19276016 </code></pre>
+</div>
+</div>
+</section></section></section><section id="lab-2" class="level2"><h2 class="anchored" data-anchor-id="lab-2">Lab 2</h2>
+<section id="the-coin-example" class="level3"><h3 class="anchored" data-anchor-id="the-coin-example">The coin example</h3>
+<ul>
+<li><p>Experiment; Suppose that a coin is tossed 20 times, but Chloe only recorded the first 19 outcomes: <span class="math inline">\(\{1,1,1,1,1,0,1,1,1,1,0,1,1,0,1,1,0,0,1\}\)</span></p></li>
+<li>
+<p>Data:</p>
+<ul>
+<li>
+<span class="math inline">\(X_1, X_2, \ldots, X_{19}\)</span> taking on values of 1 (head) or 0 (tail), <span class="math inline">\(X_{20}\)</span> is missing.</li>
+<li><span class="math inline">\(X_i \sim \text{Bernoulli}(\theta)\)</span></li>
+</ul>
+</li>
+<li><p>Parameter of interest: <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>We can use Gibbs sampler to find posterior distribution of both <span class="math inline">\(\theta\)</span> and <span class="math inline">\(X_{20}\)</span>!</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># obsersved data</span></span>
+<span><span class="co"># Observed data</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># initialize items</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
+<span><span class="va">m_burn_in</span> <span class="op">&lt;-</span> <span class="fl">5000</span></span>
+<span><span class="va">post_theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">post_x20</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Gibbs sampler!</span></span>
+<span><span class="co"># -&gt; set initial values of p and X20</span></span>
+<span><span class="va">post_theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0.5</span></span>
+<span><span class="va">post_x20</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="co"># add values to the chain</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">m</span><span class="op">)</span><span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co"># derived in previous notes</span></span>
+<span>  <span class="va">post_theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">rbeta</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span>, shape1 <span class="op">=</span> <span class="va">y</span> <span class="op">+</span> <span class="va">post_x20</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, shape2 <span class="op">=</span> <span class="fl">20</span> <span class="op">-</span> <span class="va">y</span> <span class="op">-</span> <span class="va">post_x20</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="va">post_x20</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="va">post_theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># time series plot of the Markov Chain path for "p"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">post_theta</span>, type <span class="op">=</span> <span class="st">'l'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># display and summarize kept values</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">post_theta</span><span class="op">[</span><span class="op">(</span><span class="va">m_burn_in</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="va">m</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">post_theta</span><span class="op">[</span><span class="op">(</span><span class="va">m_burn_in</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="va">m</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7016982</code></pre>
+</div>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">post_theta</span><span class="op">[</span><span class="op">(</span><span class="va">m_burn_in</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="va">m</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.09811186</code></pre>
+</div>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">post_x20</span><span class="op">[</span><span class="op">(</span><span class="va">m_burn_in</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="va">m</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   0    1 
+1500 3500 </code></pre>
+</div>
+</div>
+</section><section id="normal-models-with-noninformative-priors" class="level3"><h3 class="anchored" data-anchor-id="normal-models-with-noninformative-priors">Normal models with noninformative priors</h3>
+<p>Consider a normal models with noninformative priors. <span class="math inline">\(Y_1, \ldots, Y_n \sim \text{N}(\mu, \sigma^2)\)</span>. The data set is simulated from the below code.</p>
+<div class="cell">
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">20</span>, <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use Rstan to build the model and obtain the posterior distribution of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>. Draw histograms for each parameter. Obtain the posterior predictive distribution for a future observation. Draw a histogram.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; n;</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y[n];</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu;</span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma2;</span>
+<span id="cb93-8"><a href="#cb93-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb93-9"><a href="#cb93-9" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb93-10"><a href="#cb93-10" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sqrt(sigma2));</span>
+<span id="cb93-11"><a href="#cb93-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> -log(sigma2);</span>
+<span id="cb93-12"><a href="#cb93-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb93-13"><a href="#cb93-13" aria-hidden="true" tabindex="-1"></a><span class="kw">generated quantities</span> {</span>
+<span id="cb93-14"><a href="#cb93-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y_pred;</span>
+<span id="cb93-15"><a href="#cb93-15" aria-hidden="true" tabindex="-1"></a>  y_pred = normal_rng(mu, sqrt(sigma2));</span>
+<span id="cb93-16"><a href="#cb93-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># specify stand code</span></span>
+<span><span class="va">stan_code</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
+<span><span class="st">data {</span></span>
+<span><span class="st">  int&lt;lower=0&gt; n;</span></span>
+<span><span class="st">  real y[n];</span></span>
+<span><span class="st">}</span></span>
+<span><span class="st">parameters {</span></span>
+<span><span class="st">  real mu;</span></span>
+<span><span class="st">  real&lt;lower=0&gt; sigma2;</span></span>
+<span><span class="st">}</span></span>
+<span><span class="st">model {</span></span>
+<span><span class="st">  y ~ normal(mu, sqrt(sigma2));</span></span>
+<span><span class="st">  target += -log(sigma2);</span></span>
+<span><span class="st">}</span></span>
+<span><span class="st">generated quantities {</span></span>
+<span><span class="st">  real y_pred;</span></span>
+<span><span class="st">  y_pred = normal_rng(mu, sqrt(sigma2));</span></span>
+<span><span class="st">}</span></span>
+<span><span class="st">"</span></span>
+<span></span>
+<span><span class="co"># save model, provide data and run</span></span>
+<span><span class="va">stan_mod</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stan_model.html">stan_model</a></span><span class="op">(</span>model_code <span class="op">=</span> <span class="va">stan_code</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+using C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.3.2)’
+using SDK: ‘MacOSX26.2.sdk’
+clang -arch arm64 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+In file included from &lt;built-in&gt;:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/Core:19:
+/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+  679 | #include &lt;cmath&gt;
+      |          ^~~~~~~
+1 error generated.
+make: *** [foo.o] Error 1</code></pre>
+</div>
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data_stan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>,</span>
+<span>                  y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span>
+<span><span class="va">stan_fit</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html">sampling</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">stan_mod</span>, data <span class="op">=</span> <span class="va">data_stan</span>,</span>
+<span>                            seed <span class="op">=</span> <span class="fl">1</span>, chains <span class="op">=</span> <span class="fl">2</span>, warmup <span class="op">=</span> <span class="fl">5000</span>, iter <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 6e-06 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 10000 [  0%]  (Warmup)
+Chain 1: Iteration: 1000 / 10000 [ 10%]  (Warmup)
+Chain 1: Iteration: 2000 / 10000 [ 20%]  (Warmup)
+Chain 1: Iteration: 3000 / 10000 [ 30%]  (Warmup)
+Chain 1: Iteration: 4000 / 10000 [ 40%]  (Warmup)
+Chain 1: Iteration: 5000 / 10000 [ 50%]  (Warmup)
+Chain 1: Iteration: 5001 / 10000 [ 50%]  (Sampling)
+Chain 1: Iteration: 6000 / 10000 [ 60%]  (Sampling)
+Chain 1: Iteration: 7000 / 10000 [ 70%]  (Sampling)
+Chain 1: Iteration: 8000 / 10000 [ 80%]  (Sampling)
+Chain 1: Iteration: 9000 / 10000 [ 90%]  (Sampling)
+Chain 1: Iteration: 10000 / 10000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.018 seconds (Warm-up)
+Chain 1:                0.02 seconds (Sampling)
+Chain 1:                0.038 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 1e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 10000 [  0%]  (Warmup)
+Chain 2: Iteration: 1000 / 10000 [ 10%]  (Warmup)
+Chain 2: Iteration: 2000 / 10000 [ 20%]  (Warmup)
+Chain 2: Iteration: 3000 / 10000 [ 30%]  (Warmup)
+Chain 2: Iteration: 4000 / 10000 [ 40%]  (Warmup)
+Chain 2: Iteration: 5000 / 10000 [ 50%]  (Warmup)
+Chain 2: Iteration: 5001 / 10000 [ 50%]  (Sampling)
+Chain 2: Iteration: 6000 / 10000 [ 60%]  (Sampling)
+Chain 2: Iteration: 7000 / 10000 [ 70%]  (Sampling)
+Chain 2: Iteration: 8000 / 10000 [ 80%]  (Sampling)
+Chain 2: Iteration: 9000 / 10000 [ 90%]  (Sampling)
+Chain 2: Iteration: 10000 / 10000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.018 seconds (Warm-up)
+Chain 2:                0.018 seconds (Sampling)
+Chain 2:                0.036 seconds (Total)
+Chain 2: </code></pre>
+</div>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># view results</span></span>
+<span><span class="fu">rstan</span><span class="fu">::</span><span class="fu">summary</span><span class="op">(</span><span class="va">stan_fit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$summary
+             mean     se_mean        sd       2.5%        25%        50%
+mu       19.86723 0.004852896 0.4682673   18.93446   19.56174   19.86778
+sigma2   21.94338 0.034599368 3.1926609   16.46045   19.72027   21.66252
+y_pred   19.78095 0.048155695 4.7430143   10.43285   16.62534   19.74488
+lp__   -203.70507 0.014451571 0.9989827 -206.41572 -204.09939 -203.40607
+              75%      97.5%    n_eff      Rhat
+mu       20.18138   20.78084 9310.772 0.9999961
+sigma2   23.81700   29.03084 8514.698 0.9999087
+y_pred   22.92318   29.24571 9700.934 0.9998684
+lp__   -202.97611 -202.71508 4778.437 1.0007365
+
+$c_summary
+, , chains = chain:1
+
+         stats
+parameter       mean        sd       2.5%        25%        50%        75%
+   mu       19.86523 0.4698904   18.94084   19.56175   19.86490   20.17667
+   sigma2   21.94321 3.1401539   16.56783   19.75600   21.66173   23.81445
+   y_pred   19.76297 4.7121507   10.38909   16.63503   19.66134   22.80949
+   lp__   -203.68943 1.0032822 -206.42551 -204.08233 -203.38985 -202.96206
+         stats
+parameter      97.5%
+   mu       20.77673
+   sigma2   28.91306
+   y_pred   29.12347
+   lp__   -202.71473
+
+, , chains = chain:2
+
+         stats
+parameter       mean        sd       2.5%        25%        50%        75%
+   mu       19.86922 0.4666770   18.93446   19.56174   19.87198   20.18558
+   sigma2   21.94356 3.2446325   16.38017   19.68002   21.66350   23.82156
+   y_pred   19.79892 4.7740821   10.53011   16.61857   19.81317   23.03698
+   lp__   -203.72070 0.9945191 -206.39382 -204.11736 -203.42086 -202.98866
+         stats
+parameter      97.5%
+   mu       20.78096
+   sigma2   29.17298
+   y_pred   29.28187
+   lp__   -202.71620</code></pre>
+</div>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">stan_fit</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Inference for Stan model: anon_model.
+2 chains, each with iter=10000; warmup=5000; thin=1; 
+post-warmup draws per chain=5000, total post-warmup draws=10000.
+
+          mean se_mean   sd    2.5%     25%     50%     75%   97.5% n_eff Rhat
+mu       19.87    0.00 0.47   18.93   19.56   19.87   20.18   20.78  9311    1
+sigma2   21.94    0.03 3.19   16.46   19.72   21.66   23.82   29.03  8515    1
+y_pred   19.78    0.05 4.74   10.43   16.63   19.74   22.92   29.25  9701    1
+lp__   -203.71    0.01 1.00 -206.42 -204.10 -203.41 -202.98 -202.72  4778    1
+
+Samples were drawn using NUTS(diag_e) at Mon Jun  8 14:41:53 2026.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).</code></pre>
+</div>
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># save and visualize results</span></span>
+<span><span class="va">list_draws</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-extract.html">extract</a></span><span class="op">(</span><span class="va">stan_fit</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">list_draws</span><span class="op">$</span><span class="va">mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">list_draws</span><span class="op">$</span><span class="va">sigma2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">list_draws</span><span class="op">$</span><span class="va">y_pred</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-18-3.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">list_draws</span><span class="op">$</span><span class="va">mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19.86723</code></pre>
+</div>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">list_draws</span><span class="op">$</span><span class="va">sigma2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 21.94338</code></pre>
+</div>
+</div>
+</section></section><section id="homework" class="level2"><h2 class="anchored" data-anchor-id="homework">Homework</h2>
+<section id="setup-1" class="level3"><h3 class="anchored" data-anchor-id="setup-1">Setup</h3>
 <p><em>Water pollution has been an important environmental concern. A chemistry lab has been helping EPA with the water quality monitoring lab work in the past month. The concentration of a toxic chemical was measured for the water samples they received from EPA and the records are given below (unit: mg/L):</em></p>
 <div class="cell">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">580</span>,<span class="fl">674</span>,<span class="fl">572</span>,<span class="fl">540</span>,<span class="fl">616</span>,<span class="fl">298</span>,<span class="fl">960</span>,<span class="fl">570</span>,<span class="fl">640</span>,<span class="fl">588</span>,<span class="fl">556</span>,<span class="fl">588</span>,<span class="fl">582</span>,<span class="fl">844</span>,<span class="fl">574</span>,<span class="fl">420</span>,<span class="fl">696</span>,<span class="fl">620</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">580</span>,<span class="fl">674</span>,<span class="fl">572</span>,<span class="fl">540</span>,<span class="fl">616</span>,<span class="fl">298</span>,<span class="fl">960</span>,<span class="fl">570</span>,<span class="fl">640</span>,<span class="fl">588</span>,<span class="fl">556</span>,<span class="fl">588</span>,<span class="fl">582</span>,<span class="fl">844</span>,<span class="fl">574</span>,<span class="fl">420</span>,<span class="fl">696</span>,<span class="fl">620</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><em>The lab manager believes that these measures are from a normal population, but he is not sure about the mean or variance of such a population.</em></p>
 </section><section id="part-a" class="level3"><h3 class="anchored" data-anchor-id="part-a">Part a</h3>
@@ -853,7 +1623,7 @@ parameter      97.5%
 \]</span></p>
 <p>So, using MC simulation approach, we simply need to simulate a set of independent draws from the posterior distributions.</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize needed values</span></span>
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize needed values</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
 <span></span>
@@ -867,34 +1637,34 @@ parameter      97.5%
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">post_mu</span>, freq <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">post_mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">post_mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  465.1   583.9   606.7   606.7   629.6   769.1 </code></pre>
+  428.8   583.1   606.2   606.2   628.8   781.7 </code></pre>
 </div>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">post_mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">post_mu</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 35.20359</code></pre>
+<pre><code>[1] 35.68146</code></pre>
 </div>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">post_sigma2</span>, freq <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">post_sigma2</span>, freq <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">post_sigma2</span> <span class="op">%&gt;%</span> <span class="va">sqrt</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">post_sigma2</span> <span class="op">%&gt;%</span> <span class="va">sqrt</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  86.44  128.40  143.52  147.60  162.40  384.06 </code></pre>
+  83.04  128.51  143.96  147.66  162.63  319.57 </code></pre>
 </div>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">post_sigma2</span> <span class="op">%&gt;%</span> <span class="va">sqrt</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">post_sigma2</span> <span class="op">%&gt;%</span> <span class="va">sqrt</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 27.37645</code></pre>
+<pre><code>[1] 27.09527</code></pre>
 </div>
 </div>
 <p>Description of posteriors:</p>
@@ -907,45 +1677,45 @@ parameter      97.5%
 <p><em>Please find the 95% credible interval for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> respectively.</em></p>
 <p>From above, we know that the posterior distribution for <span class="math inline">\(\mu\)</span> is bell-shaped, so an equal-tails interval will be optimal. However for <span class="math inline">\(\sigma^2\)</span>, a HPD interval will be better because of the skewness.</p>
 <div class="cell">
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># credible intervals of parameters</span></span>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># credible intervals of parameters</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">post_mu</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    2.5%    97.5% 
-535.9363 676.5733 </code></pre>
+536.5515 678.1974 </code></pre>
 </div>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">post_sigma2</span>, conf <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="va">sqrt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">TeachingDemos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TeachingDemos/man/hpd.html">emp.hpd</a></span><span class="op">(</span><span class="va">post_sigma2</span>, conf <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="va">sqrt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  86.44456 198.51795</code></pre>
+<pre><code>[1]  83.03548 197.45950</code></pre>
 </div>
 </div>
 </section><section id="part-c" class="level3"><h3 class="anchored" data-anchor-id="part-c">Part c</h3>
 <p><em>These water samples are from the Acton Reservoir in Ohio. EPA published a criteria that the average concentration of this chemical should be below 650 mg/L. What is the probability that the average concentration is below 650 based on the Bayesian analysis you carried out (Use the posterior samples in (a))?</em></p>
 <p>To find this probability, we can simply use our posterior sample for <span class="math inline">\(\mu\)</span>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate desired probability</span></span>
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># calculate desired probability</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">post_mu</span> <span class="op">&lt;</span> <span class="fl">650</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8994</code></pre>
+<pre><code>[1] 0.8946</code></pre>
 </div>
 </div>
 </section><section id="part-d" class="level3"><h3 class="anchored" data-anchor-id="part-d">Part d</h3>
 <p><em>If the lab receives a new water sample this month, what is the probability that the concentration measured for this new sample is below 650 based on the Bayesian analysis you carried out (Use MC approach, that is to use the samples in (a))?</em></p>
 <p>To find this probability, we must predict new observations using our posterior samples for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># generate new observations using posterior samples</span></span>
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># generate new observations using posterior samples</span></span>
 <span><span class="va">y_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">m</span>, mean <span class="op">=</span> <span class="va">post_mu</span>, sd <span class="op">=</span> <span class="va">post_sigma2</span> <span class="op">%&gt;%</span> <span class="va">sqrt</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># calculate desired probability</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y_pred</span> <span class="op">&lt;</span> <span class="fl">650</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6121</code></pre>
+<pre><code>[1] 0.6202</code></pre>
 </div>
 </div>
 </section><section id="part-e" class="level3"><h3 class="anchored" data-anchor-id="part-e">Part e</h3>
 <p><em>Use Gibbs sampler (not Rstan) to draw samples from the posterior distribution. Draw the density curves or histograms for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>. Based on the posterior samples, repeat (d).</em></p>
 <p><img src="assignments/content/hw-mcmc-part-f.png" class="img-fluid"></p>
 <div class="cell">
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize results vectors with initial values already</span></span>
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># initialize results vectors with initial values already</span></span>
 <span><span class="va">post_mu_gibbs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">600</span><span class="op">)</span></span>
 <span><span class="va">post_sigma2_gibbs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span></span>
@@ -965,7 +1735,7 @@ parameter      97.5%
 <span><span class="co"># calculate desired probability</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y_pred_gibbs</span> <span class="op">&lt;</span> <span class="fl">650</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6193</code></pre>
+<pre><code>[1] 0.6162</code></pre>
 </div>
 </div>
 <p>Verify that using gibbs sampler resulted in a sample from the desired posterior distributions.</p>
@@ -973,32 +1743,32 @@ parameter      97.5%
 <p><span class="math inline">\(\mu \mid \mathbf{y} \sim \text{t}_{n-t}(\bar{y}, \frac{\sigma^2}{n})\)</span></p>
 <p>Note that this is not the standard <span class="math inline">\(t\)</span>-distribution. Here, it has a location and scale parameter. The location parameter shifts the entire distribution, and the scale parameter stretches / compresses the distribution (i.e.&nbsp;controlling how much it is spread around the center). These are completely different than the non-centrality parameter, which introduces asymmetry (in short).</p>
 <div class="cell">
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># BEST way to compare distributions is with a qqplot (just doing for mu...)</span></span>
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># BEST way to compare distributions is with a qqplot (just doing for mu...)</span></span>
 <span><span class="co"># -&gt; first compare gibbs results to MC methods</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/qqnorm.html">qqplot</a></span><span class="op">(</span><span class="va">post_mu</span>, <span class="va">post_mu_gibbs</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># -&gt; now compare to marginal posterior (location-scale t-dist)</span></span>
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># -&gt; now compare to marginal posterior (location-scale t-dist)</span></span>
 <span><span class="co"># -&gt; ppoints(&lt; vec &gt;) just generates length(vec) probabilities between 0 and 1 (i.e. P(X &lt; quantile) = ppoints[i])</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/qqnorm.html">qqplot</a></span><span class="op">(</span><span class="va">post_mu_gibbs</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span>p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/ppoints.html">ppoints</a></span><span class="op">(</span><span class="va">post_mu_gibbs</span><span class="op">)</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># can also confirm by overlaying marginal posterior curve to gibbs sampler results</span></span>
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># can also confirm by overlaying marginal posterior curve to gibbs sampler results</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">post_mu_gibbs</span>, freq <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">dt</a></span><span class="op">(</span><span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-12-3.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-25-3.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1012,24 +1782,24 @@ parameter      97.5%
 <li>We ONLY specify the <strong>data distribution</strong> and the <strong>prior distribution(s)</strong>, nothing else.</li>
 <li>We have a non-informative prior (i.e doesn’t have a normal <span class="math inline">\(\mu\)</span> for a prior). So we have to add this manually to the target, which is already the log of the posterior.</li>
 </ul>
-<div class="sourceCode" id="cb55"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; n;</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y[n];</span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu;</span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma2;</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
-<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sqrt(sigma2)); <span class="co">// data distribution</span></span>
-<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> -<span class="dv">1</span> * log(sigma2); <span class="co">// add the information from our noninformative prior</span></span>
-<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a><span class="kw">generated quantities</span>{</span>
-<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y_pred;</span>
-<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>  y_pred = normal_rng(mu, sqrt(sigma2));</span>
-<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; n;</span>
+<span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y[n];</span>
+<span id="cb133-4"><a href="#cb133-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb133-5"><a href="#cb133-5" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb133-6"><a href="#cb133-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu;</span>
+<span id="cb133-7"><a href="#cb133-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma2;</span>
+<span id="cb133-8"><a href="#cb133-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb133-9"><a href="#cb133-9" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb133-10"><a href="#cb133-10" aria-hidden="true" tabindex="-1"></a>  y ~ normal(mu, sqrt(sigma2)); <span class="co">// data distribution</span></span>
+<span id="cb133-11"><a href="#cb133-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> -<span class="dv">1</span> * log(sigma2); <span class="co">// add the information from our noninformative prior</span></span>
+<span id="cb133-12"><a href="#cb133-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb133-13"><a href="#cb133-13" aria-hidden="true" tabindex="-1"></a><span class="kw">generated quantities</span>{</span>
+<span id="cb133-14"><a href="#cb133-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y_pred;</span>
+<span id="cb133-15"><a href="#cb133-15" aria-hidden="true" tabindex="-1"></a>  y_pred = normal_rng(mu, sqrt(sigma2));</span>
+<span id="cb133-16"><a href="#cb133-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell">
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># specify stand code</span></span>
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># specify stand code</span></span>
 <span><span class="va">stan_code</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
 <span><span class="st">data {</span></span>
 <span><span class="st">  int&lt;lower=0&gt; n;</span></span>
@@ -1050,8 +1820,23 @@ parameter      97.5%
 <span><span class="st">"</span></span>
 <span></span>
 <span><span class="co"># save, provide needed info, and run model</span></span>
-<span><span class="va">stan_mod</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stan_model.html">stan_model</a></span><span class="op">(</span>model_code <span class="op">=</span> <span class="va">stan_code</span><span class="op">)</span></span>
-<span><span class="va">data_stan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>,</span>
+<span><span class="va">stan_mod</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stan_model.html">stan_model</a></span><span class="op">(</span>model_code <span class="op">=</span> <span class="va">stan_code</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+using C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.3.2)’
+using SDK: ‘MacOSX26.2.sdk’
+clang -arch arm64 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.6/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+In file included from &lt;built-in&gt;:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/Dense:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/Core:19:
+/Library/Frameworks/R.framework/Versions/4.6/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+  679 | #include &lt;cmath&gt;
+      |          ^~~~~~~
+1 error generated.
+make: *** [foo.o] Error 1</code></pre>
+</div>
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data_stan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>,</span>
 <span>                  y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span>
 <span><span class="va">stan_fit</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html">sampling</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">stan_mod</span>, data <span class="op">=</span> <span class="va">data_stan</span>,</span>
 <span>                             seed <span class="op">=</span> <span class="fl">1</span>, chains <span class="op">=</span> <span class="fl">2</span>, warmup <span class="op">=</span> <span class="fl">200</span>, iter <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1078,8 +1863,8 @@ Chain 1: Iteration: 9200 / 10000 [ 92%]  (Sampling)
 Chain 1: Iteration: 10000 / 10000 [100%]  (Sampling)
 Chain 1: 
 Chain 1:  Elapsed Time: 0.005 seconds (Warm-up)
-Chain 1:                0.035 seconds (Sampling)
-Chain 1:                0.04 seconds (Total)
+Chain 1:                0.034 seconds (Sampling)
+Chain 1:                0.039 seconds (Total)
 Chain 1: 
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
@@ -1103,11 +1888,11 @@ Chain 2: Iteration: 9200 / 10000 [ 92%]  (Sampling)
 Chain 2: Iteration: 10000 / 10000 [100%]  (Sampling)
 Chain 2: 
 Chain 2:  Elapsed Time: 0.006 seconds (Warm-up)
-Chain 2:                0.042 seconds (Sampling)
-Chain 2:                0.048 seconds (Total)
+Chain 2:                0.041 seconds (Sampling)
+Chain 2:                0.047 seconds (Total)
 Chain 2: </code></pre>
 </div>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># view results</span></span>
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># view results</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">stan_fit</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Inference for Stan model: anon_model.
@@ -1125,24 +1910,24 @@ sigma2  9230    1
 y_pred 18256    1
 lp__    7932    1
 
-Samples were drawn using NUTS(diag_e) at Fri May 22 16:12:30 2026.
+Samples were drawn using NUTS(diag_e) at Mon Jun  8 14:42:09 2026.
 For each parameter, n_eff is a crude measure of effective sample size,
 and Rhat is the potential scale reduction factor on split chains (at 
 convergence, Rhat=1).</code></pre>
 </div>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">list_draws</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-extract.html">extract</a></span><span class="op">(</span><span class="va">stan_fit</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">list_draws</span> <span class="op">&lt;-</span> <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-extract.html">extract</a></span><span class="op">(</span><span class="va">stan_fit</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># calculate desired probability</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">list_draws</span><span class="op">$</span><span class="va">y_pred</span> <span class="op">&lt;</span> <span class="fl">650</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6165306</code></pre>
 </div>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># confirm rstan results match MC results</span></span>
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># confirm rstan results match MC results</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/qqnorm.html">qqplot</a></span><span class="op">(</span><span class="va">post_mu</span>, <span class="va">list_draws</span><span class="op">$</span><span class="va">mu</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
+<figure class="figure"><p><img src="4-mcmc_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" data-fig-pos="hold" width="672"></p>
 </figure>
 </div>
 </div>

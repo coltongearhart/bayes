@@ -25,3 +25,414 @@ Sys.setenv(
 
 ```
 
+### Bayesian linear regression models: Analysis with noninformative priors
+
+Normal model, noninformative prior.
+
+Data:
+- $y$: change in maximal oxygen uptake of kids (positive number = improvement)
+- $X_1$: 0 = running group, 1 = aerobics group
+- $X_2$: ages of subjects
+- $X_3$: interaction between group and age
+
+```{r}
+
+y <- c(-0.87,-10.74,-3.27,-1.97,7.50,-7.25, 17.05,4.96,10.40,11.05,0.26,2.51)
+x1 <- c(0,0,0,0,0,0,1,1,1,1,1,1)
+x2 <- c(23,22,22,25,27,20,31,23,27,28,22,24)
+x3 <- x1 * x2
+X <- cbind(x0 = rep(1, length(y)), x1, x2, x3)
+
+```
+
+#### Using independent samples
+
+Now we can simulate from the posterior.
+
+```{r}
+
+# solve for posterior parameters
+b_hat <- solve(t(X) %*% X) %*% t(X) %*% y
+post_alpha <- (nrow(X) - ncol(X)) / 2
+post_gamma <- t(y - X %*% b_hat) %*% (y- X %*% b_hat) / 2
+
+# initialize items
+m <- 10000
+post_beta <- matrix(data = 0, nrow = m , ncol = 4)
+colnames(post_beta) <- paste0("b",0:3)
+
+# generate samples
+# -> initialize needed items
+post_sigma2 <- 1 / rgamma(n = m, shape = post_alpha, rate = post_gamma)
+X_t_Xinv <- solve(t(X) %*% X)
+for(i in 1:m) {
+  
+  post_beta[i,] <- MASS::mvrnorm(1, b_hat, post_sigma2[i] * X_t_Xinv)
+
+}
+
+# summarize the posteriors
+summary(post_beta)
+summary(post_sigma2)
+
+# find quantities of interest
+mean(post_beta[,2] > 25)
+quantile(post_beta[,2], probs = c(0.025,0.975))
+quantile(post_beta[,3], probs = c(0.025,0.975))
+quantile(post_beta[,4], probs = c(0.025,0.975))
+
+# posterior prediction
+# -> initialize items
+x1_new <- c(0,1)
+x2_new <- rep(mean(x2), 2)
+x3_new <- x1_new * x2_new
+X_new <- cbind(x0_new = 1, x1_new, x2_new, x3_new)
+y_pred <- matrix(0, m, 2)
+
+# generate predictions
+for(i in 1:m) {
+
+  mean_i <- X_new %*% post_beta[i,]
+  y_pred[i,1] <- rnorm(n = 1, mean = mean_i[1], sd = sqrt(post_sigma2[i]))
+  y_pred[i,2] <- rnorm(n = 1 ,mean = mean_i[2], sd = sqrt(post_sigma2[i]))
+
+}
+
+# find quantity of interest
+quantile(y_pred[,1], probs = c(0.025,0.975))
+quantile(y_pred[,2], probs = c(0.025,0.975))
+
+```
+
+#### Using Stan
+
+Method 1: Using individual predictors
+
+```stan
+data {
+  int<lower=0> n; // sample size
+  vector[n] y;
+  vector[n] x1;
+  vector[n] x2;
+  vector[n] x3;
+  int<lower=0> n2; // sample size of the future observations
+  vector[n2] x1_new;
+  vector[n2] x2_new;
+  vector[n2] x3_new;
+}
+parameters {
+  real beta0;
+  real beta1;
+  real beta2;
+  real beta3;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(beta0 + beta1 * x1 + beta2 * x2 + beta3 * x3, sqrt(sigma2)); // data distribution
+  target += -log(sigma2); // prior
+}
+generated quantities {
+  vector[n2] y_pred;
+  for (i in 1:n2) {
+    y_pred[i] = normal_rng(beta0 + beta1 * x1_new[i] + beta2 * x2_new[i] + beta3 * x3_new[i], sqrt(sigma2)); //the y values predicted by the model
+  }
+}
+```
+
+```{r}
+#| cache: true
+
+# specify stand code
+stan_code1 <- "
+data {
+  int<lower=0> n;
+  vector[n] y;
+  vector[n] x1;
+  vector[n] x2;
+  vector[n] x3;
+  int<lower=0> n2;
+  vector[n2] x1_new;
+  vector[n2] x2_new;
+  vector[n2] x3_new;
+}
+parameters {
+  real beta0;
+  real beta1;
+  real beta2;
+  real beta3;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(beta0 + beta1 * x1 + beta2 * x2 + beta3 * x3, sqrt(sigma2));
+  target += -log(sigma2);
+}
+generated quantities {
+  vector[n2] y_pred;
+  for (i in 1:n2) {
+    y_pred[i] = normal_rng(beta0 + beta1 * x1_new[i] + beta2 * x2_new[i] + beta3 * x3_new[i], sqrt(sigma2));
+  }
+}
+"
+
+# save, provide needed info, and run model
+stan_mod1 <- rstan::stan_model(model_code = stan_code1)
+data_stan1 <- list(n = length(y), n2 = length(x1_new),
+                   y = y, x1 = x1, x2 = x2, x3 = x3,
+                   x1_new = x1_new, x2_new = x2_new, x3_new = x3_new)
+stan_fit1 <- rstan::sampling(object = stan_mod1, data = data_stan1,
+                             seed = 1, chains = 2, warmup = 2000, iter = 5000)
+
+# view results
+print(stan_fit1, digits = 2)
+
+```
+
+Method 2: Using the model matrix
+
+```stan
+data {
+  int n; // the number of observations
+  int n2; // the size of the new_X matrix
+  int p; // the number of columns in the model matrix
+  real y[n]; // the response
+  matrix[n,p] X; // the model matrix
+  matrix[n2,p] X_new; // the matrix for the predicted values
+}
+parameters {
+  vector[p] beta; // the regression parameters
+  real<lower=0> sigma2; // the variance
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  target += -log(sigma2);
+}
+generated quantities {
+  vector[n2] y_pred;
+  for (i in 1:n2) {
+    y_pred[i] = normal_rng(X_new[i,] * beta, sqrt(sigma2));
+  }
+}
+```
+
+```{r}
+#| cache: true
+
+# specify stand code
+stan_code2 <- "
+data {
+  int n;
+  int n2;
+  int p;
+  real y[n];
+  matrix[n,p] X;
+  matrix[n2,p] X_new;
+}
+parameters {
+  vector[p] beta;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  target += -log(sigma2);
+}
+generated quantities {
+  vector[n2] y_pred;
+  for (i in 1:n2) {
+    y_pred[i] = normal_rng(X_new[i,] * beta, sqrt(sigma2));
+  }
+}
+"
+
+# save, provide needed info, and run model
+stan_mod2 <- rstan::stan_model(model_code = stan_code2)
+data_stan2 <- list(n = length(y), n2 = length(x1_new), p = ncol(X),
+                   y = y, X = X,
+                   X_new = cbind(x0_new = 1, x1_new = x1_new, x2_new = x2_new, x3_new = x3_new))
+stan_fit2 <- rstan::sampling(object = stan_mod2, data = data_stan2,
+                             seed = 1, chains = 2, warmup = 2000, iter = 5000)
+
+# view results
+print(stan_fit2, digits = 2)
+
+```
+
+### Bayesian linear regression models: Analysis with conjugate priors
+
+```stan
+data {
+  int n; // the number of observations
+  int n2; // the size of the new_X matrix
+  int p; // the number of columns in the model matrix
+  real y[n]; // the response
+  matrix[n,p] X; // the model matrix
+  matrix[n2,p] X_new; // the matrix for the predicted values
+}
+parameters {
+  vector[p] beta; // the regression parameters
+  real<lower=0> sigma2; // variance
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  for (i in 1:p) {
+    beta[i] ~ normal(0,100);
+  }
+  sigma2 ~ inv_gamma(0.01,0.01);
+}
+generated quantities {
+  vector[n2] y_pred;
+  for (i in 1:n2) {
+    y_pred[i] = normal_rng(X_new[i,] * beta, sqrt(sigma2));
+  }
+}
+```
+
+```{r}
+#| cache: true
+
+# specify stand code
+stan_code3 <- "
+data {
+  int n;
+  int n2;
+  int p;
+  real y[n];
+  matrix[n,p] X;
+  matrix[n2,p] X_new;
+}
+parameters {
+  vector[p] beta;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  for (i in 1:p) {
+    beta[i] ~ normal(0,100);
+  }
+  sigma2 ~ inv_gamma(0.01,0.01);
+}
+generated quantities {
+  vector[n2] y_pred;
+  for (i in 1:n2) {
+    y_pred[i] = normal_rng(X_new[i,] * beta, sqrt(sigma2));
+  }
+}
+"
+
+# save, provide needed info, and run model
+stan_mod3 <- rstan::stan_model(model_code = stan_code3)
+data_stan3 <- list(n = length(y), n2 = length(x1_new), p = ncol(X),
+                   y = y, X = X,
+                   X_new = cbind(x0_new = 1, x1_new = x1_new, x2_new = x2_new, x3_new = x3_new))
+stan_fit3 <- rstan::sampling(object = stan_mod3, data = data_stan3,
+                             seed = 1, chains = 2, warmup = 2000, iter = 5000)
+
+# view results
+print(stan_fit3, digits = 2)
+
+```
+
+### Practice
+
+Setup:
+
+`data-haircut.csv` is a data set about the gender and cost of last haircut they paid for. Could you fit a model to decide if female student spend more on haircut on average? In this data set, some `NA`s are existing for the response (money spent on haircut). You need to remove these; additionally, the predictor variable `gender` needs to be recoded as 0 and 1 to fit the model.
+
+Solution:
+
+With gender as an indicator variable, the model statements become:
+
+
+$$
+\begin{align*}
+y = \beta_0 + \beta_1 I_{Male} + \epsilon\\
+\end{align*}
+$$
+
+$$
+\begin{align*}
+\Rightarrow y &= \beta_0 + \epsilon \quad \text{(Female)}\\
+y &= \beta_0 + \beta_1 + \epsilon \quad \text{(Female)}\\
+\end{align*}
+$$
+
+```stan
+data {
+  int n;
+  int n2;
+  int p;
+  real y[n];
+  matrix[n,p] X;
+  matrix[n2,p] X_new;
+}
+parameters {
+  vector[p] beta;
+  real<lower=0> sigma2;
+}
+model {
+   y ~ normal(X * beta, sqrt(sigma2));
+   target += -log(sigma2);
+   }
+generated quantities {
+  vector[n2] y_pred;
+  for (i in 1:n2) {
+    y_pred[i] = normal_rng(X_new[i,] * beta, sqrt(sigma2));
+  }
+}
+```
+
+```{r}
+#| cache: true
+
+# load and clean data
+data_haircut <- read_csv(file = "data//data-haircut.csv") %>% 
+  drop_na() %>%
+  mutate(gender = ifelse(gender == "female", 0, 1))
+
+# specify stand code
+stan_code4 <- "
+data {
+  int n;
+  int n2;
+  int p;
+  real y[n];
+  matrix[n,p] X;
+  matrix[n2,p] X_new;
+}
+parameters {
+  vector[p] beta;
+  real<lower=0> sigma2;
+}
+model {
+   y ~ normal(X * beta, sqrt(sigma2));
+   target += -log(sigma2);
+   }
+generated quantities {
+  vector[n2] y_pred;
+  for (i in 1:n2) {
+    y_pred[i] = normal_rng(X_new[i,] * beta, sqrt(sigma2));
+  }
+}
+"
+
+# save, provide needed info, and run model
+stan_mod4 <- rstan::stan_model(model_code = stan_code4)
+x1_new <- c(0,1)
+data_stan4 <- list(n = nrow(data_haircut), n2 = length(x1_new), p = (ncol(data_haircut) - 1) + 1,
+                   y = data_haircut$haircut, X = cbind(x0 = 1, data_haircut$gender),
+                   X_new = cbind(x0 = 1, x1_new = x1_new))
+stan_fit4 <- rstan::sampling(object = stan_mod4, data = data_stan4,
+                             seed = 1, chains = 2, warmup = 2000, iter = 5000)
+
+# view results
+print(stan_fit4, digits = 2)
+
+# obtain posterior samples
+list_draws <- rstan::extract(stan_fit4)
+hist(list_draws$beta[,1])
+hist(list_draws$beta[,2])
+hist(list_draws$y_pred[,1])
+hist(list_draws$y_pred[,2])
+
+```
+
+We see that the the estimated intercept averages `r round(mean(list_draws$beta[,1]), 2)` and the estimated $\beta_1$ coeﬃcient is around  `r round(mean(list_draws$beta[,2]), 2)`. This indicates that women tend to spend more on haircuts, on average, than men.

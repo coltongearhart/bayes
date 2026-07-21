@@ -1,8 +1,10 @@
-# Bayesian hypothesis tests, Bayes factor, and information critiria
+# Bayesian hypothesis tests, Bayes factor, and information criteria
 
 ## Notes
 
-<embed src="lectures/notes-bayesian-hypothesis-tests.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+<embed src="lectures/notes-bayesian-hypothesis-tests-p1.pdf" type="application/pdf" width="100%" height="1000px"></embed>
+
+<embed src="lectures/notes-bayesian-hypothesis-tests-p2.pdf" type="application/pdf" width="100%" height="1000px"></embed>
 
 ## Homework
 
@@ -24,3 +26,660 @@ Sys.setenv(
 )
 
 ```
+
+### Problem 1
+
+#### Setup
+
+*Miss Bri is a daycare teacher, and she needs to decide what brand of cereals they would buy for kids in her daycare. She has got the following information from an article:*
+
+```{r}
+
+data_cereal <- read_csv("data//data-cereal.csv") %>% 
+  janitor::clean_names()
+glimpse(data_cereal)
+
+```
+
+#### Part a
+
+*Please fit a frequentist linear regression model to this data, and use your analysis outcomes to help Miss Bri decide the relationship between the healthyindex variable and the nutrition fact variables(sodium, fiber, carbohydrates, sugar and potassium). That is, which nutrition fact variable(s) are significant predictor(s) for healthyindex at significance level $\alpha = 0.05$. Also construct the 95% confidence intervals for each regression coeﬃcient parameter.*
+
+```{r}
+
+# fit full model
+model_freq <- lm(formula = healthyindex ~ sugar + potassium + fiber + carbohydrates + sodium, data = data_cereal)
+summary(model_freq)
+
+# confidence intervals of regression parameters
+confint(model_freq)
+
+```
+
+Sodium is the only significant predictor.
+
+#### Part b
+
+*Please fit a Bayesian linear regression model to this data with noninformative priors and compare the point estimators and the credible intervals with what you have seen in the analysis outcomes you obtained in (a). Is it sodium a significant predictor from the Bayesian analysis? Why?*
+
+```stan
+data {
+  int n;
+  int p;
+  real y[n];
+  matrix[n,p] X;
+}
+
+parameters {
+  vector[p] beta;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  target += -log(sigma2); // add noninformative prior to log posterior
+}
+generated quantities{ // ignore this for now, it is used in part d
+  vector[n] log_lik;
+  for(i in 1:n) {
+      log_lik[i] = normal_lpdf(y[i] | X[i] * beta, sqrt(sigma2)); // quantity used to calculate WAIC
+  }
+}
+```
+
+```{r}
+#| cache: true
+
+# specify stand code
+stan_code1 <- "
+data {
+  int n;
+  int p;
+  real y[n];
+  matrix[n,p] X;
+}
+
+parameters {
+  vector[p] beta;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  target += -log(sigma2);
+}
+generated quantities{
+  vector[n] log_lik;
+  for(i in 1:n) {
+      log_lik[i] = normal_lpdf(y[i] | X[i] * beta, sqrt(sigma2)); // quantity used to calculate WAIC
+  }
+}
+"
+
+# save as model
+stan_mod1 <- rstan::stan_model(model_code = stan_code1)
+
+```
+
+```{r}
+#| cache: true
+
+# create data object to pass to Stan
+X <- data_cereal %>% 
+  select(-c(brand, healthyindex)) %>% 
+  {bind_cols(data.frame(intercept = 1, .))} %>% 
+  as.matrix()
+data_stan1 <- list(n = nrow(data_cereal), p = ncol(X), X = X,
+                   y = data_cereal$healthyindex)
+
+# sampling from the posterior distributions
+stan_fit1 <- rstan::sampling(object = stan_mod1, data = data_stan1,
+                            seed = 1, chains = 2, warmup = 2000, iter = 5000)
+
+# view results
+print(stan_fit1, digits = 2)
+
+# beta[1], ..., beta[6]
+colnames(X[,-1])
+
+```
+
+The frequentist and Bayesian regression models produced very similar point and interval estimates because a noninformative prior was used. With a noninformative prior, the posterior distribution is dominated by the likelihood, so the Bayesian posterior closely resembles the sampling distribution of the least squares estimator. As a result, the posterior means and credible intervals are nearly identical to the least squares estimates and confidence intervals. However, their interpretations differ:
+
+- A 95% *confidence interval* is a procedure that captures the true parameter in repeated samples 95% of the time.
+
+- Whereas a 95% *credible interval* indicates there is a 95% posterior probability that the parameter lies within the interval, given the observed data and prior.
+
+#### Part c
+
+*Miss Bri’s daycare have been giving their toddler students Cheerios for afternoon snacks, and nowthey realized Cheerios are not good choices. Now they want to know how healthy a new brand with 200 mg’s of sodium, 2.0 grams of fiber, 18.0 grams of carbohydrates, 12.0 grams of sugar and 95 mg’s of potassium is. If healthyindex of this new brand is above 15, they would like to buy more of this brand for afternoon snacks. Could you help them to make this decision using your Bayesian analysis tool? Please show all the supporting facts.*
+
+Modify the Stan code to the following:
+
+```stan
+data {
+  int n;
+  int p;
+  real y[n];
+  matrix[n,p] X;
+  int n_new;
+  matrix[n_new,p] X_new;
+}
+
+parameters {
+  vector[p] beta;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  target += -log(sigma2);
+}
+generated quantities{
+  real y_pred;
+  y_pred = normal_rng(X_new[1,] * beta, sqrt(sigma2));
+}
+```
+
+```{r}
+#| cache: true
+
+# specify stand code
+stan_code2 <- "
+data {
+  int n;
+  int p;
+  real y[n];
+  matrix[n,p] X;
+  int n_new;
+  matrix[n_new,p] X_new;
+}
+
+parameters {
+  vector[p] beta;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  target += -log(sigma2);
+}
+generated quantities{
+  real y_pred;
+  y_pred = normal_rng(X_new[1,] * beta, sqrt(sigma2));
+}
+"
+
+# save as model
+stan_mod2 <- rstan::stan_model(model_code = stan_code2)
+
+```
+
+```{r}
+#| cache: true
+
+# create data object to pass to Stan
+X_new <- matrix(data = c(1,200,2,18,12,95)) %>% t()
+data_stan2 <- list(n = nrow(data_cereal), p = ncol(X), X = X, X_new = X_new, n_new = nrow(X_new),
+                   y = data_cereal$healthyindex)
+
+# sampling from the posterior distributions
+stan_fit2 <- rstan::sampling(object = stan_mod2, data = data_stan2,
+                            seed = 1, chains = 2, warmup = 2000, iter = 5000)
+
+# view results
+print(stan_fit2, digits = 2)
+list_draws2 <- rstan::extract(stan_fit2)
+quantile(list_draws2$y_pred, c(0.025, 0.975))
+
+```
+
+Based on the 95\% credible interval for the predicted $y$ value for this particular cereal, it has a healthyindex greater than 15.
+
+#### Part d
+
+*Fit another regression model with only sodium (also with intercept) in the model. Use WAIC to compare this model with the model in (b). Which model do you prefer?*
+
+Modify stan code from part c for a different generated quantity.
+
+```stan
+data {
+  int n;
+  int p;
+  real y[n];
+  matrix[n,p] X;
+}
+
+parameters {
+  vector[p] beta;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  target += -log(sigma2);
+}
+generated quantities{
+  vector[n] log_lik;
+  for(i in 1:n) {
+      log_lik[i] = normal_lpdf(y[i] | X[i] * beta, sqrt(sigma2)); // quantity used to calculate WAIC
+  }
+}
+```
+
+```{r}
+#| cache: true
+
+# specify stand code
+stan_code3 <- "
+data {
+  int n;
+  int p;
+  real y[n];
+  matrix[n,p] X;
+}
+
+parameters {
+  vector[p] beta;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  target += -log(sigma2);
+}
+generated quantities{
+  vector[n] log_lik;
+  for(i in 1:n) {
+      log_lik[i] = normal_lpdf(y[i] | X[i, ] * beta, sqrt(sigma2));
+  }
+}
+"
+
+# save as model
+stan_mod3 <- rstan::stan_model(model_code = stan_code3)
+
+```
+
+```{r}
+#| cache: true
+
+# create data object to pass to Stan
+X <- data_cereal %>% 
+  select(sodium) %>% 
+  {bind_cols(data.frame(intercept = 1, .))} %>% 
+  as.matrix()
+data_stan3 <- list(n = nrow(data_cereal), p = ncol(X), X = X,
+                   y = data_cereal$healthyindex)
+
+# sampling from the posterior distributions
+stan_fit3 <- rstan::sampling(object = stan_mod3, data = data_stan3,
+                            seed = 1, chains = 2, warmup = 2000, iter = 5000)
+
+# view results
+print(stan_fit3, digits = 2)
+list_draws3 <- rstan::extract(stan_fit3) # used later
+
+# find the WAICs for both the full (part b) and the reduced stan model (part d)
+# then compare to see which model is better
+waic_full <- loo::waic(loo::extract_log_lik(stan_fit1))
+waic_red <- loo::waic(loo::extract_log_lik(stan_fit3))
+loo::loo_compare(waic_full, waic_red)
+
+```
+
+NOTE: There is probably more updated ways to calculate the WAIC based on the warnings present in the output.
+
+#### Part e
+
+*Compare model in (b) and (d) using DIC.*
+
+Using the formula: $DIC = 2 \bar{D} - D(\overset{\sim}{\theta})$, where $\bar{D}$ is simply the average deviance calculated at each posterior sample of the parameter (i.e. posterior mean of the deviance) and $D(\overset{\sim}{\theta}$ is the deviance evaluated at a specific set of parameters (the posterior mean parameter estimates).
+
+```{r}
+
+# define function to calculate the deviance
+# -> problem is using normal pdf, so hardcoding in this
+calculate_deviance <- function(y, X, theta) {
+  
+  sigma2 = theta[, "sigma2"]
+
+  mu = X %*% theta[, c(paste0("beta.", 1:(ncol(theta)-1)))] %>% as.numeric
+  
+  log_lik = dnorm(y, mean = mu, sd = sqrt(sigma2), log = TRUE) %>% sum
+  
+  return(-2 * log_lik)
+  
+}
+
+# reintialize items
+X_full <- data_cereal %>% 
+  select(-c(brand, healthyindex)) %>% 
+  {bind_cols(data.frame(intercept = 1, .))} %>% 
+  as.matrix()
+X_red <- data_cereal %>% 
+  select(sodium) %>% 
+  {bind_cols(data.frame(intercept = 1, .))} %>% 
+  as.matrix()
+D_m_full <- c()
+D_m_red <- c()
+# calculate the first quantity of DIC (for each model)
+
+for (m in 1:nrow(list_draws1$beta)) {
+  
+  # extract a single posterior sample
+  theta_full <- bind_cols(beta = list_draws1$beta[m,] %>% t, sigma2 = list_draws1$sigma2[m]) %>% as.matrix(nrow = 1)
+  theta_red <- bind_cols(beta = list_draws3$beta[m,] %>% t, sigma2 = list_draws3$sigma2[m]) %>% as.matrix(nrow = 1)
+  
+  # calculate deviance for this set of parameter values
+  D_m_full[m] <- calculate_deviance(y = data_cereal$healthyindex, X = X_full, theta = theta_full)
+  D_m_red[m] <- calculate_deviance(y = data_cereal$healthyindex, X = X_red, theta = theta_red)
+
+}
+
+# calculate bar(D) = average deviance across all posterior samples
+D_bar_full <- mean(D_m_full)
+D_bar_red <- mean(D_m_red)
+
+# initialize items for the calculation of the second quantity of DIC
+# -> posterior mean estimates of each parameter
+#
+theta_bayes_full <- bind_cols(beta = list_draws1$beta, sigma2 = list_draws1$sigma2) %>% as.matrix(nrow = 1) %>% colMeans %>% matrix(nrow = 1)
+dimnames(theta_bayes_full) <- list(c(), c(paste0("beta.", 1:(ncol(theta_bayes_full)-1)), "sigma2"))
+theta_bayes_red <- bind_cols(beta = list_draws3$beta, sigma2 = list_draws3$sigma2) %>% as.matrix(nrow = 1) %>% colMeans %>% matrix(nrow = 1)
+dimnames(theta_bayes_red) <- list(c(), c(paste0("beta.", 1:(ncol(theta_bayes_red)-1)), "sigma2"))
+
+# calculate the second quantity of DIC (for each model)
+D_bayes_full <- calculate_deviance(y = data_cereal$healthyindex, X = X_full, theta = theta_bayes_full)
+D_bayes_red <- calculate_deviance(y = data_cereal$healthyindex, X = X_red, theta = theta_bayes_red)
+
+# calculate DIC
+(DIC_full <- 2 * D_bar_full - D_bayes_full)
+(DIC_red <- 2 * D_bar_red - D_bayes_red)
+
+```
+
+We would prefer the model with the lower DIC.
+
+### Problem 2
+
+#### Setup
+
+*A data set consists of blood pressure measurements on a subgroup of 21 African-American subjects, 10 who have taken calcium supplements and 11 who have taken placebo.*
+
+```{r}
+
+data_calcium <- c(7,-4,18,17,-3,-5,1,10,11,-2)
+data_placebo <- c(-1,12,-1,-3,3,-5,5,2,-11,-1,-3)
+
+```
+
+#### Part a
+
+*Suppose that the measures from both groups are from two normal populations with unknown common variance $\sigma^2$, please fit a Bayesian model to estimate the two population means $\mu_1$ and $\mu_2$). Please provide both the point estimates for the two population means and 95% credible intervals.*
+
+Using a noninformative prior for $\sigma^2$, we have:
+
+```stan
+data {
+  int n_p;
+  int n_c;
+  real y_p[n_p];
+  real y_c[n_c];
+}
+parameters {
+  real mu_p;
+  real mu_c;
+  real<lower=0> sigma2;
+}
+model {
+  y_p ~ normal(mu_p, sqrt(sigma2));
+  y_c ~ normal(mu_c, sqrt(sigma2));
+  target += -log(sigma2);
+}
+```
+
+Note that because these two populations have an unknown *common* variance, this means both groups share the same variance parameter. And therefore, we want to estimate a single model with three parameters: $\mu_p$, $\mu_c$, and $\sigma^2$, rather than two separate models for each population mean.
+
+```{r}
+#| cache: true
+
+# specify stand code
+stan_code4 <- "
+data {
+  int n_p;
+  int n_c;
+  real y_p[n_p];
+  real y_c[n_c];
+}
+parameters {
+  real mu_p;
+  real mu_c;
+  real<lower=0> sigma2;
+}
+model {
+  y_p ~ normal(mu_p, sqrt(sigma2));
+  y_c ~ normal(mu_c, sqrt(sigma2));
+  target += -log(sigma2);
+}
+"
+
+# save as model
+stan_mod4 <- rstan::stan_model(model_code = stan_code4)
+
+```
+
+```{r}
+#| cache: true
+
+# create data object to pass to Stan
+data_stan4 <- list(n_p = length(data_placebo), n_c = length(data_calcium),
+                   y_p = data_placebo, y_c = data_calcium)
+
+# sampling from the posterior distributions
+stan_fit4 <- rstan::sampling(object = stan_mod4, data = data_stan4,
+                            seed = 1, chains = 2, warmup = 2000, iter = 5000)
+
+# view results
+print(stan_fit4, digits = 2)
+
+# extract posterior samples
+list_draws4 <- rstan::extract(stan_fit4)
+
+# get point / credible interval estimates
+mean(list_draws4$mu_p)
+quantile(list_draws4$mu_p, probs = c(0.025,0.975))
+mean(list_draws4$mu_c)
+quantile(list_draws4$mu_c, probs = c(0.025,0.975))
+
+```
+
+Note that this could also be solved using a regression model with an indicator variable for the treatment (placebo vs calcium).
+
+```stan
+data {
+  int n;
+  vector[n] y;
+  matrix[n,1] X;
+}
+parameters {
+  vector[1] beta;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  target += -log(sigma2);
+}
+```
+
+```{r}
+#| cache: true
+
+# specify stand code
+stan_code4 <- "
+data {
+  int n;
+  vector[n] y;
+  matrix[n,2] X;
+}
+parameters {
+  vector[2] beta;
+  real<lower=0> sigma2;
+}
+model {
+  y ~ normal(X * beta, sqrt(sigma2));
+  target += -log(sigma2);
+}
+"
+
+# save as model
+stan_mod4 <- rstan::stan_model(model_code = stan_code4)
+
+```
+
+```{r}
+#| cache: true
+
+# create data object to pass to Stan
+X <- matrix(data = c(rep(1, length(data_placebo) + length(data_calcium)), rep(0, length(data_placebo)), rep(1, length(data_calcium))),
+            byrow = FALSE, ncol = 2, dimnames = list(c(), c("intercept", "x1")))
+data_stan4 <- list(n = nrow(X), X = X,
+                   y = c(data_placebo, data_calcium))
+
+# sampling from the posterior distributions
+stan_fit4 <- rstan::sampling(object = stan_mod4, data = data_stan4,
+                            seed = 1, chains = 2, warmup = 2000, iter = 5000)
+
+# view results
+print(stan_fit4, digits = 2)
+
+# extract posterior samples
+list_draws4 <- rstan::extract(stan_fit4)
+
+# get point / credible interval estimates
+# -> (in context) mu_placebo = beta_0 (in written model) = (in RStan) beta[1]
+mean(list_draws4$beta[,1])
+quantile(list_draws4$beta[,1], probs = c(0.025,0.975))
+# -> mu_calcium = beta_0 + beta_1 = beta[1] + beta[2]
+mean(list_draws4$beta[,1] + list_draws4$beta[,2])
+quantile(list_draws4$beta[,1] + list_draws4$beta[,2], probs = c(0.025,0.975))
+
+```
+
+#### Part b
+
+*Now suppose that the measurements from the calcium group are from a normal population with a known variance ($\sigma^2 = 8$). If we want to test that $H_0$: $\mu_{\text{calcium}} \le 2$ vs. $H_A$: $\mu_{\text{calcium}} > 2$, please find the posterior probability for the null hypothesis to decide if $H_0$ is supported by the findings. Please use $\mu_{\text{calcium}} \sim N(0,10^2)$ as the prior distribution in your analysis.*
+
+This problem can be solved theoretically because the exact function for the posterior distribution of $mu_c$ is known in this situation (known $\sigma^2$ and a normal prior); it was derived in earlier notes.
+
+$$
+p(\mu \mid \mathbf{y}) \sim N(\mu_n, \tau^2_n), \quad \text{< where } \mu_n \text{ and } \tau^2_n \text{ have long formulas... >} 
+$$
+
+```{r}
+
+# initialize items
+sigma2 <- 8
+mu_0 <- 0
+tau_0 <- 10
+
+# calculate parameters for posterior distribution of mu
+post_mu <- (length(data_calcium) / sigma2 + 1 / tau_0^2)^(-1) * (length(data_calcium) * mean(data_calcium) / sigma2 + mu_0 / tau_0^2)
+post_tau2 <- (length(data_calcium) / sigma2 + 1 / tau_0^2)^(-1)
+
+# find probability the posterior probability for the null hypothesis
+pnorm(2, mean = post_mu, sd = sqrt(post_tau2))
+
+```
+
+We can also confirm this result with simulation.
+
+```stan
+data {
+  int n_c;
+  real y_c[n_c];
+}
+parameters {
+  real mu_c;
+}
+model {
+  mu_c ~ normal(0, sqrt(100));
+  y_c ~ normal(mu_c, sqrt(8));
+}
+```
+
+```{r}
+#| cache: true
+
+# specify stand code
+stan_code5 <- "
+data {
+  int n_c;
+  real y_c[n_c];
+}
+parameters {
+  real mu_c;
+}
+model {
+  mu_c ~ normal(0, sqrt(100));
+  y_c ~ normal(mu_c, sqrt(8));
+}
+"
+
+# save as model
+stan_mod5 <- rstan::stan_model(model_code = stan_code5)
+
+```
+
+```{r}
+#| cache: true
+
+# create data object to pass to Stan
+data_stan5 <- list(n_c = length(data_calcium),
+                   y_c = data_calcium)
+
+# sampling from the posterior distributions
+stan_fit5 <- rstan::sampling(object = stan_mod5, data = data_stan5,
+                            seed = 1, chains = 2, warmup = 2000, iter = 5000)
+
+# view results
+print(stan_fit5, digits = 2)
+
+# extract posterior samples
+list_draws5 <- rstan::extract(stan_fit5)
+
+# get posterior probability
+mean(list_draws5$mu_c)
+mean(list_draws5$mu_c <= 2)
+
+```
+
+#### Part c
+
+*Suppose that the measurements from both groups are random samples from two independent normal populations with a known common variance, $\sigma^2 = 8$$. And we want to test that $H_0$: $\mu_{\text{calcium}} = \mu_{\text{plaecebo}} = 2$ vs. $H_A$: $\mu_{\text{calcium}} = \mu_{\text{plaecebo}} = 0$. Could you find the Bayes factor $BF_{0A}$?*
+
+This can be solved analytically.
+
+```{r}
+
+# calculate both likelihoods under the null hypothesis
+null_Lp <- dnorm(x = data_placebo, mean = 2, sd = sqrt(8)) %>% cumprod %>% tail(1)
+null_Lc <- dnorm(x = data_calcium, mean = 2, sd = sqrt(8)) %>% cumprod %>% tail(1)
+
+# calculate both likelihoods under the alternative hypothesis
+alt_Lp <- dnorm(x = data_placebo, mean = 0, sd = sqrt(8)) %>% cumprod %>% tail(1)
+alt_Lc <- dnorm(x = data_calcium, mean = 4, sd = sqrt(8)) %>% cumprod %>% tail(1)
+
+# combine likelihoods
+num <- null_Lp * null_Lc
+denom <- alt_Lp * alt_Lc
+
+# calculate bayes factor
+num / denom
+
+# NOTE: likelihood values become very small, so can use log scale instead (i.e log both sides and simplify)
+# -> just have to adjust operations accordingly
+# -> using new notation here; and BF_0A = exp(loglik_0 - loglik_A
+l_H0 <- sum(dnorm(x = data_placebo, mean = 2, sd = sqrt(8), log = TRUE)) + sum(dnorm(x = data_calcium, mean = 2, sd = sqrt(8), log = TRUE)) 
+l_HA <- sum(dnorm(x = data_placebo, mean = 0, sd = sqrt(8), log = TRUE)) + sum(dnorm(x = data_calcium, mean = 4, sd = sqrt(8), log = TRUE)) 
+exp(l_H0 - l_HA)
+
+```
+
+Using the rule of thumb ($BF_{0A} < 0.01$) for the Bayes Factor calculated above, there is decisive evidence against the null hypothesis models.
+
+Note because there are no unknown parameters under each hypothesis, `bridgesampling::bridge_sampler()` isn't necessary to solve this problem. Bridge sampling is designed to approximate marginal likelihoods obtained by integrating over unknown parameters, and here there is no integration to perform.
